@@ -7,9 +7,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>ContriHub</title>
-    <style src="{% static 'Projects/css/home.css' %}"></style>
-    
+
+    <link href="{% static 'Projects/css/home.css' %}" rel="stylesheet"> 
     <style>
+
+    .list_issues{
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        width: 100%;        
+    }
+    .single_issue {
+        display: flex;
+        flex-wrap: wrap;
+        width: 50%;
+        height: 100px;
+        align-items: center;
+        justify-content: center;
+        padding: 10px;  
+        margin-bottom: 3px;       
+        background-color: rgb(190, 224, 94);
+    }
 
     </style>
 </head>
@@ -22,5 +41,14 @@
         <div class="profile">Profile</div>
     </div>
 
+    <div class="list_issues">
+        {% for issue in issues %}
+        <div class="single_issue">
+            <span id="title_issue"><a href="{{issue.link_issue}}">{{issue.title_issue}}</a></span> <br>
+            <span id="title_project"><a href="{{issue.link_project}}">{{issue.title_issue}}</a></span> <br>
+            <span id="mentor"><a href="https://github.cpm/{{issue.mentor}}">{{issue.mentor}}</a></span> <br>
+        </div>
+        {% endfor %}
+    </div>
 </body>
 </html>
