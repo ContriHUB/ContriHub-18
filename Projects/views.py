@@ -2,7 +2,8 @@ from django.shortcuts import render
 from .models import Issues
 
 def home(request):
-    return render(request, 'Projects/home.html', {})
+    issues = Issues.objects.all()
+    return render(request, 'Projects/home.html', {'issues':issues})
 
 # def add_issue(request):
 #     if request.method=='POST':
