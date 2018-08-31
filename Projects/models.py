@@ -38,6 +38,6 @@ class Issues(models.Model):
         verbose_name_plural = 'issues'
 
     def __str__(self):
-        return 'Issue - {}, Project - {}, Mentor - {}'.format(self.title, self.title_project,self.mentor)
+        return 'Issue - {}, Project - {}, Mentor - {}'.format(self.title_issue, self.title_project,self.mentor)
 
 
