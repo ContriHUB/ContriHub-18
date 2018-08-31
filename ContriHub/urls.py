@@ -17,8 +17,24 @@ from django.contrib import admin
 from django.urls import path
 from Projects.views import (home)
 
+from django.conf import settings
+from django.conf.urls import include, url
+from django.conf.urls.static import static  
+from django.contrib.auth.views import (LoginView, LogoutView)
+
+from Users.views import (signin,register)
+
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin', admin.site.urls),
     path('', home, name='home'),
+    path('signin', signin , name='signin'), 
+    path('register', register , name='register'), 
+    path('logout', LogoutView.as_view(), {'next_page': 'signin'}, name='logout'),
+
     # path('api/github_webhook/', views.github_webhook, name='github_webhook')
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)
+   
