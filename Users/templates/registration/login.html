@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login</title>
+    <style>
+        .registration {
+            background-color: bisque;
+            display: flex;
+            flex-wrap: wrap;
+            width: 500px;
+            margin-top: 150px;
+            margin-left: 410px;
+            margin-right: 300px;
+        }
+        .signin{
+            background-color: rgb(196, 230, 218);
+            display: flex;
+            flex-wrap: wrap;
+            width: 100%;
+            padding: 30px;
+            min-height: 200px;
+            align-items: center;
+            justify-content: center;
+
+        }
+        .signup{
+            background-color: rgb(91, 107, 85);
+            display: flex;
+            flex-wrap: wrap;
+            width: 100%;
+            padding: 30px;
+            min-height: 200px;
+            align-items: center;
+            justify-content: center;
+
+        }
+
+        .signin_text {
+            background-color: rgb(36, 102, 80);
+            display: flex; 
+            flex-wrap: wrap;
+            width:50%;
+            height: 30px;
+            padding: 0px;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+        }
+        .signup_text {
+            background-color: rgb(96, 247, 37);
+            display: flex; 
+            flex-wrap: wrap;
+            width:50%;
+            height: 30px;
+            padding: 0px;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+
+        }
+
+        h1 {
+            background-color: blueviolet;
+            display: flex;
+            width: 100%;
+            text-align: center;
+            padding: 10px;
+
+        }
+
+        input { padding: 5px; margin: 3px; width: 300px;}
+        option, select { padding: 5px; margin: 3px; }
+        button { cursor: pointer; padding: 4px; margin: 3px; width: 300px;}
+
+    </style>
+</head>
+<body>
+    <div class="registration">
+        <h1>Welcome to ContriHub</h1>
+        
+        <span class="signin_text"> SignIn </span>
+        <span class="signup_text"> SignUp </span>
+        
+        <div class="signin">
+            <form action="{% url 'signin' %}" class="form_login" method="post" autocomplete="off">
+                {% csrf_token %}
+                <input type="text" name="username" placeholder="put your github username" required><br>
+                <input type="password" name="password" placeholder="password" required ><br>
+                <button type="submit">Login</button><br>
+            </form>
+        </div>
+
+        <div class="signup">
+            <form action="{% url 'register' %}" class="form_register" method="post" autocomplete="off">
+                {% csrf_token %}
+                <input type="text" name="username" placeholder="put your github username" required><br>
+                <input type="password" name="password" placeholder="password" required><br>
+                <input type="text" name="email" placeholder="Email Address"><br>
+                <select name="gender" placeholder="gender"><br>
+                    <option>Gender</option>
+                    <option>Female</option>
+                    <option>Male</option>
+                    <option>Other</option>
+                </select> <br>
+                <button type="submit">Register</button>
+            </form>
+        </div>
+
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        $(".signup").hide();
+        $(".signup_text").click(function () {
+            $(".signin").hide(); //$("#human").removeClass('bottom');
+            $(".signup").show();  //$("#product").addClass('bottom');
+        });
+        
+        $(".signin_text").click(function () {
+            $(".signup").hide(); //  $("#product").removeClass('bottom');
+            $(".signin").show();  // $("#human").addClass('bottom');
+        });
+    })      
+    </script>
+
+</body>
+</html>

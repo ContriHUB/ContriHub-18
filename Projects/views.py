@@ -24,3 +24,4 @@ def home(request):
 #         issue.save()
 #     else:
 #         return redirect('home')
+
