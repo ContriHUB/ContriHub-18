@@ -22,6 +22,7 @@ class Issues(models.model):
     project = models.ForeignKeyField("Projects.Projects", verbose_name=_("projects"), db_column="project_title", on_delete=models.CASCADE)
     title = models.CharField(_('issue_title'), max_length=length, ${blank=True, null=True})
     level  = models.IntegerField(_('level_of_issue'), default=1)
+    status = models.IntegerField(_('level_of_issue'), default=0)
 
     class class Meta:
         db_table = 'issues_info'
