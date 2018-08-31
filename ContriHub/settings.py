@@ -11,23 +11,24 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+from unipath import Path
 from decouple import config, Csv
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+BASE_DIR = Path(__file__).parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('SECRET_KEY')
-GITHUB_SECRET_KEY = config('GITHUB_SECRET_KEY')
+# GITHUB_SECRET_KEY = config('GITHUB_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
+ALLOWED_HOSTS = ['*']
+# ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 
 
 # Application definition
@@ -39,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'Projects',
 ]
 
 MIDDLEWARE = [
@@ -56,7 +58,9 @@ ROOT_URLCONF = 'ContriHub.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR.child('templates'),
+                BASE_DIR.child('templates','templates'),
+                ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -120,3 +124,48 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+STATIC_ROOT = BASE_DIR.child('ContriHub','static_root')
+# static_root is the server outside our project wher e static files are sent to store
+
+STATICFILES_DIRS = (
+    BASE_DIR.child('static'),
+    #'/var/www/static/',
+    )
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR.child('ContriHub','media_root')
+
+#Crispy forms tags settings
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
+
+SITE_ID = 1
+# added on 15_jan
+LOGIN_URL = '/'
+LOGIN_REDIRECT_URL = '/'
+ 
+ALLOWED_SIGNUP_DOMAINS = ['*']
+ 
+FILE_UPLOAD_TEMP_DIR = '/tmp/'
+FILE_UPLOAD_PERMISSIONS = 0o644
+
+#added to host on heroku
+# STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
+import netifaces
+
+# Find out what the IP addresses are at run time
+# This is necessary because otherwise Gunicorn will reject the connections
+def ip_addresses():
+    ip_list = []
+    for interface in netifaces.interfaces():
+        addrs = netifaces.ifaddresses(interface)
+        for x in (netifaces.AF_INET, netifaces.AF_INET6):
+            if x in addrs:
+                ip_list.append(addrs[x][0]['addr'])
+    return ip_list
+
+# Discover our IP address
+ALLOWED_HOSTS += ip_addresses()

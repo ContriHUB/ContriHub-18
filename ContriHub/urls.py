@@ -15,9 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from Projects import views
+from Projects.views import (home)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/github_webhook/', views.github_webhook, name='github_webhook')
+    path('', home, name='home'),
+    # path('api/github_webhook/', views.github_webhook, name='github_webhook')
 ]
