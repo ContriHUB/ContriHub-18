@@ -41,10 +41,10 @@
 
     <div class="row">
         {% for issue in issues %}
-        <div class="col col-md-6 col-md-offset-3 single_issue">
+        <div class="col col-md-6 col-md-offset-3 single_issue" csrf="{{ csrf_token }}">
 
                     Issue - 
-                    <a href="{{issue.link_issue}}"> {{issue.title_issue}}</a> <br>
+                    <a href="{{issue.link_issue}}" class="issue_info" issue-id="{{issue.id}}"> {{issue.title_issue}}</a> <br>
                     
                     Project - 
                     <a href="{{issue.link_project}}"> {{issue.title_project}}</a> <br>
@@ -73,10 +73,43 @@
                             Your PR was rejected
                         {% endif %}                                
                     <br>
-                    <a href=""> request for verification </a>
+                    <button class="request"> request for verification </button> 
+                    <span class"request_sent"></span>
         <hr>
         </div>
         {% endfor %}
     </div>
+  
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(".request").click(function(e){
+            e.preventDefault();
+            $(".request_sent").html("Mentor has received your request. Soon you'll see the result for this pr.");
+            var issue=$(this).closest(".single_issue");
+            var issue_id = $(".issue_info", issue).attr('issue-id');
+            var csrf=$(".single_issue").attr('csrf');
+
+            $.ajax({
+                url:'request_pr',
+                data:{
+                    'issue_id': issue_id,
+                    'csrfmiddlewaretoken':csrf,
+                },
+                type:'post',
+                cache:false,
+
+                success: function(){
+                    sleep(2);
+                    $(".request_sent").html("");                    
+                }
+            });
+        });
+    });
+</script>
+
 </body>
 </html>
+
