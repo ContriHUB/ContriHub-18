@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from Projects.views import (home)
+from Projects.views import (home,request_pr)
 
 from django.conf import settings
 from django.conf.urls import include, url
@@ -32,6 +32,7 @@ urlpatterns = [
     path('logout', LogoutView.as_view(), {'next_page': 'signin'}, name='logout'),
 
     # path('api/github_webhook/', views.github_webhook, name='github_webhook')
+    path('request_pr', request_pr , name='request_pr'), 
 ]
 
 if settings.DEBUG:

@@ -33,6 +33,21 @@ ALLOWED_HOSTS = ['*']
 
 # Application definition
 
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER='deepakbharti@mnnit.ac.in'
+EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
+EMAIL_PORT = 587
+
+''' 
+If using gmail, you will need to
+unlock Captcha to enable Django 
+to  send for you:
+https://accounts.google.com/displayunlockcaptcha
+'''
+
+
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
