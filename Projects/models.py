@@ -1,5 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext as _
+from django.contrib.auth.models import User
+
 
 # Create your models here.
 
@@ -21,8 +23,9 @@ from django.utils.translation import gettext as _
 
 class Issues(models.Model):
     # project = models.ForeignKey("Projects.Projects", verbose_name=_("projects"), db_column="project_title", on_delete=models.CASCADE)
+    mentor = models.ForeignKey(User, on_delete='models.CASCADE')
     title_issue = models.CharField(_('title_issue'), max_length=40, blank=True, null=True)
-    link_title = models.CharField(_('link_issue'), max_length=200, blank=True, null=True)
+    link_issue = models.CharField(_('link_issue'), max_length=200, blank=True, null=True)
 
     title_project = models.CharField(_('title_project'), max_length=40, blank=True, null=True)
     link_project = models.CharField(_('link_project'), max_length=200, blank=True, null=True)
