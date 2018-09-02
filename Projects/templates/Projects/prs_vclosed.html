@@ -1,0 +1,25 @@
+<div class="col col-md-6 col-md-offset-1 prs_vclosed">
+        {% if prs_vclosed %}
+            {% for pr in prs_vclosed %}
+            {{forloop.counter}}. Issue - 
+            <a href="{{pr.issue.link_issue}}" class="issue_info" issue-id="{{pr.issue.id}}"> {{pr.issue.title_issue}}</a> <br>
+            
+            Project - 
+            <a href="{{pr.issue.link_project}}"> {{pr.issue.title_project}}</a> <br>
+            
+            Mentor -
+            <a href="https://github.cpm/{{pr.issue.mentor}}"> {{pr.issue.mentor}}</a> <br>
+            
+            Label -
+                {% if pr.issue.level == 1 %}
+                    Easy 
+                {% elif pr.issue.level == 2 %}
+                    Medium 
+                {% elif pr.issue.level == 3 %}
+                    Hard 
+                {% endif %}                              
+            <br>
+            <hr>
+            {% endfor %}
+        {% endif %}
+</div> 

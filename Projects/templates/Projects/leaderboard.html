@@ -1,0 +1,57 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ContriHub | LeaderBoard</title>
+
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">  
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="{% static 'Projects/css/home.css' %}" rel="stylesheet"> 
+    <style>
+        .item {
+            padding: 4px;
+            font-size: 16px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="nav">
+        <div class="issues"> <a href="{% url 'home'%}"> Issues </a></div>
+        <div class="contrihub"> <a href="{% url 'home' %}"> ContriHub </a> </div>
+        <div class="leaderboard"><a href="{% url 'leaderboard' %}"> LeaderBoard </a></div>
+        <div class="profile"><a href="{% url 'profile' request.user.username %}"> Profile </a></div>
+    </div>
+    
+    <!--<td>forloop.counter</td>-->
+    <div class="row">
+            <div class="col col-md-3 col-md-offset-1 item"> Rank </div>
+            <div class="col col-md-3 col-md-offset-1 item"> GitHub Profile </div>
+            <div class="col col-md-3 col-md-offset-1 item"> Points </div>
+        {% for user in users %}
+            <div class="col col-md-3 col-md-offset-1 item">
+                {{user.profile.rank}}
+            </div>
+            <div class="col col-md-3 col-md-offset-1 item">
+                    <a href="https://github.com/{{user.username}}">{{user.username}}</a>
+            </div>
+            <div class="col col-md-3 col-md-offset-1 item">
+                        {{user.profile.points}}
+            </div>
+        {% endfor %}
+    </div>
+
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+
+</body>
+</html>
+

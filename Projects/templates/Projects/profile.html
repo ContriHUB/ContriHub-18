@@ -1,0 +1,149 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ContriHub</title>
+
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">  
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="{% static 'Projects/css/home.css' %}" rel="stylesheet"> 
+    <style>
+
+/*    .list_issues{
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        width: 100%;        
+    }
+*/    
+    .single_issue{
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .pr_types ul li {
+        list-style-type: none;
+        padding: 3px;
+        font-size: 16px;    
+        cursor:pointer;
+    }
+
+    </style>
+</head>
+<body>
+
+    <div class="nav">
+        <div class="issues"> <a href="{% url 'home'%}"> Issues </a></div>
+        <div class="contrihub"> <a href="{% url 'home' %}"> ContriHub </a> </div>
+        <div class="leaderboard"><a href="{% url 'leaderboard' %}"> LeaderBoard </a></div>
+        <div class="profile"><a href="{% url 'profile' request.user.username %}"> Profile </a></div>
+    </div>
+
+    <div class="row">
+        <div class="col col-md-2 col-md-offset-1 pr_types">
+            <br>
+            <ul>
+                <li style="background-color:blue;" class="all">All Issues</li> <br>
+                <li style="background-color:aquamarine" class="nattempted">Not attempted</li> <br>
+                <li style="background-color:violet;" class="pending"> Pending PRS</li> <br>
+                <li style="background-color:snow;" class="vclosed">Verified and closed</li> <br>
+                <li style="background-color:wheat;" class="unvclosed">Not Verified and closed</li> <br>
+            </ul>
+        </div>
+        <div class="col col-md-6 col-md-offset-1 issues_all">
+            <br>
+                {% if all_prs %}
+                    {% for pr in all_prs %}
+                    {{forloop.counter}}. Issue - 
+                    <a href="{{pr.issue.link_issue}}" class="issue_info" issue-id="{{pr.issue.id}}"> {{pr.issue.title_issue}}</a> <br>
+                    
+                    Project - 
+                    <a href="{{pr.issue.link_project}}"> {{pr.issue.title_project}}</a> <br>
+                    
+                    Mentor -
+                    <a href="https://github.cpm/{{pr.issue.mentor}}"> {{pr.issue.mentor}}</a> <br>
+                    
+                    Label -
+                        {% if pr.issue.level == 1 %}
+                            Easy 
+                        {% elif pr.issue.level == 2 %}
+                            Medium 
+                        {% elif pr.issue.level == 3 %}
+                            Hard 
+                        {% endif %}                              
+                    <br>
+                    <hr>
+                    {% endfor %}
+                {% endif %}
+        </div>   
+
+        
+        {% include 'Projects/prs_nattempted.html' %}
+        {% include 'Projects/prs_vclosed.html' %}
+        {% include 'Projects/prs_unvclosed.html' %}
+        {% include 'Projects/prs_pending.html' %}
+        
+    </div>
+
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function(){
+            $(".prs_pending").hide();
+            $(".prs_nattempted").hide();
+            $(".prs_vclosed").hide();
+            $(".prs_unvclosed").hide();
+
+            $(".all").click(function () {
+                $(".issues_all").show();
+                $(".prs_pending").hide();
+                $(".prs_nattempted").hide();
+                $(".prs_vclosed").hide();
+                $(".prs_unvclosed").hide();
+            });
+            $(".pending").click(function () {
+                $(".prs_pending").show();
+                $(".issues_all").hide();
+                $(".prs_nattempted").hide();
+                $(".prs_vclosed").hide();
+                $(".prs_unvclosed").hide();
+            });
+            $(".vclosed").click(function () {
+                $(".prs_vclosed").show();
+                $(".issues_all").hide();
+                $(".prs_nattempted").hide();
+                $(".prs_vclosed").hide();
+                $(".prs_unvclosed").hide();
+            });
+            $(".nvclosed").click(function () {
+                $(".prs_unvclosed").show();
+                $(".prs_pending").hide();
+                $(".issues_all").hide();
+                $(".prs_nattempted").hide();
+                $(".prs_vclosed").hide();
+            });
+            $(".nattempted").click(function () {
+                $(".prs_nattempted").show();
+                $(".prs_pending").hide();
+                $(".issues_all").hide();
+                $(".prs_vclosed").hide();
+                $(".prs_unvclosed").hide();
+            });
+
+
+        })      
+        </script>
+
+</body>
+</html>
+

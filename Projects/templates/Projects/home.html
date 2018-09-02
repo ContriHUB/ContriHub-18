@@ -33,10 +33,12 @@
 <body>
 
     <div class="nav">
-        <div class="issues">Issues</div>
-        <div class="contrihub">ContriHub</div>
-        <div class="leaderboard">LeaderBoard</div>
-        <div class="profile">Profile</div>
+        <div class="issues"> <a href="{% url 'home'%}"> Issues </a></div>
+        <div class="contrihub"> <a href="{% url 'home' %}"> ContriHub </a> </div>
+        <div class="leaderboard"><a href="{% url 'leaderboard' %}"> LeaderBoard </a></div>
+        {% if request.user.is_authenticated %}
+        <div class="profile"><a href="{% url 'profile' request.user.username %}"> Profile </a></div>
+        {% endif %}
     </div>
 
     <div class="row">
@@ -73,8 +75,8 @@
                             Your PR was rejected
                         {% endif %}                                
                     <br>
-                    <button class="request"> request for verification </button> 
-                    <span class"request_sent"></span>
+                    <button class="request"> request for verification 
+                    <i class="fa fa-spinner fa-spin fa-1x process"></i></button> 
         <hr>
         </div>
         {% endfor %}
@@ -85,12 +87,13 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
+        $(".process").hide();
         $(".request").click(function(e){
             e.preventDefault();
-            $(".request_sent").html("Mentor has received your request. Soon you'll see the result for this pr.");
             var issue=$(this).closest(".single_issue");
             var issue_id = $(".issue_info", issue).attr('issue-id');
             var csrf=$(".single_issue").attr('csrf');
+            // $(".process",this).show();
 
             $.ajax({
                 url:'request_pr',
@@ -100,11 +103,19 @@
                 },
                 type:'post',
                 cache:false,
-
-                success: function(){
-                    sleep(2);
-                    $(".request_sent").html("");                    
-                }
+                beforeSend: function(){
+                    // $(".request").html('<i class="fa fa-spinner fa-spin fa-1x"></i>');
+                    $(".process",this).show();
+                },
+                success: function(data){
+                    if(data=="success"){
+                        alert("Your request has been sent to mentor of this issue, soon you will see result of this pr");                    
+                    }
+                },
+                afterSend: function(){
+                    // $(".request").html(' request for verification ');
+                    $(".process",this).hide();
+                },
             });
         });
     });
