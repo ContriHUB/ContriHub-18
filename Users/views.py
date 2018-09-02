@@ -14,7 +14,7 @@ def signin(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
 
-        user = get_object_or_404(User, username=username)
+        user = User.objects.all().filter(username=username)
         if user:
             print('user exists')
             user = User.objects.all().filter(username=username)[0]           
@@ -40,7 +40,7 @@ def register(request):
         email = request.POST.get('email')
         gender = request.POST.get('gender')
 
-        user = User.objects.all().filter(username=username)[0]
+        user = User.objects.all().filter(username=username)
         if user:
             print('user exists')
             user = authenticate(username=username, password=password)           

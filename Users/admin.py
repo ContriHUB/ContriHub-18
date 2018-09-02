@@ -4,7 +4,7 @@ from django.contrib import admin
 from .models import Profile
 
 class ProfileModelAdmin(admin.ModelAdmin):
-	list_display = ["first_name","rank","bio"]
+	# list_display = ["user.username","rank","bio"]
 	search_fields = ["rank","first_name"]
 
 	class Meta: 
