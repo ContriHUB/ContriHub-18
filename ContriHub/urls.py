@@ -20,9 +20,9 @@ from django.conf import settings
 from django.conf.urls import include, url
 from django.conf.urls.static import static  
 
-from Projects.views import (home,request_pr,leaderboard)
 from django.contrib.auth.views import (LoginView, LogoutView)
 
+from Projects.views import (home,request_pr,leaderboard, profile)
 from Users.views import (signin,register)
 
 urlpatterns = [
@@ -35,7 +35,9 @@ urlpatterns = [
     # path('api/github_webhook/', views.github_webhook, name='github_webhook')
     path('request_pr', request_pr , name='request_pr'), 
     path('leaderboard', leaderboard , name='leaderboard'),     
+    path('<username>', profile, name='profile'),
 ]
+# (?P<username>[^/]+)/
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,
