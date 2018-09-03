@@ -8,6 +8,8 @@
     width: 100%;
     background-color: blanchedalmond;
     padding: 4px;
+    position: fixed;
+    z-index: 100;
 }
 .nav a {
     font-weight: bold;
