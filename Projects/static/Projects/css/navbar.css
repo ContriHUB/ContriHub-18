@@ -1,8 +1,5 @@
-html, body {
-    margin: 0;
-    padding: 0;
-    }
-body { background-color: cadetblue; }
+
+
 .nav {
     display: flex;
     flex-wrap: wrap;
@@ -11,6 +8,11 @@ body { background-color: cadetblue; }
     width: 100%;
     background-color: blanchedalmond;
     padding: 4px;
+}
+.nav a {
+    font-weight: bold;
+    font-size: 17px;
+    text-decoration: none;
 }
 .issues {
     display: flex;

@@ -1,25 +1,40 @@
 <div class="col col-md-6 col-md-offset-1 prs_pending">
+        <br><br>
         {% if prs_pending %}
             {% for pr in prs_pending %}
-            {{forloop.counter}}. Issue - 
-            <a href="{{pr.issue.link_issue}}" class="issue_info" issue-id="{{pr.issue.id}}"> {{pr.issue.title_issue}}</a> <br>
-            
-            Project - 
-            <a href="{{pr.issue.link_project}}"> {{pr.issue.title_project}}</a> <br>
-            
-            Mentor -
-            <a href="https://github.cpm/{{pr.issue.mentor}}"> {{pr.issue.mentor}}</a> <br>
-            
-            Label -
+            <div class="ppr ind_pr" csrf="{{ csrf_token }}" 
+            style="background-color:{% if pr.issue.level == 1 %}green{% elif pr.issue.level == 2 %}pink{% else %}orange{% endif %}">
+                {{forloop.counter}}. Issue - 
+                <a href="{{pr.issue.link_issue}}" class="pr_info" pr-id="{{pr.id}}"> {{pr.issue.title_issue}}</a> <br>
+                
+                Project - 
+                <a href="{{pr.issue.link_project}}"> {{pr.issue.title_project}}</a> <br>
+                
+                Mentor -
+                <a href="https://github.cpm/{{pr.issue.mentor}}"> {{pr.issue.mentor}}</a> <br>
+                
+                Label -
                 {% if pr.issue.level == 1 %}
-                    Easy 
+                Easy 
                 {% elif pr.issue.level == 2 %}
-                    Medium 
+                Medium 
                 {% elif pr.issue.level == 3 %}
-                    Hard 
-                {% endif %}                              
-            <br>
-            <hr>
+                Hard 
+                {% endif %}            
+                <br> 
+
+                {% if page_user.profile.is_student != 1 %}
+                    <button class="vclose">Verify and close </button>
+                    <button class="unvclose">reject and close </button>
+                {% endif %}
+            </div>
             {% endfor %}
+        {% else %}
+            {% if page_user.profile.is_student == 1 %}
+                <span> You haven't attempted any issue yet. </span>
+            {% else %}
+                <span> There is no attempts for any of your issues yet. </span>
+            {% endif %}
         {% endif %}
+
 </div> 

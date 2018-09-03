@@ -1,69 +1,55 @@
+{% extends "Projects/base.html" %}
 {% load staticfiles %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>ContriHub</title>
+{% block title_extra %}Home - {% endblock title_extra %}
 
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">  
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link href="{% static 'Projects/css/home.css' %}" rel="stylesheet"> 
-    <style>
-
-/*    .list_issues{
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        justify-content: center;
-        width: 100%;        
-    }
-*/    
+{% block head_extra %}
+    <link href="{% static 'Projects/css/navbar.css' %}" rel="stylesheet">     
+    <style>    
     .single_issue{
         font-size: 16px;
         font-weight: bold;
         margin-bottom: 5px;
+        padding:10px;
+        border-radius: 30px;
+        z-index: 2;
     }
-
+    .single_issue a { background-color: black; color: white; text-decoration: none;}
+    button { border-radius: 10px;}        
     </style>
-</head>
-<body>
+{% endblock head_extra %}
 
-    <div class="nav">
-        <div class="issues"> <a href="{% url 'home'%}"> Issues </a></div>
-        <div class="contrihub"> <a href="{% url 'home' %}"> ContriHub </a> </div>
-        <div class="leaderboard"><a href="{% url 'leaderboard' %}"> LeaderBoard </a></div>
-        {% if request.user.is_authenticated %}
-        <div class="profile"><a href="{% url 'profile' request.user.username %}"> Profile </a></div>
-        {% endif %}
-    </div>
 
-    <div class="row">
-        {% for issue in issues %}
-        <div class="col col-md-6 col-md-offset-3 single_issue" csrf="{{ csrf_token }}">
-
-                    Issue - 
-                    <a href="{{issue.link_issue}}" class="issue_info" issue-id="{{issue.id}}"> {{issue.title_issue}}</a> <br>
-                    
-                    Project - 
-                    <a href="{{issue.link_project}}"> {{issue.title_project}}</a> <br>
-                    
-                    Mentor -
-                    <a href="https://github.cpm/{{issue.mentor}}"> {{issue.mentor}}</a> <br>
-                    
-                    Label -
-                        {% if issue.level == 1 %}
-                            Easy 
-                        {% elif issue.level == 2 %}
-                            Medium 
-                        {% elif issue.level == 3 %}
-                            Hard 
-                        {% endif %}
-                    
-                    <br>
+{% block body_content %}
+{% include 'Projects/navbar.html' %}
+<div class="row"><br>
+    {% for issue in issues %}
+    <div class="col col-md-6 col-md-offset-3 single_issue" csrf="{{ csrf_token }}" 
+    style="background-color:{% if issue.level == 1 %}green{% elif issue.level == 2 %}pink{% else %}orange{% endif %}">
+                
+                <div class="col col-md-8">
+                {{forloop.counter}}. Issue - 
+                <a href="{{issue.link_issue}}" class="issue_info" issue-id="{{issue.id}}"> {{issue.title_issue}}</a> <br>
+                
+                Project - 
+                <a href="{{issue.link_project}}"> {{issue.title_project}}</a> <br>
+                
+                Mentor -
+                <a href="https://github.cpm/{{issue.mentor}}"> {{issue.mentor}}</a> <br>
+                
+                Label -
+                    {% if issue.level == 1 %}
+                        Easy 
+                    {% elif issue.level == 2 %}
+                        Medium 
+                    {% elif issue.level == 3 %}
+                        Hard 
+                    {% endif %}
+                
+                <br>
+                </div>
+                {% if request.user.profile.is_student == 1  %}
+                <div class="col col-md-4">
                     Your Status - 
                         {% if issue.status == 0 %}
                             Not attempted 
@@ -76,16 +62,18 @@
                         {% endif %}                                
                     <br>
                     <button class="request"> request for verification 
-                    <i class="fa fa-spinner fa-spin fa-1x process"></i></button> 
-        <hr>
-        </div>
-        {% endfor %}
+                    <i class="fa fa-spinner fa-spin fa-1x process"></i></button>
+                </div>
+                {% endif %} 
     </div>
+    {% endfor %}
+</div>
   
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+{% endblock body_content %}
 
-<script type="text/javascript">
+
+{% block js_extra %}
+<script type="text/javascript"> 
     $(document).ready(function(){
         $(".process").hide();
         $(".request").click(function(e){
@@ -121,6 +109,4 @@
     });
 </script>
 
-</body>
-</html>
-
+{% endblock js_extra %}

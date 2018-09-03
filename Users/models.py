@@ -6,7 +6,7 @@ from django.db.models.signals import post_save
 # Create your models here.
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True) 
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True) 
     is_student = models.IntegerField(_('is_student'), default=1) #1-student, 2-mentor 
     first_name = models.CharField(_('first_name'), max_length=40, blank=True, null=True) 
     last_name = models.CharField(_('last_name'), max_length=40, blank=True, null=True)
@@ -22,15 +22,17 @@ class Profile(models.Model):
         verbose_name_plural = 'profiles'
 
     def __str__(self):
-        return 'User - {}, Rank - {}, Bio - {}'.format(self.user.username, self.rank, self.bio)
-
+        if self.user:
+            return 'User - {}, Rank - {}, Bio - {}'.format(self.user.username, self.rank, self.bio)
+        else: return str(self.rank)
 
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
 
-def save_user_profile(sender, instance, **kwargs):  
-    instance.profile.save()
+def save_user_profile(sender, instance, **kwargs):
+    if instance.profile:  
+        instance.profile.save()
 
 post_save.connect(create_user_profile, sender=User)
 post_save.connect(save_user_profile, sender=User)

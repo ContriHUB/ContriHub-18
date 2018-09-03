@@ -22,7 +22,7 @@ from django.conf.urls.static import static
 
 from django.contrib.auth.views import (LoginView, LogoutView)
 
-from Projects.views import (home,request_pr,leaderboard, profile)
+from Projects.views import (home,request_pr,response_pr,leaderboard, profile)
 from Users.views import (signin,register)
 
 urlpatterns = [
@@ -33,7 +33,9 @@ urlpatterns = [
     path('logout', LogoutView.as_view(), {'next_page': 'signin'}, name='logout'),
 
     # path('api/github_webhook/', views.github_webhook, name='github_webhook')
-    path('request_pr', request_pr , name='request_pr'), 
+    path('request_pr', request_pr , name='request_pr'),
+    path('response_pr', response_pr , name='response_pr'),
+
     path('leaderboard', leaderboard , name='leaderboard'),     
     path('<username>', profile, name='profile'),
 ]

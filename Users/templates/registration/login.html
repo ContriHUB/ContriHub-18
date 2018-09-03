@@ -1,83 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Login</title>
-    <style>
-        .registration {
-            background-color: bisque;
-            display: flex;
-            flex-wrap: wrap;
-            width: 500px;
-            margin-top: 150px;
-            margin-left: 410px;
-            margin-right: 300px;
-        }
-        .signin{
-            background-color: rgb(196, 230, 218);
-            display: flex;
-            flex-wrap: wrap;
-            width: 100%;
-            padding: 30px;
-            min-height: 200px;
-            align-items: center;
-            justify-content: center;
+{% extends "Projects/base.html" %}
+{% load staticfiles %}
 
-        }
-        .signup{
-            background-color: rgb(91, 107, 85);
-            display: flex;
-            flex-wrap: wrap;
-            width: 100%;
-            padding: 30px;
-            min-height: 200px;
-            align-items: center;
-            justify-content: center;
+{% block title_extra %}Home - {% endblock title_extra %}
 
-        }
+{% block head_extra %}
+<link href="{% static 'Users/css/login.css' %}" rel="stylesheet">     
+<style>
+    .error_signin, .error_register {
+        color:brown;
+        padding: 2px;
+        font-size: 12px;
+    }
+</style>
+{% endblock head_extra %}
 
-        .signin_text {
-            background-color: rgb(36, 102, 80);
-            display: flex; 
-            flex-wrap: wrap;
-            width:50%;
-            height: 30px;
-            padding: 0px;
-            cursor: pointer;
-            align-items: center;
-            justify-content: center;
-        }
-        .signup_text {
-            background-color: rgb(96, 247, 37);
-            display: flex; 
-            flex-wrap: wrap;
-            width:50%;
-            height: 30px;
-            padding: 0px;
-            cursor: pointer;
-            align-items: center;
-            justify-content: center;
 
-        }
-
-        h1 {
-            background-color: blueviolet;
-            display: flex;
-            width: 100%;
-            text-align: center;
-            padding: 10px;
-
-        }
-
-        input { padding: 5px; margin: 3px; width: 300px;}
-        option, select { padding: 5px; margin: 3px; }
-        button { cursor: pointer; padding: 4px; margin: 3px; width: 300px;}
-
-    </style>
-</head>
-<body>
+{% block body_content %}
     <div class="registration">
         <h1>Welcome to ContriHub</h1>
         
@@ -85,6 +23,9 @@
         <span class="signup_text"> SignUp </span>
         
         <div class="signin">
+            {% if error_signin %}
+                <span class="error_signin">There is no user with this username, You need to register first!</span>
+            {% endif %}
             <form action="{% url 'signin' %}" class="form_login" method="post" autocomplete="off">
                 {% csrf_token %}
                 <input type="text" name="username" placeholder="put your github username" required><br>
@@ -94,6 +35,10 @@
         </div>
 
         <div class="signup">
+            {% if error_register %}
+                <span class="error_register">User with this username already exists!</span>
+            {% endif %}
+
             <form action="{% url 'register' %}" class="form_register" method="post" autocomplete="off">
                 {% csrf_token %}
                 <input type="text" name="username" placeholder="put your github username" required><br>
@@ -108,17 +53,28 @@
                 <button type="submit">Register</button>
             </form>
         </div>
-
     </div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+{% endblock body_content %}
 
+
+{% block js_extra %}
+{% if error_register %}
+    <script>
+        $(document).ready(function(){
+            $(".signin").hide();
+        });
+    </script>
+{% else %}
+    <script>
+        $(document).ready(function(){
+            $(".signup").hide();
+        });
+    </script>    
+{% endif %}
 
 <script type="text/javascript">
-
     $(document).ready(function(){
-        $(".signup").hide();
         $(".signup_text").click(function () {
             $(".signin").hide(); //$("#human").removeClass('bottom');
             $(".signup").show();  //$("#product").addClass('bottom');
@@ -130,6 +86,4 @@
         });
     })      
 </script>
-
-</body>
-</html>
+{% endblock js_extra %}

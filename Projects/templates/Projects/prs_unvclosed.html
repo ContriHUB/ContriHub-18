@@ -1,6 +1,10 @@
         <div class="col col-md-6 col-md-offset-1 prs_unvclosed">
+                <br><br>
                 {% if prs_unvclosed %}
                     {% for pr in prs_unvclosed %}
+                    <div class="ind_pr" 
+                style="background-color:{% if pr.issue.level == 1 %}green{% elif pr.issue.level == 2 %}pink{% else %}orange{% endif %}">
+
                     {{forloop.counter}}. Issue - 
                     <a href="{{pr.issue.link_issue}}" class="issue_info" issue-id="{{pr.issue.id}}"> {{pr.issue.title_issue}}</a> <br>
                     
@@ -19,7 +23,14 @@
                             Hard 
                         {% endif %}                              
                     <br>
-                    <hr>
+                    </div>
                     {% endfor %}
+
+                    {% else %}
+                    {% if request.user.profile.is_student == 1 %}
+                        <span> You haven't any such pull requests. </span>
+                    {% else %}
+                        <span> You are a mentor and yourn't suppose to make a pr :-) </span>
+                    {% endif %}
                 {% endif %}
         </div> 

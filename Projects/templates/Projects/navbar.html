@@ -1,0 +1,12 @@
+
+    <div class="nav">
+        <div class="issues"> <a href="{% url 'home'%}"> Issues </a></div>
+        <div class="contrihub"> <a href="{% url 'home' %}"> ContriHub </a> </div>
+        <div class="leaderboard"><a href="{% url 'leaderboard' %}"> LeaderBoard </a></div>
+        {% if request.user.is_authenticated %}
+            <div class="profile"><a href="{% url 'profile' request.user.username %}"> {{request.user.username}} </a></div>
+        {% else %}
+            <div class="profile"><a href="{% url 'signin' %}"> Enter </a></div>
+        {% endif %}
+    </div>
+

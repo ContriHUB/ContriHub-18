@@ -1,0 +1,53 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>
+        {% block title_extra %} {% endblock title_extra %} ContriHub
+    </title>
+
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">  
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    
+    <style>
+        body{
+            /* height:100%;
+            width:100%; */
+            /*background: linear-gradient(rgba(255,255,255,.3), rgba(255,255,255,.3)), url('{% static "Projects/img/contrihub.jpg" %}');*/
+            background:url('{% static "Projects/img/contrihub_5.jpg" %}');/*your background image*/
+            background-repeat:no-repeat; /*we want to have one single image not a repeated one */
+            background-size:cover;/*this sets the image to fullscreen covering the whole screen*/
+            /*css hack for ie*/
+            filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='.image.jpg',sizingMethod='scale');
+            -ms-filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(src='image.jpg',sizingMethod='scale')";
+            background-position: center;
+            background-attachment: fixed;
+            opacity: 0.7;
+            z-index: -1;
+        }
+        html, body {
+            margin: 0;
+            padding: 0;
+            }
+    </style>
+
+    {% block head_extra %}
+    {% endblock head_extra %}
+</head>
+<body>
+
+    {% block body_content %}
+    {% endblock body_content %}
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+{% block js_extra %}
+{% endblock js_extra %}
+
+</body>
+</html>
+

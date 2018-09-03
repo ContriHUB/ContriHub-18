@@ -1,7 +1,4 @@
-html, body {
-    margin: 0;
-    padding: 0;
-    }
+
 
 .nav {
     display: flex;
@@ -11,8 +8,11 @@ html, body {
     width: 100%;
     background-color: blanchedalmond;
     padding: 4px;
+}
+.nav a {
     font-weight: bold;
-    font-size:17px;
+    font-size: 17px;
+    text-decoration: none;
 }
 .issues {
     display: flex;

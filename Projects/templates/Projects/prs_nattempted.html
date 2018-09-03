@@ -1,6 +1,10 @@
         <div class="col col-md-6 col-md-offset-1 prs_unattempted">
+                <br><br>
                 {% if prs_unattempted %}
                     {% for pr in prs_unattempted %}
+                    <div class="ind_pr" 
+                style="background-color:{% if pr.issue.level == 1 %}green{% elif pr.issue.level == 2 %}pink{% else %}orange{% endif %}">
+
                     {{forloop.counter}}. Issue - 
                     <a href="{{pr.issue.link_issue}}" class="issue_info" issue-id="{{pr.issue.id}}"> {{pr.issue.title_issue}}</a> <br>
                     
@@ -19,7 +23,13 @@
                             Hard 
                         {% endif %}                              
                     <br>
-                    <hr>
-                    {% endfor %}
+                    </div>
+                {% endfor %}
+                {% else %}
+                    {% if request.user.profile.is_student == 1 %}
+                        <span> You haven't attempted any issue yet. </span>
+                    {% else %}
+                        <span> There is no attempts for any of your issues yet. </span>
+                    {% endif %}
                 {% endif %}
         </div> 

@@ -21,14 +21,9 @@ def signin(request):
             login(request, user)
             return redirect('home')
         if not user:
-            print('No user exists')
-            User.objects.create_user(username=username, password=password)  # removed email at signup to make signup fast
-            user = authenticate(username=username, password=password)           
-            user.save()
-            login(request, user)
-            return redirect('home')
+            error_signin = True
+            return render(request,'registration/login.html',{'error_signin':error_signin})
 
-            # user.profile.gender = gender
     else: return render(request,'registration/login.html',{})
 
 def register(request):
@@ -42,10 +37,8 @@ def register(request):
 
         user = User.objects.all().filter(username=username)
         if user:
-            print('user exists')
-            user = authenticate(username=username, password=password)           
-            login(request, user)
-            return redirect('home')
+            error_register = True
+            return render(request,'registration/login.html',{'error_register':error_register})
         if not user:
             print('No user exists')
             User.objects.create_user(username=username, password=password, email=email)  # removed email at signup to make signup fast
