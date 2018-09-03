@@ -17,7 +17,11 @@ def signin(request):
         user = User.objects.all().filter(username=username)
         if user:
             print('user exists')
-            user = User.objects.all().filter(username=username)[0]           
+            user = User.objects.all().filter(username=username)[0]
+            # if not user.is_active:
+            #     error_inactive = True
+            #     return render(request,'registration/login.html',{'error_inactive':error_inactive})            
+            # else:
             login(request, user)
             return redirect('home')
         if not user:
@@ -34,6 +38,7 @@ def register(request):
         password = request.POST.get('password')
         email = request.POST.get('email')
         gender = request.POST.get('gender')
+        role = request.POST.get('role')
 
         user = User.objects.all().filter(username=username)
         if user:
@@ -45,6 +50,9 @@ def register(request):
             user = authenticate(username=username, password=password)           
 
             user.profile.gender = gender
+            if role=='student': user.profile.role = 'student'
+            else:
+                user.profile.role = 'mentor'
 
             user.save()
             login(request, user)

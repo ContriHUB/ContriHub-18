@@ -7,7 +7,7 @@ from django.db.models.signals import post_save
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True) 
-    is_student = models.IntegerField(_('is_student'), default=1) #1-student, 2-mentor 
+    role = models.CharField(_('user_role'), max_length=10, blank=True, null=True)
     first_name = models.CharField(_('first_name'), max_length=40, blank=True, null=True) 
     last_name = models.CharField(_('last_name'), max_length=40, blank=True, null=True)
     bio = models.CharField(_('status'), max_length=100, blank=True, null=True) 

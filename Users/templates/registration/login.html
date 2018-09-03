@@ -25,6 +25,12 @@
         <div class="signin">
             {% if error_signin %}
                 <span class="error_signin">There is no user with this username, You need to register first!</span>
+            {% elif error_inactive %}
+            <span class="error_signin">You are a mentor and you are yet to be verified, contact 
+                <a href="mailto:deepakbharti@mnnit.ac.in">Deepak</a> |
+                <a href="mailto:abhey@mnnit.ac.in">Abhey</a> |
+                <a href="mailto:akshay31057@gmail.com">Akshay</a>
+            </span>
             {% endif %}
             <form action="{% url 'signin' %}" class="form_login" method="post" autocomplete="off">
                 {% csrf_token %}
@@ -44,12 +50,19 @@
                 <input type="text" name="username" placeholder="put your github username" required><br>
                 <input type="password" name="password" placeholder="password" required><br>
                 <input type="text" name="email" placeholder="Email Address"><br>
+                
                 <select name="gender" placeholder="gender"><br>
                     <option>Gender</option>
                     <option>Female</option>
                     <option>Male</option>
                     <option>Other</option>
-                </select> <br>
+                </select> 
+                <select name="role" placeholder="Select your Role"><br>
+                    <option>Role</option>
+                    <option>student</option>
+                    <option>mentor</option>
+                </select> 
+                <br>
                 <button type="submit">Register</button>
             </form>
         </div>
