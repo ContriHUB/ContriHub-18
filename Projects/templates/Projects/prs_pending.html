@@ -1,5 +1,12 @@
 <div class="col col-md-6 col-md-offset-1 prs_pending">
         <br><br>
+        {% if page_user.profile.role == 'mentor' and not page_user.is_staff %}
+        <span class="note">You are a mentor and you are yet to be verified, contact 
+            <a href="mailto:deepakbharti@mnnit.ac.in">Deepak</a> |
+            <a href="mailto:abhey@mnnit.ac.in">Abhey</a> |
+            <a href="mailto:akshay31057@gmail.com">Akshay</a>
+        </span> <br><br> 
+        {% endif %}
         {% if prs_pending %}
             {% for pr in prs_pending %}
             <div class="ppr ind_pr" csrf="{{ csrf_token }}" 
@@ -7,6 +14,8 @@
                 {{forloop.counter}}. Issue - 
                 <a href="{{pr.issue.link_issue}}" class="pr_info" pr-id="{{pr.id}}"> {{pr.issue.title_issue}}</a> <br>
                 
+                From User - {{pr.from_user.username}} <br>
+
                 Project - 
                 <a href="{{pr.issue.link_project}}"> {{pr.issue.title_project}}</a> <br>
                 
@@ -23,14 +32,13 @@
                 {% endif %}            
                 <br> 
 
-                {% if page_user.profile.is_student != 1 %}
-                    <button class="vclose">Verify and close </button>
-                    <button class="unvclose">reject and close </button>
+                {% if page_user.profile.role == 'mentor' and page_user.is_staff %}
+                    <button class="vclose">Verify</button>
                 {% endif %}
             </div>
             {% endfor %}
         {% else %}
-            {% if page_user.profile.is_student == 1 %}
+            {% if page_user.profile.role == 'student' %}
                 <span> You haven't attempted any issue yet. </span>
             {% else %}
                 <span> There is no attempts for any of your issues yet. </span>

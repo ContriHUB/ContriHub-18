@@ -15,14 +15,23 @@
         z-index: 2;
     }
     .single_issue a { background-color: black; color: white; text-decoration: none;}
-    button { border-radius: 10px;}        
+    button { 
+        border-radius: 10px;
+        font-weight: normal;
+    }     
+    .request_item input{
+        margin: 2px;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: normal;
+    }   
     </style>
 {% endblock head_extra %}
 
 
 {% block body_content %}
 {% include 'Projects/navbar.html' %}
-<div class="row"><br>
+<div class="row"><br><br>
     {% for issue in issues %}
     <div class="col col-md-6 col-md-offset-3 single_issue" csrf="{{ csrf_token }}" 
     style="background-color:{% if issue.level == 1 %}green{% elif issue.level == 2 %}pink{% else %}orange{% endif %}">
@@ -48,19 +57,10 @@
                 
                 <br>
                 </div>
-                {% if request.user.profile.is_student == 1  %}
-                <div class="col col-md-4">
-                    Your Status - 
-                        {% if issue.status == 0 %}
-                            Not attempted 
-                        {% elif issue.status == 1 %}
-                            Attempted and pending for verification 
-                        {% elif issue.status == 2 %}
-                            successfully solved 
-                        {% elif issue.status == 3 %}
-                            Your PR was rejected
-                        {% endif %}                                
+                {% if request.user.profile.role == 'student'  %}
+                <div class="col col-md-4 request_item">                              
                     <br>
+                    <input type="text" name="pr_link" placeholder="paste your pr link here">
                     <button class="request"> request for verification 
                     <i class="fa fa-spinner fa-spin fa-1x process"></i></button>
                 </div>
@@ -79,32 +79,38 @@
         $(".request").click(function(e){
             e.preventDefault();
             var issue=$(this).closest(".single_issue");
+            var pr_link=$("input[name='pr_link']",issue).val();
+            console.log(pr_link);
             var issue_id = $(".issue_info", issue).attr('issue-id');
             var csrf=$(".single_issue").attr('csrf');
             // $(".process",this).show();
-
-            $.ajax({
-                url:'request_pr',
-                data:{
-                    'issue_id': issue_id,
-                    'csrfmiddlewaretoken':csrf,
-                },
-                type:'post',
-                cache:false,
-                beforeSend: function(){
-                    // $(".request").html('<i class="fa fa-spinner fa-spin fa-1x"></i>');
-                    $(".process",this).show();
-                },
-                success: function(data){
-                    if(data=="success"){
-                        alert("Your request has been sent to mentor of this issue, soon you will see result of this pr");                    
-                    }
-                },
-                afterSend: function(){
-                    // $(".request").html(' request for verification ');
-                    $(".process",this).hide();
-                },
-            });
+            if(pr_link != ""){
+                $.ajax({
+                    url:'request_pr',
+                    data:{
+                        'pr_link':pr_link,
+                        'issue_id': issue_id,
+                        'csrfmiddlewaretoken':csrf,
+                    },
+                    type:'post',
+                    cache:false,
+                    beforeSend: function(){
+                        // $(".request").html('<i class="fa fa-spinner fa-spin fa-1x"></i>');
+                        $(".process",this).show();
+                    },
+                    success: function(data){
+                        if(data=="success"){
+                            alert("Your request has been sent to mentor of this issue, soon you will see result of this pr");                    
+                        }
+                    },
+                    afterSend: function(){
+                        // $(".request").html(' request for verification ');
+                        $(".process",this).hide();
+                    },
+                });
+            }else{
+                alert("First put your PR link with the corresponding issue.");
+            }
         });
     });
 </script>

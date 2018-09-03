@@ -15,16 +15,16 @@ def home(request):
     return render(request, 'Projects/home.html', {'issues':issues})
 
 def leaderboard(request):
-    users = User.objects.all().filter(profile__is_student=1).order_by('-profile__points')
+    users = User.objects.all().filter(profile__role='student').order_by('-profile__points')
     return render(request, 'Projects/leaderboard.html', {'users':users} )
 
 @login_required(login_url='signin')
 def profile(request, username):
 	#solved issues are closed after verification
-	#1-not attempted, 2-pending_for_verification, 3-verified_closed, 4-unverified_closed
+	#'student'-not attempted, 2-pending_for_verification, 3-verified_closed, 4-unverified_closed
 	user = get_object_or_404(User, username=username)
 	all_prs 		  = Prs.objects.all()
-	if request.user.profile.is_student==1:
+	if request.user.profile.role=='student':
 		print('its a student')
 		prs_nattempted    = Prs.objects.all().filter(from_user=user, status=1)
 		prs_vclosed       = Prs.objects.all().filter(from_user=user, status=3)
@@ -56,9 +56,10 @@ def profile(request, username):
  
 def request_pr(request):
 	print('request_pr')
-	if request.method=='POST':
+	if request.method=='POST' and request.user.profile.role=='student':
 		issue_id = request.POST.get('issue_id')
-		print('issueid',issue_id)
+		pr_link = request.POST.get('pr_link')
+		print('issueid, pr_link',issue_id,pr_link)
 		issue = get_object_or_404(Issues,id=issue_id)
 
 		if issue:
@@ -68,6 +69,7 @@ def request_pr(request):
 			link_project = issue.link_project
 			link_issue = issue.link_issue
 			level = issue.level 
+			pr_link = pr_link
 
 			new_pr = Prs()
 			new_pr.issue = issue
@@ -82,10 +84,11 @@ def request_pr(request):
 			to_email = [issue.mentor.email]
 
 			subject = request.user.username + ' has requested to accept pr '
-			message = 'Hi '+mentor.username +' !'+'<br>'+'Here is a request for merging a pr which you are mentoring.<br>'\
+			message = 'Hi '+mentor.username +' !'+'<br>'+'Here is a request for verifying a pr which you are mentoring.<br>'\
 					'Issue - <a href="'+link_issue+'">'+title_issue+'</a><br>'+\
 					'Project - <a href="'+link_project+'">'+title_project+'</a><br>'+\
-					'You can also visit your profile to see all pending requests and accept or reject them<br>'
+					'Check the pr here - <a href="'+pr_link+'">PR</a><br>'+\
+					'You can also visit your profile to see all pending requests and accept or reject them.<br><br>Cheers!!!'
 					# 'Label - '+ level +'<br>'+\
 
 			send_mail(subject, message, from_email, to_email, fail_silently=False, html_message=message)        
@@ -94,7 +97,7 @@ def request_pr(request):
 
 
 def response_pr(request):
-	if request.method=='POST' and request.user.profile.is_student==2:
+	if request.method=='POST' and request.user.profile.role=='mentor':
 		pr_id = request.POST.get('pr_id')
 		pr = get_object_or_404(Prs, id=pr_id)
 
@@ -102,14 +105,15 @@ def response_pr(request):
 		if pr:
 			print('changing the status of pr')
 			print('pr_status',pr.status)
-			if pr.status==2 or pr.status==4:
-				print('changing the status to',3)
+			if pr.status==2:
 				pr.status=3
 				pr.from_user.profile.points=pr.from_user.profile.points+pr.issue.points
-			elif pr.status==2 or pr.status==3:
-				pr.status=4
+				print('changing the status to', 3 ,'and points to',pr.from_user.profile.points)
+			elif pr.status==3:
+				pr.status=2
 				pr.from_user.profile.points=pr.from_user.profile.points-pr.issue.points
 			pr.save()
+			pr.from_user.save()
 			print('pr_status',pr.status)
 		else: print('pr doesnt exist')
 	return HttpResponse("success")

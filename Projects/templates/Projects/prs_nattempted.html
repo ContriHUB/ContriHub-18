@@ -26,7 +26,7 @@
                     </div>
                 {% endfor %}
                 {% else %}
-                    {% if request.user.profile.is_student == 1 %}
+                    {% if request.user.profile.role == 'student' %}
                         <span> You haven't attempted any issue yet. </span>
                     {% else %}
                         <span> There is no attempts for any of your issues yet. </span>

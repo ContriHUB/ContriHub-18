@@ -21,6 +21,17 @@
     cursor:pointer;
 }
 
+/*
+@media screen and (min-width:600px){
+    .pr_types ul li {
+        list-style-type: none;
+        padding: 3px;
+        font-size: 16px;    
+        cursor:pointer;
+        position: fixed;
+    }    
+}
+*/
 .pr_types ul li a {
     list-style-type: none;
     padding: 3px;
@@ -34,7 +45,8 @@
     margin-bottom: 5px;
     padding:10px;
     border-radius: 30px;
-    z-index: 2;
+    z-index: 100;
+    opacity: 0.;
 }
 .ind_pr a { 
     background-color: black;
@@ -42,25 +54,43 @@
     text-decoration: none; 
     border-radius: 7px;
 }
+
+.note {
+    background-color:beige;
+    color: brown;
+    border-radius: 7px;
+    font-size: 12px;
+    padding: 2px;
+    margin: 2px;
+}
+
+.ind_pr button { border-radius: 10px; }
+
 </style>
 {% endblock head_extra %}
 
 
 {% block body_content %}
 {% include 'Projects/navbar.html' %}
-<div class="row">
+<div class="row"><br><br>
     <div class="col col-md-2 col-md-offset-1 pr_types">
         <br>
         <ul>
             <li style="background-color:blue;" class="all">All Issues</li> <br>
             <li style="background-color:violet;" class="pending"> Pending PRS</li> <br>
             <li style="background-color:snow;" class="vclosed">Verified and closed</li> <br>
-            <li style="background-color:wheat;" class="unvclosed">Not Verified and closed</li> <br>
             <hr>
             <li style="background-color:cadetblue;"><a href="{% url 'logout' %}?next=/">LogOut</a></li>
         </ul>
     </div>
     <div class="col col-md-6 col-md-offset-1 issues_all"> 
+            {% if page_user.profile.role == 'mentor' and not page_user.is_staff %}
+                <span class="note">You are a mentor and you are yet to be verified, contact 
+                    <a href="mailto:deepakbharti@mnnit.ac.in">Deepak</a> |
+                    <a href="mailto:abhey@mnnit.ac.in">Abhey</a> |
+                    <a href="mailto:akshay31057@gmail.com">Akshay</a>
+                </span> <br>
+            {% endif %}
             <br>
             {% if all_prs %}
                 {% for pr in all_prs %}
@@ -68,7 +98,7 @@
                 style="background-color:{% if pr.issue.level == 1 %}green{% elif pr.issue.level == 2 %}pink{% else %}orange{% endif %}">
                 {{forloop.counter}}. Issue - 
                 <a href="{{pr.issue.link_issue}}" class="issue_info" issue-id="{{pr.issue.id}}"> {{pr.issue.title_issue}}</a> <br>
-                
+
                 Project - 
                 <a href="{{pr.issue.link_project}}"> {{pr.issue.title_project}}</a> <br>
                 

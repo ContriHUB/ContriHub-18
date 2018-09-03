@@ -27,7 +27,7 @@
                     {% endfor %}
 
                     {% else %}
-                    {% if request.user.profile.is_student == 1 %}
+                    {% if request.user.profile.role == 'student' %}
                         <span> You haven't any such pull requests. </span>
                     {% else %}
                         <span> You are a mentor and yourn't suppose to make a pr :-) </span>

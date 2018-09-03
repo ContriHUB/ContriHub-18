@@ -2,12 +2,14 @@
         <br><br>
         {% if prs_vclosed %}
             {% for pr in prs_vclosed %}
-            <div class="ind_pr" 
+            <div class="ind_pr ppr" csrf="{{ csrf_token }}" 
                 style="background-color:{% if pr.issue.level == 1 %}green{% elif pr.issue.level == 2 %}pink{% else %}orange{% endif %}">
 
             {{forloop.counter}}. Issue - 
-            <a href="{{pr.issue.link_issue}}" class="issue_info" issue-id="{{pr.issue.id}}"> {{pr.issue.title_issue}}</a> <br>
+            <a href="{{pr.issue.link_issue}}" class="pr_info" pr-id="{{pr.id}}"> {{pr.issue.title_issue}}</a> <br>
             
+            From User - {{pr.from_user.username}} <br>
+
             Project - 
             <a href="{{pr.issue.link_project}}"> {{pr.issue.title_project}}</a> <br>
             
@@ -23,11 +25,14 @@
                     Hard 
                 {% endif %}                              
             <br>
+            {% if page_user.profile.role == 'mentor' and page_user.is_staff %}
+                <button class="unvclose">Reject</button>
+            {% endif %}
             </div>
             {% endfor %}
 
         {% else %}
-            {% if page_user.profile.is_student == 1 %}
+            {% if page_user.profile.role == 'student' %}
                 <span> You have pull requests which are verified. </span>
             {% else %}
                 <span> You are a mentor and you aren't suppose to have any such prs :-) </span>
