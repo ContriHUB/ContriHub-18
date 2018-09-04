@@ -49,16 +49,15 @@
                 {% csrf_token %}
                 <input type="text" name="username" placeholder="put your github username" required><br>
                 <input type="password" name="password" placeholder="password" required><br>
-                <input type="text" name="email" placeholder="Email Address"><br>
+                <input type="text" name="email" placeholder="Email Address" required><br>
                 
-                <select name="gender" placeholder="gender"><br>
+                <select name="gender" placeholder="gender" required><br>
                     <option>Gender</option>
                     <option>Female</option>
                     <option>Male</option>
                     <option>Other</option>
                 </select> 
-                <select name="role" placeholder="Select your Role"><br>
-                    <option>Role</option>
+                <select name="role" placeholder="Select your Role" required><br>
                     <option>student</option>
                     <option>mentor</option>
                 </select> 
