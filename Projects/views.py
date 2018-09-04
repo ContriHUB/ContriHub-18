@@ -11,8 +11,8 @@ from django.contrib.auth.decorators import login_required
 from .models import Issues,Prs
 
 def home(request):
-    issues = Issues.objects.all()
-    return render(request, 'Projects/home.html', {'issues':issues})
+    # issues = Issues.objects.all() 'issues':issues
+    return render(request, 'Projects/home.html', {})
 
 def leaderboard(request):
     users = User.objects.all().filter(profile__role='student').order_by('-profile__points')
