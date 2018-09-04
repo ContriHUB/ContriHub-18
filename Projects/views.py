@@ -41,6 +41,7 @@ def profile(request, username):
 								}) 
 	else:
 		print('its a mentor')
+		all_prs			  = Prs.objects.all().filter(issue__mentor=user)
 		prs_vclosed       = Prs.objects.all().filter(issue__mentor=user, status=3)
 		prs_unvclosed     = Prs.objects.all().filter(issue__mentor=user, status=4)
 		prs_pending 	  = Prs.objects.all().filter(issue__mentor=user, status=2)
