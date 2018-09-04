@@ -39,7 +39,7 @@ EMAIL_HOST_USER='deepakbharti@mnnit.ac.in'
 EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
 EMAIL_PORT = 587
 
-''' 
+'''
 If using gmail, you will need to
 unlock Captcha to enable Django 
 to  send for you:
@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'Projects',
     'Users',
 ]
@@ -95,14 +96,26 @@ WSGI_APPLICATION = 'ContriHub.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
+DB_PASS = os.environ['CONTRIHUB_PASS']
+# print(DB_PASS)
 if 'DATABASE_URL' in os.environ:
     import dj_database_url
     DATABASES = {'default': dj_database_url.config()}
 else:
+    # DATABASES = {
+    #     'default': {
+    #         'ENGINE': 'django.db.backends.sqlite3',
+    #         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    #     }
+    # }
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'contrihub_db',
+            'USER': 'contrihub_user',
+            'PASSWORD': DB_PASS,
+            'HOST': 'localhost',
+            'PORT': '',
         }
     }
 
