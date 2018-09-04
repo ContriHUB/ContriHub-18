@@ -4,9 +4,6 @@
     display: flex;
     flex-wrap: wrap;
     width: 500px;
-    margin-top: 150px;
-    margin-left: 410px;
-    margin-right: 300px;
 }
 .signin{
     background-color: rgb(196, 230, 218);
@@ -17,7 +14,6 @@
     min-height: 200px;
     align-items: center;
     justify-content: center;
-
 }
 .signup{
     background-color: rgb(91, 107, 85);
