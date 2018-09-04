@@ -31,7 +31,7 @@ def signin(request):
     else: return render(request,'registration/login.html',{})
 
 def register(request):
-    print('inside authentication.view') 
+    print('inside register authentication.view') 
     
     if request.method == 'POST': 
         username = request.POST.get('username')
