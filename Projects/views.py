@@ -23,7 +23,7 @@ def profile(request, username):
 	#solved issues are closed after verification
 	#'student'-not attempted, 2-pending_for_verification, 3-verified_closed, 4-unverified_closed
 	user = get_object_or_404(User, username=username)
-	all_prs 		  = Prs.objects.all()
+	all_prs 		  = Prs.objects.all().filter(from_user=user)
 	if request.user.profile.role=='student':
 		print('its a student')
 		prs_nattempted    = Prs.objects.all().filter(from_user=user, status=1)
