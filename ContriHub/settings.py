@@ -21,7 +21,7 @@ BASE_DIR = Path(__file__).parent
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY')
+SECRET_KEY = os.environ['SECRET_KEY']
 # GITHUB_SECRET_KEY = config('GITHUB_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -168,7 +168,7 @@ FILE_UPLOAD_TEMP_DIR = '/tmp/'
 FILE_UPLOAD_PERMISSIONS = 0o644
 
 #added to host on heroku
-# STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 import netifaces
 
