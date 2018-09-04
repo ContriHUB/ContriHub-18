@@ -2,7 +2,7 @@
     <div class="container">
 
       <!-- Brand -->
-      <a class="navbar-brand" href="https://contrihub.github.io" target="_blank">
+      <a class="navbar-brand" href="https://contrihub.github.io">
         <strong>ContriHUB</strong>
       </a>
 
@@ -26,11 +26,11 @@
             <a class="nav-link" href="{% url 'home'%}">Issues</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'leaderboard' %}" target="_blank">LeaderBoard</a>
+            <a class="nav-link" href="{% url 'leaderboard' %}">LeaderBoard</a>
           </li>
           {% if request.user.is_authenticated %}
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'profile' request.user.username %}" target="_blank">{{request.user.username}}
+                <a class="nav-link" href="{% url 'profile' request.user.username %}">{{request.user.username}}
                 {% if request.user.profile.role == 'mentor' %}
                     (M)
                 {% else %}
@@ -40,7 +40,7 @@
             </li>
           {% else %}
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'signin' %}" target="_blank">Enter</a>
+              <a class="nav-link" href="{% url 'signin' %}">Enter</a>
             </li>
           {% endif %}
         </ul>
@@ -48,13 +48,13 @@
         <!-- Right -->
         <ul class="navbar-nav nav-flex-icons">
           <li class="nav-item">
-            <a href="https://www.facebook.com/groups/ContriHUB/" class="nav-link" target="_blank">
+            <a href="https://www.facebook.com/groups/ContriHUB/" class="nav-link">
               <i class="fa fa-facebook"></i>
             </a>
           </li>
           <li class="nav-item">
             <a href="https://github.com/ContriHUB" class="nav-link border border-light rounded"
-              target="_blank">
+             >
               <i class="fa fa-github mr-2"></i>ContriHUB GitHub
             </a>
           </li>
