@@ -31,7 +31,6 @@ OpenSource is an event under Avishkar-18 where we are expecting to get more and 
 7. Done :-)
 
 
-
 Deploy on Heroku - 
 
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
