@@ -14,11 +14,6 @@
         border-radius: 30px;
         z-index: 2;
     }
-    .single_issue a { background-color: black; color: white; text-decoration: none;}
-    button { 
-        border-radius: 10px;
-        font-weight: normal;
-    }     
     .request_item input{
         margin: 2px;
         border-radius: 6px;
@@ -31,42 +26,50 @@
 
 {% block body_content %}
 {% include 'Projects/navbar.html' %}
-<div class="row"><br><br>
-    {% for issue in issues %}
-    <div class="col col-md-6 col-md-offset-3 single_issue" csrf="{{ csrf_token }}" 
-    style="background-color:{% if issue.level == 1 %}green{% elif issue.level == 2 %}pink{% else %}orange{% endif %}">
-                
-                <div class="col col-md-8">
-                {{forloop.counter}}. Issue - 
-                <a href="{{issue.link_issue}}" class="issue_info" issue-id="{{issue.id}}"> {{issue.title_issue}}</a> <br>
-                
-                Project - 
-                <a href="{{issue.link_project}}"> {{issue.title_project}}</a> <br>
-                
-                Mentor -
-                <a href="https://github.cpm/{{issue.mentor}}"> {{issue.mentor}}</a> <br>
-                
-                Label -
-                    {% if issue.level == 1 %}
-                        Easy 
-                    {% elif issue.level == 2 %}
-                        Medium 
-                    {% elif issue.level == 3 %}
-                        Hard 
-                    {% endif %}
-                
-                <br>
-                </div>
-                {% if request.user.profile.role == 'student'  %}
-                <div class="col col-md-4 request_item">                              
-                    <br>
-                    <input type="text" name="pr_link" placeholder="paste your pr link here">
-                    <button class="request"> request for verification 
-                    <i class="fa fa-spinner fa-spin fa-1x process"></i></button>
-                </div>
-                {% endif %} 
-    </div>
-    {% endfor %}
+<div class="container">
+  <div class="row" style="margin-top: 100px"><br><br>
+      {% for issue in issues %}
+      <div class="col-auto single_issue" csrf="{{ csrf_token }}">
+                  
+                  <div class="col col-md-8">
+                  <div class="card" style="width: 500px">
+                    <div class="card-body">
+                      <div class="card-title">
+                        <h4>{{forloop.counter}}. Issue - 
+                        <a href="{{issue.link_issue}}" class="issue_info" issue-id="{{issue.id}}"> {{issue.title_issue}}</a><h4>
+                      </div>
+                      <div class="card-text">
+                        Project - 
+                        <a href="{{issue.link_project}}"> {{issue.title_project}}</a> <br>
+                        
+                        Mentor -
+                        <a href="https://github.cpm/{{issue.mentor}}"> {{issue.mentor}}</a> <br>
+                        
+                        Label -
+                            {% if issue.level == 1 %}
+                                Easy 
+                            {% elif issue.level == 2 %}
+                                Medium 
+                            {% elif issue.level == 3 %}
+                                Hard 
+                            {% endif %}
+                        
+                        <br>
+                        </div>
+                        {% if request.user.profile.role == 'student'  %}
+                          <div class="md-form">
+                            <input type="text" name="pr_link" id="form3" class="form-control">
+                            <label for="form3">Paste your PR link here</label>
+                          </div>
+                          <button class="request btn btn-indigo"> request for verification 
+                          <i class="fa fa-spinner fa-spin fa-1x process"></i></button>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+      </div>
+      {% endfor %}
+</div>
 </div>
   
 {% endblock body_content %}
