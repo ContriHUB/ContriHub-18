@@ -8,6 +8,6 @@ Deploy on Heroku -
 
 <h3>Contact ContriHUB Admins </h3>
 
-<br><strong>deepakbharti@mnnit.ac.in</strong>
-<br><strong>abhey.mmnit@gmail.com</strong>
-<br><strong>akshay31057@gmail.com</strong>
+<a href="mailto:deepakbharti@mnnit.ac.in">Deepak Bharti</a> |  
+<a href="mailto:abhey.mmnit@gmail.com"></a> |
+<a href="mailto:akshay31057@gmail.com">Akshay Sharma</a>
