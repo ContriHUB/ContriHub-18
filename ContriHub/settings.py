@@ -96,12 +96,12 @@ WSGI_APPLICATION = 'ContriHub.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-DB_PASS = os.environ['CONTRIHUB_PASS']
 # print(DB_PASS)
 if 'DATABASE_URL' in os.environ:
     import dj_database_url
     DATABASES = {'default': dj_database_url.config()}
 else:
+    DB_PASS = os.environ['CONTRIHUB_PASS']
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
