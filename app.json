@@ -1,0 +1,19 @@
+{
+  "name": "ContriHUB",
+  "description": "Open Source - Solve Issues and become the Winner",
+  "repository": "https://github.com/ContriHUB/ContriHub-18",
+  "keywords": ["ContriHub", "Avishkar" ,"MNNIT", "OpenSource"],
+  "success_url":"/",
+  "env":{
+    "DISABLE_COLLECTSTATIC":"1", 
+    "SECRET_KEY": {
+      "description": "A secret key for verifying the integrity of signed cookies.",
+      "generator": "secret"
+    },
+  },
+  "addons":[
+    {
+	    "plan":"heroku-postgresql"
+    }
+  ], 
+}
