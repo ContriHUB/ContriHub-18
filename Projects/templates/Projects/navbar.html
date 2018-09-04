@@ -6,9 +6,9 @@
         {% if request.user.is_authenticated %}
             <div class="profile"><a href="{% url 'profile' request.user.username %}"> {{request.user.username}}
             {% if request.user.profile.role == 'mentor' %}
-                (Mentor)
+                (M)
             {% else %}
-                (Student)
+                (S)
             {% endif %}
             </a></div>
         {% else %}
