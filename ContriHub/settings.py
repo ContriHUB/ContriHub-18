@@ -102,22 +102,22 @@ if 'DATABASE_URL' in os.environ:
     DATABASES = {'default': dj_database_url.config()}
 else:
     DB_PASS = os.environ['CONTRIHUB_PASS']
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'contrihub_db',
-            'USER': 'contrihub_user',
-            'PASSWORD': DB_PASS,
-            'HOST': 'localhost',
-            'PORT': '',
-        }
-    }
     # DATABASES = {
     #     'default': {
-    #         'ENGINE': 'django.db.backends.sqlite3',
-    #         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #         'NAME': 'contrihub_db',
+    #         'USER': 'contrihub_user',
+    #         'PASSWORD': DB_PASS,
+    #         'HOST': 'localhost',
+    #         'PORT': '',
     #     }
     # }
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
 
 
 # Password validation
