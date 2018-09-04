@@ -14,19 +14,14 @@
     
     <style>
         body{
-            /* height:100%;
-            width:100%; */
-            /*background: linear-gradient(rgba(255,255,255,.3), rgba(255,255,255,.3)), url('{% static "Projects/img/contrihub.jpg" %}');*/
-            background:url('{% static "Projects/img/contrihub_5.jpg" %}');/*your background image*/
-            background-repeat:no-repeat; /*we want to have one single image not a repeated one */
-            background-size:cover;/*this sets the image to fullscreen covering the whole screen*/
-            /*css hack for ie*/
-            filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='.image.jpg',sizingMethod='scale');
-            -ms-filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(src='image.jpg',sizingMethod='scale')";
-            background-position: center;
-            background-attachment: fixed;
+            background: darkslategray url("{% static 'Projects/img/contrihub_5.jpg' %}") no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
             opacity: 0.8;
             z-index: -100;
+            
         }
         html, body {
             margin: 0;
@@ -36,7 +31,28 @@
 
     {% block head_extra %}
     {% endblock head_extra %}
+
+    <script type="application/ld+json">
+        {
+            "@context": "http://schema.org",
+            "@type": "Organization",
+            "url": "contrihubs.herokuapp.com",
+            "logo": "logo_image", 
+            "contactPoint": [
+            { "@type": "ContactPoint",
+            "telephone": "7275036250",
+            "contactType": "Phone"
+        }
+        ],
+        "sameAs": [
+        "facebook_link",
+        "quora_link",
+        "twitter_link",
+        ]
+    }
+    </script>
 </head>
+
 <body>
 
     {% block body_content %}
