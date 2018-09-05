@@ -11,7 +11,7 @@ idna==2.7
 Markdown==2.6.7
 netifaces==0.10.6
 Pillow==5.2.0
-psycopg2==2.7.1
+psycopg2==2.7.5
 python-decouple==3.0
 pytz==2018.3
 requests==2.19.1

@@ -5,59 +5,35 @@
 
 {% block head_extra %}
 <link href="{% static 'Projects/css/navbar.css' %}" rel="stylesheet"> 
-<style>
-    .itema {
-        padding: 4px;
-        font-size: 16px;
-        background-color: cornsilk;
-    }
-    .item {
-        padding: 4px;
-        padding-left: 20px;
-        font-size: 16px;
-        font-weight: bold;
-        border-radius: 7px;
-    }
-    .item a {
-        text-decoration: none;
-        color: brown;
-        background-color: aliceblue;
-    }
-    @media and screen (max-width:500px){
-            .fr{
-                margin-top:90px;
-            }
-    }
-</style>    
 {% endblock head_extra %}
 
 
 {% block body_content %}
 {% include 'Projects/navbar.html' %}
-<!--<td>forloop.counter</td>-->
-<div class="row fr"><br><br>
-        <div class="col col-md-3 col-md-offset-1 col-xs-4 itema"> Rank </div>
-        <div class="col col-md-3 col-md-offset-1 col-xs-4 itema"> User (GitHub Profile) </div>
-        <div class="col col-md-3 col-md-offset-1 col-xs-4 itema"> Points </div>
-</div>
-<div  class="row">
-    {% for user in users %}
-        <div class="col col-md-3 col-md-offset-1 col-xs-4 item"
-        style="background-color:{% if forloop.counter < 10 %}green{% elif forloop.counter < 20 %}orange{% else %}pink{% endif %}"
-        >
-            {{forloop.counter}}
-        </div>
-        <div class="col col-md-3 col-md-offset-1 col-xs-4 item"
-        style="background-color:{% if forloop.counter < 10 %}green{% elif forloop.counter < 20 %}orange{% else %}pink{% endif %}"
-        >
-                <a href="https://github.com/{{user.username}}">{{user.username}}</a>
-        </div>
-        <div class="col col-md-3 col-md-offset-1 col-xs-4 item"
-        style="background-color:{% if forloop.counter < 10 %}green{% elif forloop.counter < 20 %}orange{% else %}pink{% endif %}"
-        >
-            {{user.profile.points}}
-        </div>
-    {% endfor %}
+
+
+<div class="container">
+  <div class="card" style="margin-top: 100px">
+    <div class="card-body">
+      <table class="table table-hover">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col"><strong>Rank</strong></th>
+            <th scope="col"><strong>User</strong> (Github Profile)</th>
+            <th scope="col"><strong>Score</strong></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in users %}
+            <tr>
+              <th scope="row">{{forloop.counter}}</th>
+              <td><a href="https://github.com/{{user.username}}">{{user.username}}</a></td>
+              <td>{{user.profile.points}}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+    </div>
+  </div>
 </div>
 {% endblock body_content %}
     

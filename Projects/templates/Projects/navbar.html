@@ -1,18 +1,65 @@
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
+    <div class="container">
 
-    <div class="nav">
-        <div class="contrihub"> <a href="{% url 'home' %}"> ContriHub </a> </div>
-        <div class="issues"> <a href="{% url 'home'%}"> Issues </a></div>
-        <div class="leaderboard"><a href="{% url 'leaderboard' %}"> LeaderBoard </a></div>
-        {% if request.user.is_authenticated %}
-            <div class="profile"><a href="{% url 'profile' request.user.username %}"> {{request.user.username}}
-            {% if request.user.profile.role == 'mentor' %}
-                (M)
-            {% else %}
-                (S)
-            {% endif %}
-            </a></div>
-        {% else %}
-            <div class="profile"><a href="{% url 'signin' %}"> Enter </a></div>
-        {% endif %}
+      <!-- Brand -->
+      <a class="navbar-brand" href="https://contrihub.github.io">
+        <strong>ContriHUB</strong>
+      </a>
+
+      <!-- Collapse -->
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Links -->
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        <!-- Left -->
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="https://contrihub.github.io">ContriHUB
+              <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'home'%}">Issues</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'leaderboard' %}">LeaderBoard</a>
+          </li>
+          {% if request.user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'profile' request.user.username %}">{{request.user.username}}
+                {% if request.user.profile.role == 'mentor' %}
+                    (M)
+                {% else %}
+                    (S)
+                {% endif %}
+                </a>
+            </li>
+          {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'signin' %}">Enter</a>
+            </li>
+          {% endif %}
+        </ul>
+
+        <!-- Right -->
+        <ul class="navbar-nav nav-flex-icons">
+          <li class="nav-item">
+            <a href="https://www.facebook.com/groups/ContriHUB/" class="nav-link">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="https://github.com/ContriHUB" class="nav-link border border-light rounded"
+             >
+              <i class="fa fa-github mr-2"></i>ContriHUB GitHub
+            </a>
+          </li>
+        </ul>
+
+      </div>
     </div>
-
+</nav>
