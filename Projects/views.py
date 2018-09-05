@@ -77,7 +77,9 @@ def request_pr(request):
 			
 			exist_pr = Prs.objects.all().filter(issue=issue, from_user=user, status=2)
 			if exist_pr:
-				message_pr = "You have already a pending pr for this issue. You can create PR again only after your current PR is reviewed. You should try contacting Issue mentor " + issue.mentor.username + " at "+ issue.mentor.email +"\nThank You."
+				message_pr = "You have already a pending pr for this issue. You can create PR"+\
+				" again only after your current PR is reviewed. You should try contacting Issue mentor "\
+				+ issue.mentor.username + " at "+ issue.mentor.email +"\nThank You."
 			else:
 				new_pr = Prs()
 				new_pr.issue = issue
@@ -125,6 +127,37 @@ def response_pr(request):
 			print('pr_status',pr.status)
 		else: print('pr doesnt exist')
 	return HttpResponse("success")
+
+def remove_issue(request):
+	print('inside delete issue')
+	user=request.user
+	response=""
+	if request.method=="POST":
+		issue_id=request.POST.get('issue_id')
+		issue = get_object_or_404(Issues, id=issue_id)
+		if issue.mentor == user:
+			issue.delete()
+			response="Successfully deleted the issue."
+		else:
+			response="You didn't create this issue.So this can not be deleted by you. Sorry :("
+		
+		return HttpResponse(response)
+
+def remove_pr(request):
+	print('inside delete pr')
+	user=request.user
+	response=""
+	if request.method=="POST":
+		pr_id=request.POST.get('pr_id')
+		print("pr id is",pr_id)
+		pr = get_object_or_404(Prs, id=pr_id)
+		if pr.from_user == user:
+			pr.delete()
+			response="Successfully deleted this PR."
+		else:
+			response="You didn't create this PR.So this can not be deleted by you. Sorry :("
+		
+		return HttpResponse(response)
 
 # def add_issue(request):
 #     if request.method=='POST':
