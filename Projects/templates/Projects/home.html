@@ -37,7 +37,10 @@
                       <div class="card-title">
                         <h4>{{forloop.counter}}. Issue - 
                         <a href="{{issue.link_issue}}" class="issue_info" issue-id="{{issue.id}}"> {{issue.title_issue}}</a><h4>
-                      </div>
+                        {% if request.user == issue.mentor %}
+                        <a href="#"><i class="fa fa-trash-o delete" style="float:right;"></i></a>     
+                        {% endif %}
+                        </div>
                       <div class="card-text">
                         Project - 
                         <a href="{{issue.link_project}}"> {{issue.title_project}}</a> <br>
@@ -103,7 +106,8 @@
                     },
                     success: function(data){
                         if(data){
-                            alert(data);                    
+                            alert(data);
+                            document.location.reload();      
                         }
                     },
                     afterSend: function(){
@@ -115,6 +119,33 @@
                 alert("First put your PR link with the corresponding issue.");
             }
         });
+
+        $('.delete').click(function(e){
+            e.preventDefault();
+            var issue = $(this).closest('.single_issue');
+            var issue_id = $(".issue_info", issue).attr('issue-id');
+            var csrf=$(".single_issue").attr('csrf');
+            
+            $.ajax({
+                url:'remove_issue',
+                data:{
+                    'issue_id': issue_id,
+                    'csrfmiddlewaretoken':csrf,
+                },
+                type:'post',
+                cache:false,
+                beforeSend:function(){
+                   // alert("Requesting server ...")
+                },
+                success:function(data){
+                    if(data){
+                        alert(data);
+                        document.location.reload();  
+                    }
+                }
+            });
+        });
+
     });
 </script>
 
