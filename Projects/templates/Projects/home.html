@@ -102,8 +102,8 @@
                         $(".process",this).show();
                     },
                     success: function(data){
-                        if(data=="success"){
-                            alert("Your request has been sent to mentor of this issue, soon you will see result of this pr");                    
+                        if(data){
+                            alert(data);                    
                         }
                     },
                     afterSend: function(){
