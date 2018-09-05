@@ -62,8 +62,10 @@ def request_pr(request):
 		pr_link = request.POST.get('pr_link')
 		print('issueid, pr_link',issue_id,pr_link)
 		issue = get_object_or_404(Issues,id=issue_id)
-
+		user=request.user
+		message='some unknow error occured error :('
 		if issue:
+			message_pr='Your request has been sent to '+issue.mentor.username+', mentor of this issue, soon you will see result of this PR'
 			mentor = issue.mentor
 			title_issue = issue.title_issue
 			title_project = issue.title_project
@@ -72,29 +74,34 @@ def request_pr(request):
 			level = issue.level 
 			pr_link = pr_link
 
-			new_pr = Prs()
-			new_pr.issue = issue
-			new_pr.from_user = request.user
-			new_pr.status = 2
-			new_pr.all_such_prs = new_pr.all_such_prs+1 
-			new_pr.save()
-
-			print(mentor.username, title_issue, title_project, link_issue)
 			
-			from_email = django_settings.EMAIL_HOST_USER
-			to_email = [issue.mentor.email]
+			exist_pr = Prs.objects.all().filter(issue=issue, from_user=user, status=2)
+			if exist_pr:
+				message_pr = "You have already a pending pr for this issue. You can create PR again only after your current PR is reviewed. You should try contacting Issue mentor " + issue.mentor.username + " at "+ issue.mentor.email +"\nThank You."
+			else:
+				new_pr = Prs()
+				new_pr.issue = issue
+				new_pr.from_user = request.user
+				new_pr.status = 2
+				new_pr.all_such_prs = new_pr.all_such_prs+1 
+				new_pr.save()
 
-			subject = request.user.username + ' has requested to accept pr '
-			message = 'Hi '+mentor.username +' !'+'<br>'+'Here is a request for verifying a pr which you are mentoring.<br>'\
-					'Issue - <a href="'+link_issue+'">'+title_issue+'</a><br>'+\
-					'Project - <a href="'+link_project+'">'+title_project+'</a><br>'+\
-					'Check the pr here - <a href="'+pr_link+'">PR</a><br>'+\
-					'You can also visit your profile to see all pending requests and accept or reject them.<br><br>Cheers!!!'
-					# 'Label - '+ level +'<br>'+\
+				print(mentor.username, title_issue, title_project, link_issue)
+				
+				from_email = django_settings.EMAIL_HOST_USER
+				to_email = [issue.mentor.email]
 
-			send_mail(subject, message, from_email, to_email, fail_silently=False, html_message=message)        
+				subject = request.user.username + ' has requested to accept pr '
+				message = 'Hi '+mentor.username +' !'+'<br>'+'Here is a request for verifying a pr which you are mentoring.<br>'\
+						'Issue - <a href="'+link_issue+'">'+title_issue+'</a><br>'+\
+						'Project - <a href="'+link_project+'">'+title_project+'</a><br>'+\
+						'Check the pr here - <a href="'+pr_link+'">PR</a><br>'+\
+						'You can also visit your profile to see all pending requests and accept or reject them.<br><br>Cheers!!!'
+						# 'Label - '+ level +'<br>'+\
 
-		return HttpResponse("success")
+				send_mail(subject, message, from_email, to_email, fail_silently=False, html_message=message)        
+
+		return HttpResponse(message_pr)
 
 
 def response_pr(request):
