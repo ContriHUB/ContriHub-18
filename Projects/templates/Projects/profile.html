@@ -5,7 +5,7 @@
 
 
 {% block head_extra %}
-<link href="{% static 'Projects/css/navbar.css' %}" rel="stylesheet"> 
+
 <style>
 
 .single_issue{
@@ -97,7 +97,7 @@
                 <div class="ind_pr" 
                 style="background-color:{% if pr.issue.level == 1 %}green{% elif pr.issue.level == 2 %}pink{% else %}orange{% endif %}">
                 {{forloop.counter}}. Issue - 
-                <a href="{{pr.issue.link_issue}}" class="pr_info" pr-id="{{pr.issue.id}}"> {{pr.issue.title_issue}}</a> <br>
+                <a href="{{pr.issue.link_issue}}" class="pr_info" pr-id="{{pr.id}}"> {{pr.issue.title_issue}}</a> <br>
                 
                 {% if request.user == pr.from_user %}
                 <a href="#"><i class="fa fa-trash-o delete" style="float:right;"></i></a>     
@@ -106,6 +106,9 @@
                 Project - 
                 <a href="{{pr.issue.link_project}}"> {{pr.issue.title_project}}</a> <br>
                 
+                Requested by -
+                <a href="https://github.cpm/{{pr.from_user.username}}"> {{pr.from_user.username}}</a> <br>
+
                 Mentor -
                 <a href="https://github.cpm/{{pr.issue.mentor}}"> {{pr.issue.mentor}}</a> <br>
                 
