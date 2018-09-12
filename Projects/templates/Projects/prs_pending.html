@@ -16,6 +16,10 @@
                 
                 From User - {{pr.from_user.username}} <br>
 
+                {% if request.user == pr.from_user %}
+                <a href="#"><i class="fa fa-trash-o delete" style="float:right;"></i></a>     
+                {% endif %}                
+
                 Project - 
                 <a href="{{pr.issue.link_project}}"> {{pr.issue.title_project}}</a> <br>
                 

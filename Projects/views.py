@@ -25,7 +25,7 @@ def profile(request, username):
 	user = get_object_or_404(User, username=username)
 	all_prs 		  = Prs.objects.all().filter(from_user=user)
 	if request.user.profile.role=='student':
-		print('its a student')
+		print('its a student', user.username)
 		prs_nattempted    = Prs.objects.all().filter(from_user=user, status=1)
 		prs_vclosed       = Prs.objects.all().filter(from_user=user, status=3)
 		prs_unvclosed     = Prs.objects.all().filter(from_user=user, status=4)
@@ -88,7 +88,7 @@ def request_pr(request):
 				new_pr.all_such_prs = new_pr.all_such_prs+1 
 				new_pr.save()
 
-				print(mentor.username, title_issue, title_project, link_issue)
+				print('created a new pr with pr_id',new_pr.id)
 				
 				from_email = django_settings.EMAIL_HOST_USER
 				to_email = [issue.mentor.email]
@@ -149,8 +149,9 @@ def remove_pr(request):
 	response=""
 	if request.method=="POST":
 		pr_id=request.POST.get('pr_id')
-		print("pr id is",pr_id)
+		print('searching if such pr exists with id',pr_id)
 		pr = get_object_or_404(Prs, id=pr_id)
+		print("pr id is",pr_id,user.username,pr.from_user.username)
 		if pr.from_user == user:
 			pr.delete()
 			response="Successfully deleted this PR."
