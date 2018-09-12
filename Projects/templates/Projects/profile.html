@@ -120,12 +120,16 @@
                 <br>
                 </div>
                 {% endfor %}
+            {% else %}
+                {% if page_user.profile.role == 'student' %}
+                    <span> You have not attempted any issue yet :( </span>
+                {% else %}
+                    <span> You are a mentor and None of your issues have been attempted, yet :-) </span>
+                {% endif %}
             {% endif %}
     </div>   
     
-    {% include 'Projects/prs_nattempted.html' %}
     {% include 'Projects/prs_vclosed.html' %}
-    {% include 'Projects/prs_unvclosed.html' %}
     {% include 'Projects/prs_pending.html' %}
     
 </div>
