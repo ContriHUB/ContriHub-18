@@ -1,51 +1,58 @@
-<div class="col col-md-6 col-md-offset-1 prs_pending">
-        <br><br>
+<div class="col prs_pending">
+        <br>
         {% if page_user.profile.role == 'mentor' and not page_user.is_staff %}
-        <span class="note">You are a mentor and you are yet to be verified, contact 
+        <h3 style="color: white">You are a mentor and you are yet to be verified, contact 
             <a href="mailto:deepakbharti@mnnit.ac.in">Deepak</a> |
             <a href="mailto:abhey@mnnit.ac.in">Abhey</a> |
             <a href="mailto:akshay31057@gmail.com">Akshay</a>
-        </span> <br><br> 
+        </h3> <br><br> 
         {% endif %}
         {% if prs_pending %}
             {% for pr in prs_pending %}
-            <div class="ppr ind_pr" csrf="{{ csrf_token }}" 
-            style="background-color:{% if pr.issue.level == 1 %}green{% elif pr.issue.level == 2 %}pink{% else %}orange{% endif %}">
-                {{forloop.counter}}. Issue - 
-                <a href="{{pr.issue.link_issue}}" class="pr_info" pr-id="{{pr.id}}"> {{pr.issue.title_issue}}</a> <br>
-                
-                From User - {{pr.from_user.username}} <br>
+            <div class="container">
+                <div class="card" csrf="{{ csrf_token }}">
+                    <div class="card-body"> 
+                        <div class="card-title">
+                            {{forloop.counter}}. Issue - 
+                            <a href="{{pr.issue.link_issue}}" class="pr_info" pr-id="{{pr.id}}"> {{pr.issue.title_issue}}</a> <br>
+                        </div>
+                        
+                        <div class="card-text">
+                            From User - {{pr.from_user.username}} <br>
 
-                {% if request.user == pr.from_user %}
-                <a href="#"><i class="fa fa-trash-o delete" style="float:right;"></i></a>     
-                {% endif %}                
+                            {% if request.user == pr.from_user %}
+                            <a href="#"><i class="fa fa-trash-o delete" style="float:right;"></i></a>     
+                            {% endif %}                
 
-                Project - 
-                <a href="{{pr.issue.link_project}}"> {{pr.issue.title_project}}</a> <br>
-                
-                Mentor -
-                <a href="https://github.cpm/{{pr.issue.mentor}}"> {{pr.issue.mentor}}</a> <br>
-                
-                Label -
-                {% if pr.issue.level == 1 %}
-                Easy 
-                {% elif pr.issue.level == 2 %}
-                Medium 
-                {% elif pr.issue.level == 3 %}
-                Hard 
-                {% endif %}            
-                <br> 
+                            Project - 
+                            <a href="{{pr.issue.link_project}}"> {{pr.issue.title_project}}</a> <br>
+                            
+                            Mentor -
+                            <a href="https://github.cpm/{{pr.issue.mentor}}"> {{pr.issue.mentor}}</a> <br>
+                            
+                            Label -
+                            {% if pr.issue.level == 1 %}
+                            Easy 
+                            {% elif pr.issue.level == 2 %}
+                            Medium 
+                            {% elif pr.issue.level == 3 %}
+                            Hard 
+                            {% endif %}
+                            <br> 
 
-                {% if page_user.profile.role == 'mentor' and page_user.is_staff %}
-                    <button class="vclose">Verify</button>
-                {% endif %}
+                            {% if page_user.profile.role == 'mentor' and page_user.is_staff %}
+                                <button class="vclose">Verify</button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
             </div>
             {% endfor %}
         {% else %}
             {% if page_user.profile.role == 'student' %}
-                <span> You haven't attempted any issue yet. </span>
+                <h3 style="color: white"> You have not attempted any issue yet :( </h3>
             {% else %}
-                <span> There is no attempts for any of your issues yet. </span>
+                <h3 style="color: white"> There is no attempts for any of your issues yet. </h3>
             {% endif %}
         {% endif %}
 

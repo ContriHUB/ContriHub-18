@@ -72,69 +72,77 @@
 
 {% block body_content %}
 {% include 'Projects/navbar.html' %}
-<div class="row"><br><br>
-    <div class="col col-md-2 col-md-offset-1 pr_types">
-        <br>
-        <ul>
-            <li style="background-color:blue;" class="all">All PRs</li> <br>
-            <li style="background-color:violet;" class="pending"> Pending PRS</li> <br>
-            <li style="background-color:snow;" class="vclosed">Verified PRs</li> <br>
-            <hr>
-            <li style="background-color:cadetblue;"><a href="{% url 'logout' %}?next=/">LogOut</a></li>
-        </ul>
-    </div>
-    <div class="col col-md-6 col-md-offset-1 issues_all"> 
-            {% if page_user.profile.role == 'mentor' and not page_user.is_staff %}
-                <span class="note">You are a mentor and you are yet to be verified, contact 
-                    <a href="mailto:deepakbharti@mnnit.ac.in">Deepak</a> |
-                    <a href="mailto:abhey.mnnit@gmail.com">Abhey</a> |
-                    <a href="mailto:akshay31057@gmail.com">Akshay</a>
-                </span> <br>
-            {% endif %}
+<div class="container">
+    <div class="row" style="margin-top: 100px"><br><br>
+        <div class="col col-md-3 col-md-offset-1 pr_types">
             <br>
-            {% if all_prs %}
-                {% for pr in all_prs %}
-                <div class="ind_pr" 
-                style="background-color:{% if pr.issue.level == 1 %}green{% elif pr.issue.level == 2 %}pink{% else %}orange{% endif %}">
-                {{forloop.counter}}. Issue - 
-                <a href="{{pr.issue.link_issue}}" class="pr_info" pr-id="{{pr.id}}"> {{pr.issue.title_issue}}</a> <br>
-                
-                {% if request.user == pr.from_user %}
-                <a href="#"><i class="fa fa-trash-o delete" style="float:right;"></i></a>     
+            <ul>
+                <li><button class="all btn btn-deep-orange"> All Pull Requests </button></li>
+                <li><button class="pending btn btn-deep-orange"> Pending Pull Requests </button></li>
+                <li><button class="vclosed btn btn-deep-orange"> Verifed Pull Requests </button></li>
+                <hr style="border-color: white;">
+                <li><button onclick="location.href = '{% url 'logout' %}?next=/'" class="btn btn-deep-orange" id="logout">Logout</button></li>
+            </ul>
+        </div>
+        <div class="col issues_all"> 
+                {% if page_user.profile.role == 'mentor' and not page_user.is_staff %}
+                    <span class="note">You are a mentor and you are yet to be verified, contact 
+                        <a href="mailto:deepakbharti@mnnit.ac.in">Deepak</a> |
+                        <a href="mailto:abhey.mnnit@gmail.com">Abhey</a> |
+                        <a href="mailto:akshay31057@gmail.com">Akshay</a>
+                    </span> <br>
                 {% endif %}
-
-                Project - 
-                <a href="{{pr.issue.link_project}}"> {{pr.issue.title_project}}</a> <br>
-                
-                Requested by -
-                <a href="https://github.cpm/{{pr.from_user.username}}"> {{pr.from_user.username}}</a> <br>
-
-                Mentor -
-                <a href="https://github.cpm/{{pr.issue.mentor}}"> {{pr.issue.mentor}}</a> <br>
-                
-                Label -
-                    {% if pr.issue.level == 1 %}
-                        Easy 
-                    {% elif pr.issue.level == 2 %}
-                        Medium 
-                    {% elif pr.issue.level == 3 %}
-                        Hard 
-                    {% endif %}                              
                 <br>
-                </div>
-                {% endfor %}
-            {% else %}
-                {% if page_user.profile.role == 'student' %}
-                    <span> You have not attempted any issue yet :( </span>
+                {% if all_prs %}
+                    {% for pr in all_prs %}
+                    <div class="container">
+                        <div class="card">
+                            <div class="card-body">
+                                 <div class="card-title">
+                                    {{forloop.counter}}. Issue - 
+                                    <a href="{{pr.issue.link_issue}}" class="pr_info" pr-id="{{pr.id}}">    {{pr.issue.title_issue}}</a> <br>
+                                </div>
+                                <div class="card-text">
+                                    {% if request.user == pr.from_user %}
+                                    <a href="#"><i class="fa fa-trash-o delete" style="float:right;"></i></a>     
+                                    {% endif %}
+
+                                    Project - 
+                                    <a href="{{pr.issue.link_project}}"> {{pr.issue.title_project}}</a> <br>
+                                    
+                                    Requested by -
+                                    <a href="https://github.cpm/{{pr.from_user.username}}"> {{pr.from_user.username}}</a> <br>
+
+                                    Mentor -
+                                    <a href="https://github.cpm/{{pr.issue.mentor}}"> {{pr.issue.mentor}}</a> <br>
+                                    
+                                    Label -
+                                        {% if pr.issue.level == 1 %}
+                                            Easy 
+                                        {% elif pr.issue.level == 2 %}
+                                            Medium 
+                                        {% elif pr.issue.level == 3 %}
+                                            Hard 
+                                        {% endif %}                              
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
                 {% else %}
-                    <span> You are a mentor and None of your issues have been attempted, yet :-) </span>
+                    {% if page_user.profile.role == 'student' %}
+                        <h3 style="color: white"> You have not attempted any issue yet :( </h3>
+                    {% else %}
+                        <h3 style="color: white"> You are a mentor and None of your issues have been attempted, yet :-) </h3>
+                    {% endif %}
                 {% endif %}
-            {% endif %}
-    </div>   
-    
-    {% include 'Projects/prs_vclosed.html' %}
-    {% include 'Projects/prs_pending.html' %}
-    
+        </div>   
+        
+        {% include 'Projects/prs_vclosed.html' %}
+        {% include 'Projects/prs_pending.html' %}
+        
+    </div>
 </div>
 {% endblock body_content %}
 
