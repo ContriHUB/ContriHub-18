@@ -4,8 +4,9 @@
 {% block title_extra %}Home - {% endblock title_extra %}
 
 {% block head_extra %}
-  
-<link href="{% static 'Users/css/login.css' %}" rel="stylesheet">
+
+<link type="text/css" rel="stylesheet" href="static/Projects/css/materialize.min.css"  media="screen,projection"/>
+
 <style>
     .error_signin, .error_register {
         color:brown;
@@ -27,57 +28,100 @@
 </style>
 {% endblock head_extra %}
 
+{% include 'Projects/navbar.html' %}
 
 {% block body_content %}
-    <div class="registration">
-        <h1>Welcome to ContriHUB</h1>
-        
-        <span class="signin_text"> SignIn </span>
-        <span class="signup_text"> SignUp </span>
-        
-        <div class="signin">
-            {% if error_signin %}
-                <span class="error_signin">There is no user with this username, You need to register first!</span>
-            {% elif error_inactive %}
-            <span class="error_signin">You are a mentor and you are yet to be verified, contact 
-                <a href="mailto:deepakbharti@mnnit.ac.in">Deepak</a> |
-                <a href="mailto:abhey@mnnit.ac.in">Abhey</a> |
-                <a href="mailto:akshay31057@gmail.com">Akshay</a>
-            </span>
-            {% endif %}
-            <form action="{% url 'signin' %}" class="form_login" method="post" autocomplete="off">
-                {% csrf_token %}
-                <input type="text" name="username" placeholder="put your github username" required><br>
-                <input type="password" name="password" placeholder="password" required ><br>
-                <button type="submit">Login</button><br>
-            </form>
-        </div>
 
-        <div class="signup">
-            {% if error_register %}
-                <span class="error_register">User with this username already exists!</span>
-            {% endif %}
-
-            <form action="{% url 'register' %}" class="form_register" method="post" autocomplete="off">
-                {% csrf_token %}
-                <input type="text" name="username" placeholder="put your github username" required><br>
-                <input type="password" name="password" placeholder="password" required><br>
-                <input type="text" name="email" placeholder="Email Address" required><br>
+    <div class="container" style="margin: auto;">
+        <div class="card" style="width: 500px; margin: auto;">
+            <div class="card-body mx-4">
+                <div class="card-title">
+                    <h4 style="font-family: Cormorant Infant">Welcome to ContriHUB</h4>
+                </div>
                 
-                <select name="gender" placeholder="gender" required><br>
-                    <option>Gender</option>
-                    <option>Female</option>
-                    <option>Male</option>
-                    <option>Other</option>
-                </select> 
-                <select name="role" placeholder="Select your Role" required><br>
-                    <option>student</option>
-                    <option>mentor</option>
-                </select> 
-                <i class="fa fa-user fa-1x"></i>
-                <br>
-                <button type="submit">Register</button>
-            </form>
+                <div class="signin">
+                    {% if error_signin %}
+                        <span class="error_signin">There is no user with this username, You need to register first!</span>
+                    {% elif error_inactive %}
+                    <span class="error_signin">You are a mentor and you are yet to be verified, contact 
+                        <a href="mailto:deepakbharti@mnnit.ac.in">Deepak</a> |
+                        <a href="mailto:abhey.mnnit@gmail.com">Abhey</a> |
+                        <a href="mailto:akshay31057@gmail.com">Akshay</a>
+                    </span>
+                    {% endif %}
+                    <form action="{% url 'signin' %}" class="form_login" method="post" autocomplete="off">
+                        {% csrf_token %}
+                        <div class="md-form">
+                            <input type="text" name="username" id="form1" class="form-control" required="true">
+                            <label for="form1">GitHub Username</label>
+                        </div>
+                        <div class="md-form">
+                            <input type="password" name="password" id="form2" class="form-control" required="true">
+                            <label for="form2">Password</label>
+                            <p class="font-small blue-text d-flex justify-content-end">Forgot
+                                <a href="#" class="blue-text ml-1"> Password?</a>
+                            </p>
+                        </div>
+                        <div class="text-center mb-3">
+                            <button class="submit btn btn-indigo"> Login </button>
+                        </div>
+                        <div class="modal-footer mx-5 pt-3 mb-1">
+                                <p class="font-small grey-text d-flex justify-content-end">Not a member?
+                                    <span class="signup_text blue-text ml-1"> SignUp </span>
+                                </p>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="signup">
+                    {% if error_register %}
+                        <span class="error_register">User with this username already exists!</span>
+                    {% endif %}
+
+                    <form action="{% url 'register' %}" class="form_register" method="post" autocomplete="off">
+                        {% csrf_token %}
+                        <div class="md-form">
+                            <input type="text" name="username" id="form3" class="form-control" required="true">
+                            <label for="form3">GitHub Username</label>
+                        </div>
+                        <div class="md-form">
+                            <input type="password" name="password" id="form4" class="form-control" required="true">
+                            <label for="form4">Password</label>
+                        </div>
+                        <div class="md-form">
+                            <input type="text" name="email" id="form5" class="form-control" required="true">
+                            <label for="form5">Email Address</label>
+                        </div>
+                        <br>
+                        <div class="input-field">
+                            <select name="gender" placeholder="gender" required="true">
+                                <option>Male</option>
+                                <option>Female</option>
+                                <option>Other</option>
+                            </select> 
+                            <label>Gender</label>
+                        </div>
+                        <br>
+                        <div class="input-field">
+                            <select name="role" placeholder="Select your Role" required="true">
+                                <option>student</option>
+                                <option>mentor</option>
+                                <label>Role</label>
+                            </select>
+                            <label>Role</label>
+                        </div>
+                        <br>
+                        <div class="text-center mb-3">
+                            <button class="submit btn btn-indigo"> Register </button>
+                        </div>
+                        <div class="modal-footer mx-5 pt-3 mb-1">
+                                <p class="font-small grey-text d-flex justify-content-end">Already a member?
+                                    <span class="signin_text blue-text ml-1"> Sign In </span>
+                                </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -110,6 +154,8 @@
             $(".signup").hide(); //  $("#product").removeClass('bottom');
             $(".signin").show();  // $("#human").addClass('bottom');
         });
+
+        $('select').formSelect();
     })      
 </script>
 {% endblock js_extra %}
