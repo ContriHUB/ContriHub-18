@@ -64,6 +64,7 @@ def request_pr(request):
 		issue = get_object_or_404(Issues,id=issue_id)
 		user=request.user
 		message='some unknow error occured error :('
+		message_pr="No Such Issue"
 		if issue:
 			message_pr='Your request has been sent to '+issue.mentor.username+', mentor of this issue, soon you will see result of this PR'
 			mentor = issue.mentor
@@ -73,7 +74,7 @@ def request_pr(request):
 			link_issue = issue.link_issue
 			level = issue.level 
 			pr_link = pr_link
-
+ 
 			
 			exist_pr = Prs.objects.all().filter(issue=issue, from_user=user, status=2)
 			if exist_pr:
@@ -88,7 +89,7 @@ def request_pr(request):
 				new_pr.all_such_prs = new_pr.all_such_prs+1 
 				new_pr.save()
 
-				print('created a new pr with pr_id',new_pr.id)
+				print('created a new pr with pr_id',new_pr.id) 
 				
 				from_email = django_settings.EMAIL_HOST_USER
 				to_email = [issue.mentor.email]
@@ -102,8 +103,9 @@ def request_pr(request):
 						# 'Label - '+ level +'<br>'+\
 
 				send_mail(subject, message, from_email, to_email, fail_silently=False, html_message=message)        
-
+		print(message_pr)
 		return HttpResponse(message_pr)
+	else: return HttpResponse("You should be a student for making PRS")
 
 
 def response_pr(request):
