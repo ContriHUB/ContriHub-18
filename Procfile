@@ -1,1 +1,1 @@
-web: gunicorn ContriHub.wsgi --preload --workers 1
+web: gunicorn ContriHub.wsgi
