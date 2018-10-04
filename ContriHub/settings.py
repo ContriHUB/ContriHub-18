@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/2.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.1/ref/settings/
 """
-
+import django_heroku
 import os
 from unipath import Path
 from decouple import config, Csv
@@ -202,3 +202,5 @@ def ip_addresses():
 
 # Discover our IP address
 ALLOWED_HOSTS += ip_addresses()
+
+django_heroku.settings(locals())
