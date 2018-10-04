@@ -18,3 +18,4 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ContriHub.settings')
 application = get_wsgi_application()
 #added for heroku
 application = DjangoWhiteNoise(application)
+
