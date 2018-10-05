@@ -89,7 +89,7 @@ def request_pr(request):
 				new_pr.all_such_prs = new_pr.all_such_prs+1 
 				new_pr.save()
 
-				print('created a new pr with pr_id',new_pr.id) 
+				print('created a new pr with pr_id',new_pr.id)
 				
 				from_email = django_settings.EMAIL_HOST_USER
 				to_email = [issue.mentor.email]
@@ -104,7 +104,7 @@ def request_pr(request):
 
 				send_mail(subject, message, from_email, to_email, fail_silently=False, html_message=message)        
 		print(message_pr)
-		return HttpResponse(message_pr) 
+		return HttpResponse(message_pr)
 	else: return HttpResponse("You should be a student for making PRS")
 
 
@@ -161,10 +161,6 @@ def remove_pr(request):
 			response="You didn't create this PR.So this can not be deleted by you. Sorry :("
 		
 		return HttpResponse(response)
-
-
-def favicon(request):
-	return HttpResponse("N")
 
 # def add_issue(request):
 #     if request.method=='POST':
