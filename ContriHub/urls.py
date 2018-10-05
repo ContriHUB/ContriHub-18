@@ -21,7 +21,10 @@ from django.conf.urls import include, url
 from django.conf.urls.static import static  
 from django.contrib.auth.views import (LoginView, LogoutView)
 
-from Projects.views import (home,request_pr,response_pr,leaderboard,profile,remove_issue,remove_pr)
+from Projects.views import (
+    home,request_pr,response_pr,
+    leaderboard,profile,remove_issue,
+    remove_pr,favicon)
 from Users.views import (signin,register)
 
 urlpatterns = [
@@ -39,6 +42,8 @@ urlpatterns = [
     path('remove_issue', remove_issue , name='remove_issue'),
     path('remove_pr', remove_pr , name='remove_pr'),
 
+    path('favicon.ico/', favicon, name="favicon"),
+    
     #put such urls always after all
     path('<username>', profile, name='profile'),
 ]

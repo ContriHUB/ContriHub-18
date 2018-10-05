@@ -104,7 +104,7 @@ def request_pr(request):
 
 				send_mail(subject, message, from_email, to_email, fail_silently=False, html_message=message)        
 		print(message_pr)
-		return HttpResponse(message_pr)
+		return HttpResponse(message_pr) 
 	else: return HttpResponse("You should be a student for making PRS")
 
 
@@ -161,6 +161,10 @@ def remove_pr(request):
 			response="You didn't create this PR.So this can not be deleted by you. Sorry :("
 		
 		return HttpResponse(response)
+
+
+def favicon(request):
+	return HttpResponse("N")
 
 # def add_issue(request):
 #     if request.method=='POST':
