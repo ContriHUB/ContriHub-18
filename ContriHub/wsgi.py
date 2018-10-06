@@ -19,3 +19,5 @@ application = get_wsgi_application()
 #added for heroku
 application = DjangoWhiteNoise(application)
 
+
+
