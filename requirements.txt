@@ -16,7 +16,7 @@ numpy==1.15.1
 pandas==0.23.4
 Pillow==5.2.0
 pipenv==2018.7.1
-psycopg2==2.7.1
+psycopg2==2.7.5
 python-dateutil==2.7.3
 python-decouple==3.0
 pytz==2018.3
