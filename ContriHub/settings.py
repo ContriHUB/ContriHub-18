@@ -27,9 +27,10 @@ SECRET_KEY = os.environ.get('SECRET_KEY', "faf541d1cdd7da1d485ccd6c27de8a9cc8a29
 # SECURITY WARNING: don't run with debug turned on in production!
 # ENV is an environment var which is set to Dev in local and Prod in production
 
-ENV=os.environ.get("ENV","")
-if ENV=='Dev': DEBUG = True
-else: DEBUG = False
+DEBUG=True
+# ENV=os.environ.get("ENV","")
+# if ENV=='Dev': DEBUG = True
+# else: DEBUG = False
 
 
 
