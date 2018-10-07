@@ -105,25 +105,25 @@ WSGI_APPLICATION = 'ContriHub.wsgi.application'
 # print(DB_PASS)
 if 'DATABASE_URL' in os.environ:
     import dj_database_url
-    DATABASES = {'default': dj_database_url.config()}
+    DATABASES = {'default': dj_database_url.config(default=os.environ.get('DATABASE_URL',""))}
 else:
     DB_PASS = os.environ.get('CONTRIHUB_PASS', "")
-    # DATABASES = {
-    #     'default': {
-    #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    #         'NAME': 'contrihub_db',
-    #         'USER': 'contrihub_user',
-    #         'PASSWORD': DB_PASS,
-    #         'HOST': 'localhost',
-    #         'PORT': '',
-    #     }
-    # }
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'contrihub_db',
+            'USER': 'contrihub_user',
+            'PASSWORD': DB_PASS,
+            'HOST': 'localhost',
+            'PORT': '',
         }
     }
+    # DATABASES = {
+    #     'default': {
+    #         'ENGINE': 'django.db.backends.sqlite3',
+    #         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    #     }
+    # }
 
 
 # Password validation
