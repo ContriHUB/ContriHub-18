@@ -26,6 +26,22 @@
         margin-top: 100px;
     }
 </style>
+
+<script>
+    var password = document.getElementById("password"),confirm_password = document.getElementById("confirm_password");
+    
+    function validatePassword(){
+      if(password.value != confirm_password.value) {
+        confirm_password.setCustomValidity("Passwords Don't Match");
+      } else {
+        confirm_password.setCustomValidity('');
+      }
+    }
+
+    password.onchange = validatePassword;
+    confirm_password.onkeyup = validatePassword;
+</script>
+
 {% endblock head_extra %}
 
 {% block body_content %}
@@ -56,6 +72,8 @@
                         <div class="md-form">
                             <input type="password" name="password" id="form2" class="form-control" required="true">
                             <label for="form2">Password</label>
+                            <input type="password" name="confirm_password" id="form2" class="form-control" required="true">
+                            <label for="form2">Confirm Password</label>
                             <p class="font-small blue-text d-flex justify-content-end">Forgot
                                 <a href="#" class="blue-text ml-1"> Password?</a>
                             </p>
