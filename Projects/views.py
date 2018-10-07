@@ -89,7 +89,7 @@ def request_pr(request):
 				new_pr.all_such_prs = new_pr.all_such_prs+1 
 				new_pr.save()
 
-				print('created a new pr with pr_id',new_pr.id) 
+				print('created a new pr with pr_id',new_pr.id)
 				
 				from_email = django_settings.EMAIL_HOST_USER
 				to_email = [issue.mentor.email]

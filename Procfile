@@ -1,1 +1,1 @@
-web: gunicorn ContriHub.wsgi
+web: gunicorn ContriHub.wsgi --log-file -
