@@ -97,7 +97,7 @@ WSGI_APPLICATION = 'ContriHub.wsgi.application'
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
 # print(DB_PASS)
-if 'DATABASE_URL1' in os.environ:
+if 'DATABASE_URL' in os.environ:
     import dj_database_url
     DATABASES = {'default': dj_database_url.config()}
 else:
