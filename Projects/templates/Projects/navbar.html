@@ -32,9 +32,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'profile' request.user.username %}">{{request.user.username}}
                 {% if request.user.profile.role == 'mentor' %}
-                    (M)
+                    (Mentor)
                 {% else %}
-                    (S)
+                    (Student)
                 {% endif %}
                 </a>
             </li>
