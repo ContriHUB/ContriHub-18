@@ -26,6 +26,7 @@
         margin-top: 100px;
     }
 </style>
+
 {% endblock head_extra %}
 
 {% block body_content %}
@@ -87,8 +88,13 @@
                             <label for="form4">Password</label>
                         </div>
                         <div class="md-form">
-                            <input type="text" name="email" id="form5" class="form-control" required="true">
-                            <label for="form5">Email Address</label>
+                            <input type="password" name="confirm-password" id="form5" class="form-control" required="true">
+                            <label for="form5">Confirm Password</label>
+                            <span id="confirm-password-message"></span>
+                        </div>
+                        <div class="md-form">
+                            <input type="text" name="email" id="form6" class="form-control" required="true">
+                            <label for="form6">Email Address</label>
                         </div>
                         <br>
                         <div class="input-field">
@@ -110,7 +116,7 @@
                         </div>
                         <br>
                         <div class="text-center mb-3">
-                            <button class="submit btn btn-indigo"> Register </button>
+                            <button class="submit btn btn-indigo" id="btn-register"> Register </button>
                         </div>
                         <div class="modal-footer mx-5 pt-3 mb-1">
                                 <p class="font-small grey-text d-flex justify-content-end">Already a member?
@@ -154,6 +160,17 @@
         });
 
         $('select').formSelect();
+
+        // check password and confirm password
+        $('#form4, #form5').on('keyup', function () {
+            if ($('#form4').val() == $('#form5').val()) {
+                $('#btn-register').removeAttr('disabled','disabled');
+                $('#confirm-password-message').html('Matching').css('color', 'green');
+            } else {
+                $('#btn-register').attr('disabled','disabled');
+                $('#confirm-password-message').html('Not Matching').css('color', 'red');
+            }
+        });
     })      
 </script>
 {% endblock js_extra %}
