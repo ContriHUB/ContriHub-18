@@ -86,6 +86,7 @@ def request_pr(request):
 				new_pr.issue = issue
 				new_pr.from_user = request.user
 				new_pr.status = 2
+				new_pr.pr_link = pr_link
 				new_pr.all_such_prs = new_pr.all_such_prs+1 
 				new_pr.save()
 

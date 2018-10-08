@@ -18,12 +18,12 @@
                         </div>
                         
                         <div class="card-text">
-                            From User - {{pr.from_user.username}} <br>
+                            Pr Link - <a href="{{pr.pr_link}}"> see pr </a> <br>
+                            From User - <a href="https://github.com/{{pr.from_user.username}}"> {{pr.from_user.username}} </a> <br>
 
                             {% if request.user == pr.from_user %}
                             <a href="#"><i class="fa fa-trash-o delete" style="float:right;"></i></a>     
                             {% endif %}                
-
                             Project - 
                             <a href="{{pr.issue.link_project}}"> {{pr.issue.title_project}}</a> <br>
                             
@@ -40,7 +40,7 @@
                             {% endif %}
                             <br> 
                             Expected Points - {{pr.issue.points}}
-                            
+
                             {% if page_user.profile.role == 'mentor' and page_user.is_staff %}
                                 <button class="vclose">Verify</button>
                             {% endif %}
