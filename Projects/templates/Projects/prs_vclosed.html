@@ -3,7 +3,7 @@
     {% if prs_vclosed %}
     <div class="container">
         {% for pr in prs_vclosed %}
-        <div class="card" csrf="{{ csrf_token }}">
+        <div class="card ppr" csrf="{{ csrf_token }}">
             <div class="card-body"> 
                 <div class="card-title">
                     {{forloop.counter}}. Issue - 

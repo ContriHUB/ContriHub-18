@@ -10,7 +10,7 @@
         {% if prs_pending %}
             {% for pr in prs_pending %}
             <div class="container">
-                <div class="card" csrf="{{ csrf_token }}">
+                <div class="card ppr" csrf="{{ csrf_token }}">
                     <div class="card-body"> 
                         <div class="card-title">
                             {{forloop.counter}}. Issue - 
