@@ -56,8 +56,10 @@
                             {% elif issue.level == 3 %}
                                 Hard 
                             {% endif %}
-                        
                         <br>
+
+                        Expected Points - {{issue.points}}
+
                         </div>
                         {% if request.user.profile.role != 'mentor'  %}
                           <div class="md-form">

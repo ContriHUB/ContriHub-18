@@ -39,7 +39,8 @@
                             Hard 
                             {% endif %}
                             <br> 
-
+                            Expected Points - {{pr.issue.points}}
+                            
                             {% if page_user.profile.role == 'mentor' and page_user.is_staff %}
                                 <button class="vclose">Verify</button>
                             {% endif %}
