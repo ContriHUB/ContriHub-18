@@ -42,9 +42,6 @@ def register(request):
         role = request.POST.get('role')
 
         user = User.objects.all().filter(username=username)
-        if user:
-            error_register = True
-            return render(request,'registration/login.html',{'error_register':error_register})
         if not user:
             if vpassword == password:
                 print('No user exists')
@@ -62,6 +59,9 @@ def register(request):
             else:
                 error_password = True
                 return render(request,'registration/login.html',{'error_password':error_password})
+        else:
+        	error_register = True
+            return render(request,'registration/login.html',{'error_register':error_register})
 
-            # user.profile.gender = gender
+		            
     else: return render(request,'registration/login.html',{})
