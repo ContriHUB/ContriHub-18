@@ -10,7 +10,11 @@
                     <a href="{{pr.issue.link_issue}}" class="pr_info" pr-id="{{pr.id}}"> {{pr.issue.title_issue}}</a> <br>
                 </div>
                 <div class="card-text">
-                    Pr Link - <a href="{{pr.pr_link}}"> see pr </a> <br>
+
+                    {% if pr.pr_link %}
+                        Pr Link - <a href="{{pr.pr_link}}"> see pr </a> <br>
+                    {% endif %}
+
                     Project - 
                     <a href="{{pr.issue.link_project}}"> {{pr.issue.title_project}}</a> <br>
 

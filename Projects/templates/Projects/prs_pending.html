@@ -18,7 +18,10 @@
                         </div>
                         
                         <div class="card-text">
-                            Pr Link - <a href="{{pr.pr_link}}"> see pr </a> <br>
+                            {% if pr.pr_link %}
+                                Pr Link - <a href="{{pr.pr_link}}"> see pr </a> <br>
+                            {% endif %}
+
                             From User - <a href="https://github.com/{{pr.from_user.username}}"> {{pr.from_user.username}} </a> <br>
 
                             {% if request.user == pr.from_user %}

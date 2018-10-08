@@ -107,7 +107,10 @@
                                     <a href="#"><i class="fa fa-trash-o delete" style="float:right;"></i></a>     
                                     {% endif %}
 
-                                    Pr Link - <a href="{{pr.pr_link}}"> see pr </a> <br>
+                                    {% if pr.pr_link %}
+                                        Pr Link - <a href="{{pr.pr_link}}"> see pr </a> <br>
+                                    {% endif %}
+        
                                     Project - 
                                     <a href="{{pr.issue.link_project}}"> {{pr.issue.title_project}}</a> <br>
                                     
