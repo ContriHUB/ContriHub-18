@@ -20,6 +20,13 @@
         font-size: 13px;
         font-weight: normal;
     }   
+    .pagination {
+        width: 400px;
+        display: flex;
+        flex-wrap: wrap; 
+        justify-content: center;
+        background-color: aliceblue;
+    }
     </style>
 {% endblock head_extra %}
 
@@ -74,7 +81,27 @@
                   </div>
       </div>
       {% endfor %}
-</div>
+    </div>
+
+    <div class="pagination">
+            <span class="step-links">
+                {% if issues.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ issues.previous_page_number }}">previous</a>
+                {% endif %}
+        
+                <span class="current">
+                    Page {{ issues.number }} of {{ issues.paginator.num_pages }}.
+                </span>
+        
+                {% if issues.has_next %}
+                    <a href="?page={{ issues.next_page_number }}">next</a>
+                    <a href="?page={{ issues.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+
+
 </div>
   
 {% endblock body_content %}
