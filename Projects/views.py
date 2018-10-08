@@ -7,12 +7,17 @@ from django.conf import settings as django_settings
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
 from .models import Issues,Prs
 
 def home(request):
-    issues = Issues.objects.all().order_by('points')
-    return render(request, 'Projects/home.html', {'issues':issues})
+	issues = Issues.objects.all().order_by('points')
+	paginator = Paginator(issues, 10) # Show 25 contacts per page
+	page = request.GET.get('page')
+	issues = paginator.get_page(page)
+
+	return render(request, 'Projects/home.html', {'issues':issues})
 
 def leaderboard(request):
     users = User.objects.all().filter(profile__role='student').order_by('-profile__points')
