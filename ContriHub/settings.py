@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 import django_heroku
 import os
 from unipath import Path
-from decouple import config, Csv
+# from decouple import config, Csv
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = Path(__file__).parent
@@ -96,20 +96,20 @@ TEMPLATES = [
         },
     },
 ]
-
-WSGI_APPLICATION = 'ContriHub.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/2.1/ref/settings/#databases
-
-# print(DB_PASS)
-if 'DATABASE_URL' in os.environ:
-    import dj_database_url
-    DATABASES = {'default': dj_database_url.config(default=os.environ.get('DATABASE_URL',""))}
-else:
-    DB_PASS = os.environ.get('CONTRIHUB_PASS', "")
-    DATABASES = {
+#
+# WSGI_APPLICATION = 'ContriHub.wsgi.application'
+#
+#
+# # Database
+# # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
+#
+# # print(DB_PASS)
+# if 'DATABASE_URL' in os.environ:
+#     import dj_database_url
+#     DATABASES = {'default': dj_database_url.config(default=os.environ.get('DATABASE_URL',""))}
+# else:
+#     DB_PASS = os.environ.get('CONTRIHUB_PASS', "")
+DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
             'NAME': 'contrihub_db',
@@ -193,21 +193,21 @@ FILE_UPLOAD_PERMISSIONS = 0o644
 
 #added to host on heroku
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
-
-import netifaces
-
-# Find out what the IP addresses are at run time
-# This is necessary because otherwise Gunicorn will reject the connections
-def ip_addresses():
-    ip_list = []
-    for interface in netifaces.interfaces():
-        addrs = netifaces.ifaddresses(interface)
-        for x in (netifaces.AF_INET, netifaces.AF_INET6):
-            if x in addrs:
-                ip_list.append(addrs[x][0]['addr'])
-    return ip_list
-
-# Discover our IP address
-ALLOWED_HOSTS += ip_addresses()
-
-django_heroku.settings(locals())
+#
+# import netifaces
+#
+# # Find out what the IP addresses are at run time
+# # This is necessary because otherwise Gunicorn will reject the connections
+# def ip_addresses():
+#     ip_list = []
+#     for interface in netifaces.interfaces():
+#         addrs = netifaces.ifaddresses(interface)
+#         for x in (netifaces.AF_INET, netifaces.AF_INET6):
+#             if x in addrs:
+#                 ip_list.append(addrs[x][0]['addr'])
+#     return ip_list
+#
+# # Discover our IP address
+# ALLOWED_HOSTS += ip_addresses()
+#
+# django_heroku.settings(locals())
