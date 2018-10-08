@@ -25,7 +25,7 @@ from Projects.views import (home,request_pr,response_pr,leaderboard,profile,remo
 from Users.views import (signin,register)
 
 urlpatterns = [
-    path('admin', admin.site.urls),
+    path('cooladmins', admin.site.urls),
     path('', home, name='home'),
     path('signin', signin , name='signin'), 
     path('register', register , name='register'), 
