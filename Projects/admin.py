@@ -5,7 +5,7 @@ from django.contrib import admin
 from .models import Issues, Prs
 
 class IssuesModelAdmin(admin.ModelAdmin):
-	list_display_fields= ['title_issue','title_project']
+	list_display_fields= ['title_issue','title_project','mentor__username']
 	# list_editables = ["title"]
 	# list_filter = ["date"]
 	search_fields = ['title_issue','title_project','mentor__username']
@@ -13,8 +13,8 @@ class IssuesModelAdmin(admin.ModelAdmin):
 		model = Issues
  
 class PrsModelAdmin(admin.ModelAdmin):
-	list_display_fields = ['issue__title_issue','issue__title_project']
-	search_fields = ['issue__title_issue','issue__title_project','issue__mentor__username']
+	list_display_fields = ['issue__title_issue','issue__title_project','from_user__username']
+	search_fields = ['issue__title_issue','issue__title_project','from_user__username']
 	
 	class Meta: 
 		model = Prs 
