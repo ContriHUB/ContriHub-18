@@ -76,6 +76,10 @@
                         <span class="error_register">User with this username already exists!</span>
                     {% endif %}
 
+                    {% if error_password %}
+                        <span class="error_register">Password does not match!</span>
+                    {% endif %}
+
                     <form action="{% url 'register' %}" class="form_register" method="post" autocomplete="off">
                         {% csrf_token %}
                         <div class="md-form">
@@ -85,6 +89,11 @@
                         <div class="md-form">
                             <input type="password" name="password" id="form4" class="form-control" required="true">
                             <label for="form4">Password</label>
+                        </div>
+                        <!-- verification password -->
+                        <div class="md-form">
+                            <input type="password" name="vpassword" id="form4" class="form-control" required="true">
+                            <label for="form4">Re Enter-Password</label>
                         </div>
                         <div class="md-form">
                             <input type="text" name="email" id="form5" class="form-control" required="true">
@@ -127,7 +136,7 @@
 
 
 {% block js_extra %}
-{% if error_register %}
+{% if error_register or error_password %}
     <script>
         $(document).ready(function(){
             $(".signin").hide();
