@@ -95,7 +95,7 @@
                 <br>
                 {% if all_prs %}
                     {% for pr in all_prs %}
-                    <div class="container">
+                    <div class="container pp">
                         <div class="card" csrf="{{ csrf_token }}">
                             <div class="card-body">
                                  <div class="card-title">
@@ -104,7 +104,7 @@
                                 </div>
                                 <div class="card-text">
                                     {% if request.user == pr.from_user %}
-                                    <a href="#"><i class="fa fa-trash-o delete" style="float:right;"></i></a>     
+                                    <a href="#"><i class="fa fa-trash-o delete" style="float:right;"></i></a>
                                     {% endif %}
 
                                     {% if pr.pr_link %}
@@ -143,10 +143,10 @@
                     {% endif %}
                 {% endif %}
         </div>   
-        
+
         {% include 'Projects/prs_vclosed.html' %}
         {% include 'Projects/prs_pending.html' %}
-        
+
     </div>
 </div>
 {% endblock body_content %}
@@ -177,9 +177,9 @@
                 },
                 success: function(data){
                     if(data=="success"){
-                        alert("Successfully updated the status of this Pull Request");  
+                        alert("Successfully updated the status of this Pull Request");
                         //alert(data);
-                        document.location.reload();                    
+                        document.location.reload();
                     }
                 },
                 afterSend: function(){
@@ -191,7 +191,7 @@
 
         $('.delete').click(function(e){
             e.preventDefault();
-            var pr=$(this).closest(".ind_pr");
+            var pr=$(this).closest(".pp");
             var pr_id = $(".pr_info", pr).attr('pr-id');
             var csrf=$(".ppr").attr('csrf');
             console.log("pr_id "+pr_id);
