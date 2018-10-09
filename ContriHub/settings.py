@@ -42,6 +42,11 @@ ALLOWED_HOSTS = ['*']
 # ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 
 
+ADMINS = (   
+        ('Deepak Bharti','deepakbharti@mnnit.ac.in'),
+        ('Abhey Rana','abhey.mnnit@gmail.com'),
+    )
+
 # Application definition
 
 EMAIL_USE_TLS = True
