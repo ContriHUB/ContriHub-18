@@ -41,10 +41,15 @@
     </div>
 
     {% else %}
-    {% if page_user.profile.role == 'student' %}
-    <h3 style="color: white"> You have pull requests which are not yet verified :(. </h3>
+    {% if page_user.profile.role == 'student' %}<div class="bd">
+    <h3> You have pull requests which are not yet verified :(. </h3>
     {% else %}
-    <h3 style="color: white"> You are a mentor and you aren't suppose to have any such prs :-) </h3>
+    <h3> You are a mentor and you aren't suppose to have any such prs :-) </h3></div>
     {% endif %}
     {% endif %}
 </div> 
+<style>
+    .bd{
+        color:white;
+        }
+    </style>
