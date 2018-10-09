@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="icon" type="image/png" href="static/Projects/img/favicon.png"/>
     <link rel="shortcut icon" type="image/png" href="static/Projects/img/favicon.png"/>
-    
+
     <link href='https://fonts.googleapis.com/css?family=Cormorant Infant' rel='stylesheet'>
     <!-- Bootstrap core CSS -->
     <link href="static/Projects/css/bootstrap.min.css" rel="stylesheet">
@@ -18,58 +18,11 @@
     <!-- Your custom styles (optional) -->
     <link href="static/Projects/css/style.min.css" rel="stylesheet">
 
+    <link type="text/css" href="static/Projects/css/base.css" rel="stylesheet">
+
     <title>
         {% block title_extra %} {% endblock title_extra %} ContriHub
     </title>
-    
-    <style type="text/css">
-    html,
-    body,
-    header,
-    .view {
-      height: 100%;
-    }
-
-    @media (max-width: 740px) {
-      html,
-      body,
-      header,
-      .view {
-        height: 1000px;
-      }
-    }
-
-    @media (min-width: 800px) and (max-width: 850px) {
-      html,
-      body,
-      header,
-      .view {
-        height: 650px;
-      }
-    }
-    @media (min-width: 800px) and (max-width: 850px) {
-              .navbar:not(.top-nav-collapse) {
-                  background: #1C2331!important;
-              }
-          }
-    </style>
-
-    <style>
-        body{
-            background: #1C2331 url("{% static 'Projects/img/background.jpg' %}") no-repeat center center fixed;
-            -webkit-background-size: cover;
-            -moz-background-size: cover;
-            -o-background-size: cover;
-            background-size: cover;
-            opacity: 0.8;
-            z-index: -100;
-            
-        }
-        html, body {
-            margin: 0;
-            padding: 0;
-            }
-    </style>
 
     {% block head_extra %}
     {% endblock head_extra %}
@@ -79,7 +32,7 @@
             "@context": "http://schema.org",
             "@type": "Organization",
             "url": "contrihubs.herokuapp.com",
-            "logo": "logo_image", 
+            "logo": "logo_image",
             "contactPoint": [
             { "@type": "ContactPoint",
             "telephone": "7275036250",
@@ -99,7 +52,7 @@
 
     {% block body_content %}
     {% endblock body_content %}
-    
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
@@ -113,7 +66,7 @@
     <script type="text/javascript" src="static/Projects/js/bootstrap.min.js"></script>
     <!-- MDB core JavaScript -->
     <script type="text/javascript" src="static/Projects/js/mdb.min.js"></script>
-    
+
     <script type="text/javascript" src="static/Projects/js/materialize.min.js"></script>
     <!-- Initializations -->
     <script type="text/javascript">
