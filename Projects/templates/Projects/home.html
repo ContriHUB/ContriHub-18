@@ -4,156 +4,142 @@
 {% block title_extra %}Home - {% endblock title_extra %}
 
 {% block head_extra %}
-        
-    <style>    
-    .single_issue{
-        font-size: 16px;
-        font-weight: bold;
-        margin-bottom: 5px;
-        padding:10px;
-        border-radius: 30px;
-        z-index: 2;
-    }
-    .request_item input{
-        margin: 2px;
-        border-radius: 6px;
-        font-size: 13px;
-        font-weight: normal;
-    }   
-    </style>
-{% endblock head_extra %}
 
+{% endblock head_extra %}
 
 {% block body_content %}
 {% include 'Projects/navbar.html' %}
 <div class="container">
   <div class="row" style="margin-top: 100px"><br><br>
       {% for issue in issues %}
-      <div class="col-auto single_issue" csrf="{{ csrf_token }}">x
-                  
-                  <div class="col col-md-8">
-                  <div class="card" style="width: 500px">
-                    <div class="card-body">
-                      <div class="card-title">
-                        <h4>{{forloop.counter}}. Issue - 
-                        <a href="{{issue.link_issue}}" class="issue_info" issue-id="{{issue.id}}"> {{issue.title_issue}}</a><h4>
-                        {% if request.user == issue.mentor %}
-                        <a href="#"><i class="fa fa-trash-o delete" style="float:right;"></i></a>     
-                        {% endif %}
-                        </div>
-                      <div class="card-text">
-                        Project - 
-                        <a href="{{issue.link_project}}"> {{issue.title_project}}</a> <br>
-                        
-                        Mentor -
-                        <a href="https://github.cpm/{{issue.mentor}}"> {{issue.mentor}}</a> <br>
-                        
-                        Label -
-                            {% if issue.level == 1 %}
-                                Easy 
-                            {% elif issue.level == 2 %}
-                                Medium 
-                            {% elif issue.level == 3 %}
-                                Hard 
-                            {% endif %}
-                        <br>
+    <div class="col-auto single_issue" csrf="{{ csrf_token }}">x
+      <div class="col col-md-8">
+        <div class="card" style="width: 500px">
+          <div class="card-body">
+            <div class="card-title">
+              <h4>{{forloop.counter}}. Issue -
+                <a href="{{issue.link_issue}}" class="issue_info" issue-id="{{issue.id}}"> {{issue.title_issue}}</a><h4>
 
-                        Expected Points - {{issue.points}}
+                {% if request.user == issue.mentor %}
 
-                        </div>
-                        {% if request.user.profile.role != 'mentor'  %}
-                          <div class="md-form">
-                            <input type="text" name="pr_link" id="form3" class="form-control" required="true">
-                            <label for="form3">Paste your PR link here</label>
-                          </div>
-                          <button class="request btn btn-deep-orange"> request for verification </button>
-                          <!-- <i class="fa fa-spinner fa-spin fa-1x process"></i></button> -->
-                        {% endif %}
-                      </div>
-                    </div>
-                  </div>
+                <a href="#"><i class="fa fa-trash-o delete" style="float:right;"></i></a>
+
+                {% endif %}
+            </div>
+            <div class="card-text">
+              Project -
+              <a href="{{issue.link_project}}"> {{issue.title_project}}</a> <br>
+
+                Mentor -
+                <a href="https://github.cpm/{{issue.mentor}}"> {{issue.mentor}}</a> <br>
+
+                  Label -
+                    {% if issue.level == 1 %}
+                      Easy
+                    {% elif issue.level == 2 %}
+                      Medium
+                    {% elif issue.level == 3 %}
+                      Hard
+                    {% endif %}
+                    <br>
+
+                    Expected Points - {{issue.points}}
+
+            </div>
+
+            {% if request.user.profile.role != 'mentor'  %}
+
+            <div class="md-form">
+              <input type="text" name="pr_link" id="form3" class="form-control" required="true">
+              <label for="form3">Paste your PR link here</label>
+            </div>
+            <button class="request btn btn-deep-orange"> request for verification </button>
+            <!-- <i class="fa fa-spinner fa-spin fa-1x process"></i></button> -->
+            {% endif %}
+          </div>
+        </div>
       </div>
-      {% endfor %}
+    </div>
+    {% endfor %}
+  </div>
 </div>
-</div>
-  
+
 {% endblock body_content %}
 
-
 {% block js_extra %}
-<script type="text/javascript"> 
-    $(document).ready(function(){
-        $(".process").hide();
-        $(".request").click(function(e){
-            e.preventDefault();
 
-            {% if not request.user.is_authenticated %}
-                alert("You need to register before requesting verification.");
-            {% else %}
-                var issue=$(this).closest(".single_issue");
-                var pr_link=$("input[name='pr_link']",issue).val();
-                console.log(pr_link);
-                var issue_id = $(".issue_info", issue).attr('issue-id');
-                var csrf=$(".single_issue").attr('csrf');
-                // $(".process",this).show();
-                if(pr_link != ""){
-                    $.ajax({
-                        url:'request_pr',
-                        data:{
-                            'pr_link':pr_link,
-                            'issue_id': issue_id,
-                            'csrfmiddlewaretoken':csrf,
-                        },
-                        type:'post',
-                        cache:false,
-                        beforeSend: function(){
-                            // $(".request").html('<i class="fa fa-spinner fa-spin fa-1x"></i>');
-                            $(".process",this).show();
-                        },
-                        success: function(data){
-                            if(data){
-                                alert(data);
-                                document.location.reload();      
-                            }
-                        },
-                        afterSend: function(){
-                            // $(".request").html(' request for verification ');
-                            $(".process",this).hide();
-                        },
-                    });
-                }else{
-                    alert("First put your PR link with the corresponding issue.");
-                }
-            {% endif %}
-        });
-
-        $('.delete').click(function(e){
-            e.preventDefault();
-            var issue = $(this).closest('.single_issue');
-            var issue_id = $(".issue_info", issue).attr('issue-id');
-            var csrf=$(".single_issue").attr('csrf');
-            
+<script type="text/javascript">
+  $(document).ready(function(){
+    $(".process").hide();
+      $(".request").click(function(e){
+        e.preventDefault();
+        {% if not request.user.is_authenticated %}
+          alert("You need to register before requesting verification.");
+        {% else %}
+          var issue=$(this).closest(".single_issue");
+          var pr_link=$("input[name='pr_link']",issue).val();
+          console.log(pr_link);
+          var issue_id = $(".issue_info", issue).attr('issue-id');
+          var csrf=$(".single_issue").attr('csrf');
+          // $(".process",this).show();
+          if(pr_link != ""){
             $.ajax({
-                url:'remove_issue',
-                data:{
+              url:'request_pr',
+              data:{
+                    'pr_link':pr_link,
                     'issue_id': issue_id,
                     'csrfmiddlewaretoken':csrf,
-                },
-                type:'post',
-                cache:false,
-                beforeSend:function(){
-                   // alert("Requesting server ...")
-                },
-                success:function(data){
-                    if(data){
-                        alert(data);
-                        document.location.reload();  
-                    }
+              },
+              type:'post',
+              cache:false,
+              beforeSend: function(){
+                  // $(".request").html('<i class="fa fa-spinner fa-spin fa-1x"></i>');
+                  $(".process",this).show();
+              },
+              success: function(data){
+                if(data){
+                  alert(data);
+                  document.location.reload();
                 }
+              },
+              afterSend: function(){
+                    // $(".request").html(' request for verification ');
+                    $(".process",this).hide();
+              },
             });
-        });
+          }
+          else{
+            alert("First put your PR link with the corresponding issue.");
+          }
+            {% endif %}
+      });
 
-    });
+      $('.delete').click(function(e){
+        e.preventDefault();
+        var issue = $(this).closest('.single_issue');
+        var issue_id = $(".issue_info", issue).attr('issue-id');
+        var csrf=$(".single_issue").attr('csrf');
+
+        $.ajax({
+          url:'remove_issue',
+          data:{
+                'issue_id': issue_id,
+                'csrfmiddlewaretoken':csrf,
+          },
+          type:'post',
+          cache:false,
+          beforeSend:function(){
+                // alert("Requesting server ...")
+          },
+          success:function(data){
+            if(data){
+                alert(data);
+                document.location.reload();
+            }
+          }
+        });
+      });
+  });
 </script>
 
 {% endblock js_extra %}
