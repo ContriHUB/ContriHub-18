@@ -96,7 +96,7 @@
                 {% if all_prs %}
                     {% for pr in all_prs %}
                     <div class="container">
-                        <div class="card" csrf="{{ csrf_token }}">
+                        <div class="card ppr" csrf="{{ csrf_token }}">
                             <div class="card-body">
                                  <div class="card-title">
                                     {{forloop.counter}}. Issue - 
@@ -191,7 +191,7 @@
 
         $('.delete').click(function(e){
             e.preventDefault();
-            var pr=$(this).closest(".ind_pr");
+            var pr=$(this).closest(".ppr");
             var pr_id = $(".pr_info", pr).attr('pr-id');
             var csrf=$(".ppr").attr('csrf');
             console.log("pr_id "+pr_id);
