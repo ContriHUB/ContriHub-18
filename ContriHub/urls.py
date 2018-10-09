@@ -1,5 +1,4 @@
 """ContriHub URL Configuration
-
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/2.1/topics/http/urls/
 Examples:
@@ -15,36 +14,28 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-
 from django.conf import settings
 from django.conf.urls import include, url
-from django.conf.urls.static import static  
+from django.conf.urls.static import static
 from django.contrib.auth.views import (LoginView, LogoutView)
-
 from Projects.views import (home,request_pr,response_pr,leaderboard,profile,remove_issue,remove_pr)
 from Users.views import (signin,register)
 
 urlpatterns = [
     path('cooladmins', admin.site.urls),
     path('', home, name='home'),
-    path('signin', signin , name='signin'), 
-    path('register', register , name='register'), 
+    path('signin', signin , name='signin'),
+    path('register', register , name='register'),
     path('logout', LogoutView.as_view(), {'next_page': 'signin'}, name='logout'),
-
     # path('api/github_webhook/', views.github_webhook, name='github_webhook')
     path('request_pr', request_pr , name='request_pr'),
     path('response_pr', response_pr , name='response_pr'),
-
-    path('leaderboard', leaderboard , name='leaderboard'),     
+    path('leaderboard', leaderboard , name='leaderboard'),
     path('remove_issue', remove_issue , name='remove_issue'),
     path('remove_pr', remove_pr , name='remove_pr'),
-
     #put such urls always after all
     path('<username>', profile, name='profile'),
 ]
 # (?P<username>[^/]+)/
-
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL,
-                          document_root=settings.MEDIA_ROOT)
-   
+    urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
