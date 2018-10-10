@@ -1,0 +1,9 @@
+body {
+            background: #1C2331 url("{% static 'Projects/img/background.jpg' %}") no-repeat center center fixed;
+            background-size: cover;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            opacity: 0.8;
+            z-index: -100;
+        }
