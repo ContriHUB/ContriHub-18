@@ -76,7 +76,7 @@ $(document).ready(function() {
     $(".issues_all").hide();
     $(".prs_vclosed").hide();
     $(".prs_unvclosed").hide();
-  });
+  }); 
 
   $(".delete").click(function(e) {
     e.preventDefault();
