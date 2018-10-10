@@ -42,10 +42,11 @@ ALLOWED_HOSTS = ['*']
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER='deepakbharti@mnnit.ac.in'
+EMAIL_HOST_USER='ojha.ashwini.1998@gmail.com'
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', "")
 EMAIL_PORT = 587
-
+# EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+# EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
 '''
 If using gmail, you will need to
 unlock Captcha to enable Django 
@@ -113,10 +114,10 @@ DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
             'NAME': 'contrihub_db',
-            'USER': 'contrihub_user',
-            'PASSWORD': DB_PASS,
+            'USER': 'postgres',
+            'PASSWORD': 'lodulodu',
             'HOST': 'localhost',
-            'PORT': '',
+            'PORT': '5433',
         }
     }
     # DATABASES = {
