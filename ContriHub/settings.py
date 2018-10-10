@@ -28,15 +28,24 @@ SECRET_KEY = os.environ.get('SECRET_KEY', "faf541d1cdd7da1d485ccd6c27de8a9cc8a29
 # ENV is an environment var which is set to Dev in local and Prod in production
 
 DEBUG=True
-# ENV=os.environ.get("ENV","")
-# if ENV=='Dev': DEBUG = True
-# else: DEBUG = False
-
-
-
 ALLOWED_HOSTS = ['*']
+
+# ENV=os.environ.get("ENV","")
+# if ENV=='Dev': 
+#     DEBUG = True
+#     ALLOWED_HOSTS = ['*']
+# else: 
+#     DEBUG = False
+#     ALLOWED_HOSTS = ['.contrihubs.herokuapp.com','www.contrihubs.herokuapp.com']
+
+
 # ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 
+
+ADMINS = (   
+        ('Deepak Bharti','deepakbharti@mnnit.ac.in'),
+        ('Abhey Rana','abhey.mnnit@gmail.com'),
+    )
 
 # Application definition
 

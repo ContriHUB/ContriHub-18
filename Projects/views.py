@@ -27,9 +27,13 @@ def leaderboard(request):
 def profile(request, username):
 	#solved issues are closed after verification
 	#'student'-not attempted, 2-pending_for_verification, 3-verified_closed, 4-unverified_closed
-	user = get_object_or_404(User, username=username)
+	try:
+		user = get_object_or_404(User, username=username)
+	except: #this is a fix for a non existing source too
+		return redirect("home")
+
 	all_prs 		  = Prs.objects.all().filter(from_user=user)
-	if request.user.profile.role=='student':
+	if request.user.profile.role=='student' and request.user == user:
 		print('its a student', user.username)
 		prs_nattempted    = Prs.objects.all().filter(from_user=user, status=1)
 		prs_vclosed       = Prs.objects.all().filter(from_user=user, status=3)
@@ -44,7 +48,7 @@ def profile(request, username):
 								'prs_vclosed': prs_vclosed,
 								'prs_unvclosed': prs_unvclosed,
 								}) 
-	else:
+	elif request.user == user:
 		print('its a mentor')
 		all_prs			  = Prs.objects.all().filter(issue__mentor=user)
 		prs_vclosed       = Prs.objects.all().filter(issue__mentor=user, status=3)
@@ -58,6 +62,7 @@ def profile(request, username):
 								'prs_vclosed': prs_vclosed,
 								'prs_unvclosed': prs_unvclosed,
 								}) 
+	else: return redirect("home")
 
  
 def request_pr(request):
