@@ -1,0 +1,38 @@
+<script type="application/ld+json">
+        {
+            "@context": "http://schema.org",
+            "@type": "Organization",
+            "url": "contrihubs.herokuapp.com",
+            "logo": "logo_image",
+            "contactPoint": [
+            { "@type": "ContactPoint",
+            "telephone": "7275036250",
+            "contactType": "Phone"
+        }
+        ],
+        "sameAs": [
+        "facebook_link",
+        "quora_link",
+        "twitter_link",
+        ]
+    }
+    </script>
+
+    {% block body_content %}
+    {% endblock body_content %}
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+{% block js_extra %}
+{% endblock js_extra %}
+
+    <script type="text/javascript" src="{% static 'Projects/js/jquery-3.3.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'Projects/js/popper.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'Projects/js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'Projects/js/mdb.min.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'Projects/js/materialize.min.js' %}"></script>
+    <script type="text/javascript">
+      new WOW().init();
+  </script>
