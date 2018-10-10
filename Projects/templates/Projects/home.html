@@ -33,6 +33,7 @@
         font-size: 16px;
         /*font-weight: bold;*/
     }
+
     </style>
 {% endblock head_extra %}
 
@@ -52,7 +53,7 @@
                         <div class="card-text">
                             <p class="notice">
                                 <span>
-                                    Winners will ofcourse be getting exciting T Shirts, stickers and other goodies from us. Besides you can 
+                                    Winners will of course be getting exciting T Shirts, stickers and other goodies from us. Besides you can 
                                     win more by following below things.
                                 </span> <br>
                                 <strong> Important  </strong><br>
@@ -60,6 +61,8 @@
                                     2. Once you register you can check your progress  <a href="https://hacktoberfest.digitalocean.com"> here </a> 
                             </p>
                         </div>
+                        <hr>
+                        <a href="https://contrihub.github.io/#about" class="btn btn-deep-orange"> See all rules and Notices. </a>
                     </div>
                 </div>
             </div>
@@ -201,7 +204,7 @@
                 beforeSend:function(){
                    // alert("Requesting server ...")
                 },
-                success:function(data){
+                success:function(data){     
                     if(data){
                         alert(data);
                         document.location.reload();  
