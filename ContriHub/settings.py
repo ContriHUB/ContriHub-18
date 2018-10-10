@@ -43,16 +43,16 @@ ALLOWED_HOSTS = ['*']
 
 
 ADMINS = (   
-        ('Deepak Bharti','deepakbharti@mnnit.ac.in'),
-        ('Abhey Rana','abhey.mnnit@gmail.com'),
+        ('Deepak Bharti',os.environ.get('admin1_email','')),
+        ('Abhey Rana',os.environ.get('admin2_email','')),
     )
 
 # Application definition
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER='deepakbharti@mnnit.ac.in'
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', "")
+EMAIL_HOST_USER= os.environ.get('EMAIL_HOST_USER','')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD','')
 EMAIL_PORT = 587
 
 '''
@@ -109,29 +109,32 @@ TEMPLATES = [
 WSGI_APPLICATION = 'ContriHub.wsgi.application'
 
 
-# Database
+# Database documentation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
 # print(DB_PASS)
-if 'DATABASE_URL' in os.environ:
+if 'DATABASE_URL' in os.environ: #this is for heroku
     import dj_database_url
     DATABASES = {'default': dj_database_url.config(default=os.environ.get('DATABASE_URL',""))}
-else:
-    DB_PASS = os.environ.get('CONTRIHUB_PASS', "")
+else: 
+    #this is for local you need not to make any changes here, 
+    # it'll work unless you are sure about how to setup postgres/mysql etc    
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'contrihub_db',
-            'USER': 'contrihub_user',
-            'PASSWORD': DB_PASS,
-            'HOST': 'localhost',
-            'PORT': '',
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         }
     }
+    #An example how you can setup postgres sql in local, create a postgres db and provide relevant details in this format
+    # DB_PASS = os.environ.get('CONTRIHUB_PASS', "")
     # DATABASES = {
     #     'default': {
-    #         'ENGINE': 'django.db.backends.sqlite3',
-    #         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #         'NAME': 'contrihub_db',
+    #         'USER': 'contrihub_user',
+    #         'PASSWORD': DB_PASS,
+    #         'HOST': 'localhost',
+    #         'PORT': '',
     #     }
     # }
 
