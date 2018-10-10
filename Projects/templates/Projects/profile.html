@@ -63,8 +63,15 @@
     padding: 2px;
     margin: 2px;
 }
+    .row{
+        margin-top:100px;}
+    .bs{
+        color:white;}
 
 .ind_pr button { border-radius: 10px; }
+    .fa fa-trash-o delete{
+        float:right;
+        }
 
 </style>
 {% endblock head_extra %}
@@ -73,7 +80,7 @@
 {% block body_content %}
 {% include 'Projects/navbar.html' %}
 <div class="container">
-    <div class="row" style="margin-top: 100px"><br><br>
+    <div class="row"><br><br>
         <div class="col col-md-3 col-md-offset-1 pr_types">
             <br>
             <ul>
@@ -104,7 +111,7 @@
                                 </div>
                                 <div class="card-text">
                                     {% if request.user == pr.from_user %}
-                                    <a href="#"><i class="fa fa-trash-o delete" style="float:right;"></i></a>     
+                                    <a href="#"><i class="fa fa-trash-o delete""></i></a>     
                                     {% endif %}
 
                                     {% if pr.pr_link %}
@@ -136,10 +143,10 @@
                     </div>
                     {% endfor %}
                 {% else %}
-                    {% if page_user.profile.role == 'student' %}
-                        <h3 style="color: white"> You have not attempted any issue yet :( </h3>
+                    {% if page_user.profile.role == 'student' %}<div class="bs">
+                        <h3> You have not attempted any issue yet :( </h3></div>
                     {% else %}
-                        <h3 style="color: white"> You are a mentor and None of your issues have been attempted, yet :-) </h3>
+                      <div class="bs">  <h3> You are a mentor and None of your issues have been attempted, yet :-) </h3></div>
                     {% endif %}
                 {% endif %}
         </div>   
