@@ -18,11 +18,24 @@
     <!-- Your custom styles (optional) -->
     <link href="{% static 'Projects/css/style.min.css' %}" rel="stylesheet">
 
-    <link type="text/css" href="static/Projects/css/base.css" rel="stylesheet">
+    <link type="text/css" href="{% static 'Projects/css/base.css' %}" rel="stylesheet">
 
     <title>
         {% block title_extra %} {% endblock title_extra %} ContriHub
     </title>
+
+    <style>
+        /* don't remove this body style in separate file */
+        body {
+            background: #1C2331 url("{% static 'Projects/img/background.jpg' %}") no-repeat center center fixed;
+            background-size: cover;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            opacity: 0.8;
+            z-index: -100;
+        }
+    </style>
 
     {% block head_extra %}
     {% endblock head_extra %}
