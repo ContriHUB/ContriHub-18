@@ -16,7 +16,7 @@ def home(request):
 
 def leaderboard(request):
 	users = User.objects.all().filter(profile__role='student').order_by('-profile__points')
-	paginator = Paginator(users, 4)
+	paginator = Paginator(users, 10)
 	page = request.GET.get('page')
 	users = paginator.get_page((page))
 	return render(request, 'Projects/leaderboard.html', {'users': users})
