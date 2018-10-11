@@ -5,12 +5,33 @@ ContriHUB is an event where we are expecting to get more and more people involve
 ### Instructions to run locally
 
 1. Install Python and some dev tools for Python 
-  - `$ sudo apt-get install python-pip python-dev build-essential`
-  - `$ apt install Python3.6`
-  - `use easy_install for older versions of ubuntu e.g -$ easy_install python3-pip`
   
+  - *Linux*
+    - `$ sudo apt-get install python-pip python-dev build-essential`
+    - `$ apt install Python3.6`
+    - `use easy_install for older versions of ubuntu e.g -$ easy_install python3-pip`
+  
+  - *Windows* 
+    - `Download python https://www.python.org/ftp/python/3.7.0/python-3.7.0.exe`
+    - `Install python using python-3.7.0.exe Windows Installer`
+
+  - *Mac*
+    - `Install Homebrew`
+      - ```$ /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" ```
+    - `Install Python`
+      - ```$ brew install python3```
+
 2. Install Pip
-  - `$ apt install python3-pip`
+  - *Linux*
+     - `$ apt install python3-pip`
+  
+  - *Windows* 
+    - `Download pip https://bootstrap.pypa.io/get-pip.py`
+    - `$ python get-pip.py`
+
+  - *Mac*
+    - `No Install - pip3 already bundled on python`
+ 
 
 3. Install other requirements given in requirements.txt file`
   - `$ pip install requirements.txt`
