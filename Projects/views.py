@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import (HttpResponse, HttpResponseBadRequest,
-                         HttpResponseForbidden) 
-from django.template.context_processors import csrf  
+                         HttpResponseForbidden)
+from django.template.context_processors import csrf
 from django.core.mail import send_mail
 from django.conf import settings as django_settings
 from django.shortcuts import get_object_or_404, render, redirect
@@ -12,12 +12,16 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from .models import Issues,Prs
 
 def home(request):
-	issues = Issues.objects.all().order_by('points')
-	paginator = Paginator(issues, 10) # Show 25 contacts per page
-	page = request.GET.get('page')
-	issues = paginator.get_page(page)
-
-	return render(request, 'Projects/home.html', {'issues':issues})
+    issues = Issues.objects.all().order_by('points')
+    paginator = Paginator(issues, 3) # Show 25 contacts per page
+    page = request.GET.get('page', 1)
+    try:
+        issues = paginator.get_page(page)
+    except PageNotAnInteger:
+        issues = paginator.get_page(1)
+    except EmptyPage:
+        issues = paginator.get_page(paginator.num_pages)
+    return render(request, 'Projects/home.html', {'issues':issues})
 
 def leaderboard(request):
     users = User.objects.all().filter(profile__role='student').order_by('-profile__points')
@@ -47,7 +51,7 @@ def profile(request, username):
 								'prs_pending': prs_pending,
 								'prs_vclosed': prs_vclosed,
 								'prs_unvclosed': prs_unvclosed,
-								}) 
+								})
 	elif request.user == user:
 		print('its a mentor')
 		all_prs			  = Prs.objects.all().filter(issue__mentor=user)
@@ -61,10 +65,10 @@ def profile(request, username):
 								'prs_pending': prs_pending,
 								'prs_vclosed': prs_vclosed,
 								'prs_unvclosed': prs_unvclosed,
-								}) 
+								})
 	else: return redirect("home")
 
- 
+
 def request_pr(request):
 	print('request_pr')
 	if request.method=='POST' and request.user.profile.role=='student':
@@ -82,10 +86,10 @@ def request_pr(request):
 			title_project = issue.title_project
 			link_project = issue.link_project
 			link_issue = issue.link_issue
-			level = issue.level 
+			level = issue.level
 			pr_link = pr_link
- 
-			
+
+
 			exist_pr = Prs.objects.all().filter(issue=issue, from_user=user, status=2)
 			if exist_pr:
 				message_pr = "You have already a pending pr for this issue. You can create PR"+\
@@ -97,11 +101,11 @@ def request_pr(request):
 				new_pr.from_user = request.user
 				new_pr.status = 2
 				new_pr.pr_link = pr_link
-				new_pr.all_such_prs = new_pr.all_such_prs+1 
+				new_pr.all_such_prs = new_pr.all_such_prs+1
 				new_pr.save()
 
 				print('created a new pr with pr_id',new_pr.id)
-				
+
 				from_email = django_settings.EMAIL_HOST_USER
 				to_email = [issue.mentor.email]
 
@@ -113,7 +117,7 @@ def request_pr(request):
 						'You can also visit your profile to see all pending requests and accept or reject them.<br><br>Cheers!!!'
 						# 'Label - '+ level +'<br>'+\
 
-				send_mail(subject, message, from_email, to_email, fail_silently=False, html_message=message)        
+				send_mail(subject, message, from_email, to_email, fail_silently=False, html_message=message)
 		print(message_pr)
 		return HttpResponse(message_pr)
 	else: return HttpResponse("You should be a student for making PRS")
@@ -153,7 +157,7 @@ def remove_issue(request):
 			response="Successfully deleted the issue."
 		else:
 			response="You didn't create this issue.So this can not be deleted by you. Sorry :("
-		
+
 		return HttpResponse(response)
 
 def remove_pr(request):
@@ -170,7 +174,7 @@ def remove_pr(request):
 			response="Successfully deleted this PR."
 		else:
 			response="You didn't create this PR.So this can not be deleted by you. Sorry :("
-		
+
 		return HttpResponse(response)
 
 # def add_issue(request):
@@ -193,4 +197,3 @@ def remove_pr(request):
 #         issue.save()
 #     else:
 #         return redirect('home')
-
