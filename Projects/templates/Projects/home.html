@@ -1,54 +1,13 @@
-{% extends "Projects/base.html" %}
-{% load staticfiles %}
+{% extends "Projects/base.html" %} {% load staticfiles %} {% block title_extra %}Home - {% endblock title_extra %} {% block head_extra %} {% endblock head_extra %} {% block body_content %} {% include 'Projects/navbar.html' %}
+<div class="container issues-container">
+  <div class="row" style="margin-top: 100px"><br><br>
 
-{% block title_extra %}Home - {% endblock title_extra %}
-
-{% block head_extra %}
-
-    <style>
-    .single_issue{
-        font-size: 16px;
-        font-weight: bold;
-        margin-bottom: 5px;
-        padding:10px;
-        border-radius: 30px;
-        z-index: 2;
-    }
-    .request_item input{
-        margin: 2px;
-        border-radius: 6px;
-        font-size: 13px;
-        font-weight: normal;
-    }
-    .pagination {
-        width: 400px;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        background-color: aliceblue;
-        padding: 5px;
-        margin-bottom: 15px;
-    }
-    .notice {
-        font-size: 16px;
-        /*font-weight: bold;*/
-    }
-
-    </style>
-{% endblock head_extra %}
-
-
-{% block body_content %}
-{% include 'Projects/navbar.html' %}
-<div class="container issues_container">
-    <div class="row" style="margin-top: 100px"><br><br>
-
-        <div class="col-auto single_issue" csrf="{{ csrf_token }}">
-            <div class="col col-md-8">
-                <div class="card" style="width: 500px">
-                    <div class="card-body">
-                        <div class="card-title">
-                            <h4> Announcements
+    <div class="col-auto single_issue" csrf="{{ csrf_token }}">
+      <div class="col col-md-8">
+        <div class="card" style="width: 500px">
+          <div class="card-body">
+            <div class="card-title">
+              <h4> Announcements
                         </div>
                         <div class="card-text">
                             <p class="notice">

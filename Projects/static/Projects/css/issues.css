@@ -1,0 +1,19 @@
+.single_issue {
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  padding: 10px;
+  z-index: 2;
+}
+
+.request_item input {
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: normal;
+  margin: 2px;
+}
+
+.notice {
+  font-size: 16px;
+}
