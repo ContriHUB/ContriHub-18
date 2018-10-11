@@ -11,7 +11,7 @@
 {% block body_content %}
 {% include 'Projects/navbar.html' %}
 
-<div class="container">
+<div class="container users-container">
   <div class="card" style="margin-top: 100px">
 
     <div class="card-body" style="margin-bottom:20px">
@@ -34,38 +34,30 @@
         </tbody>
       </table>
     </div>
-      <div class="card-footer">
-
-          <ul  class="pagination justify-content-center">
-            <li class="page-item">
-                {% if users.has_previous %}
-                    <a href="?page=1"  class="btn btn-primary page-link">&laquo; first</a>
-                    <a href="?page={{ users.previous_page_number }}" class="btn btn-success page-link">previous</a>
-                {% endif %}
-            </li>
-                <li class="page-item">
-                   <button class="btn" style="color:black;">Page {{ users.number }} of {{ users.paginator.num_pages }}</button>
-                </li>
-              <li class="page-item">
-                {% if users.has_next %}
-                    <a href="?page={{ users.next_page_number }}" class="btn btn-success page-link">next</a>
-                    <a href="?page={{ users.paginator.num_pages }}" class="btn btn-primary page-link" style="float:right;">last &raquo;</a>
-                {% endif %}
-            </li class="page-item">
-        </ul>
-       </div>
-
+</div>
 </div>
 
-  </div>
-
-
+{% if users.has_next %}
+<div class="paginator">
+  <a class="more-users-link" href="?page={{ users.next_page_number }}">
+    More
+  </a>
+</div>
+{% endif %}
 
 {% endblock body_content %}
 
 
 
-
-
 {% block js_extra %}
+<script type="text/javascript">
+  $(document).ready(function(){
+      var infiniteScroll = new Waypoint.Infinite({
+        element: $('.users-container')[0],
+        items: '.users-list-item',
+        loadingClass: 'more-users-loading',
+        more: '.more-users-link'
+      });
+  });
+</script>
 {% endblock js_extra %}
