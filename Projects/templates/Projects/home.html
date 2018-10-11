@@ -8,84 +8,87 @@
 {% endblock head_extra %} 
 
 {% block body_content %} 
+
 {% include 'Projects/navbar.html' %}
-<div class="container">
-  <div class="row" style="margin-top: 100px"><br><br>
-      {% for issue in issues %}
-      <div class="col-auto single_issue" csrf="{{ csrf_token }}">x
-                  
-                  <div class="col col-md-8">
-                  <div class="card" style="width: 500px">
-                    <div class="card-body">
-                      <div class="card-title">
-                        <h4>{{forloop.counter}}. Issue -
-                        <a href="{{issue.link_issue}}" class="issue_info" issue-id="{{issue.id}}"> {{issue.title_issue}}</a><h4>
-                        {% if request.user == issue.mentor %}
-                        <a href="#"><i class="fa fa-trash-o delete" style="float:right;"></i></a>     
-                        {% endif %}
-                        </div>
-                      <div class="card-text">
-                        Project - 
-                        <a href="{{issue.link_project}}"> {{issue.title_project}}</a> <br>
-                        
-                        Mentor -
-                        <a href="https://github.cpm/{{issue.mentor}}"> {{issue.mentor}}</a> <br>
-                        
-                        Label -
-                            {% if issue.level == 1 %}
-                                Easy 
-                            {% elif issue.level == 2 %}
-                                Medium 
-                            {% elif issue.level == 3 %}
-                                Hard 
-                            {% endif %}
-                        <br>
-
-                        Expected Points - {{issue.points}}
-
-                        </div>
-                        {% if request.user.profile.role != 'mentor'  %}
-                          <div class="md-form">
-                            <input type="text" name="pr_link" id="form3" class="form-control" required="true">
-                            <label for="form3">Paste your PR link here</label>
-                          </div>
-                          <button class="request btn btn-deep-orange"> request for verification </button>
-                          <!-- <i class="fa fa-spinner fa-spin fa-1x process"></i></button> -->
-                        {% endif %}
-                      </div>
-                    </div>
-                  </div>
+<section class="container issues-container">
+  <article class="card single-issue" csrf="{{ csrf_token }}">
+    <div class="card-body">
+      <div class="card-title">
+        <h4>Announcements</h4>
       </div>
-      {% endfor %}
-</div>
-    <div class="row justify-content-center"> <ul  class="pagination">
-            <li class="page-item">
-                {% if issues.has_previous %}
-                    <a href="?page=1"  class="btn btn-primary page-link">&laquo; first</a>
-                    <a href="?page={{ issues.previous_page_number }}" class="btn btn-success page-link">previous</a>
-                {% endif %}
-            </li>
-                <li class="page-item">
-                   <button class="btn" style="color:black;">Page {{ issues.number }} of {{ issues.paginator.num_pages }}</button>
-                </li>
-              <li class="page-item">
-                {% if issues.has_next %}
-                    <a href="?page={{ issues.next_page_number }}" class="btn btn-success page-link">next</a>
-                    <a href="?page={{ issues.paginator.num_pages }}" class="btn btn-primary page-link" style="float:right;">last &raquo;</a>
-                {% endif %}
-            </li class="page-item">
-        </ul></div>
-</div>
-  
+      <div class="card-text">
+          <p class="notice">
+            Winners will of course be getting exciting T Shirts, stickers and other goodies from us. Besides you can win more by following below things.
+          </p>
+          <p class="notice">
+            <strong>Important</strong><br />
+            <ol>
+              <li><p>Everyone must register for getting <a href="https://hacktoberfest.digitalocean.com/"> Hacktoberfest </a> T-shirt <a href="https://hacktoberfest.digitalocean.com/sign_up/register"> here </a></p>
+              <li><p>Once you register you can check your progress  <a href="https://hacktoberfest.digitalocean.com"> here </a></p>
+            </ol>
+          </p>
+      </div>
+      <div class="card-footer">
+        <a href="https://contrihub.github.io/#about" class="btn btn-deep-orange">
+          See all rules and Notices.
+        </a>
+      </div>
+    </div>
+  </article>
+  {% for issue in issues %}
+    <article class="card single-issue issue-list-item" csrf="{{ csrf_token }}">
+      <div class="card-body">
+          <div class="card-title">
+            <h4>{{forloop.counter}}. Issue -
+              <a href="{{issue.link_issue}}" class="issue-info" issue-id="{{issue.id}}">
+                {{issue.title_issue}}
+              </a>
+            <h4>
+            {% if request.user == issue.mentor %}
+             <a href="#"><i class="fa fa-trash-o delete"></i></a>
+            {% endif %}
+          </div>
+          <div class="card-text">
+            <p>
+              Project - <a href="{{issue.link_project}}"> {{issue.title_project}}</a><br />
+              Mentor - <a href="https://github.cpm/{{issue.mentor}}"> {{issue.mentor}}</a><br />
+              Label -
+                  {% if issue.level == 1 %}
+                      Easy
+                  {% elif issue.level == 2 %}
+                      Medium
+                  {% elif issue.level == 3 %}
+                      Hard
+                  {% endif %}<br />
+             Expected Points - {{issue.points}}<br />
+            </p>
+          </div>
+          {% if request.user.profile.role != 'mentor'  %}
+            <div class="md-form">
+              <input type="text" name="pr_link" id="form3" class="form-control" required="true">
+              <label for="form3">Paste your PR link here</label>
+            </div>
+            <button class="request btn btn-deep-orange"> request for verification </button>
+            <!-- <i class="fa fa-spinner fa-spin fa-1x process"></i></button> -->
+          {% endif %}
+      </div>
+    </article>
+  {% endfor %}
+</section>
+{% if issues.has_next %}
+  <div class="paginator">
+    <a class="more-issues-link" href="?page={{ issues.next_page_number }}">
+      More
+    </a>
+  </div>
+{% endif %}
 {% endblock body_content %}
-
 {% block js_extra %}
 <script type="text/javascript">
     $(document).ready(function(){
         $(".process").hide();
         $(".request").click(function(e){
             e.preventDefault();
-
             {% if not request.user.is_authenticated %}
                 alert("You need to register before requesting verification.");
             {% else %}
@@ -125,13 +128,11 @@
                 }
             {% endif %}
         });
-
         $('.delete').click(function(e){
             e.preventDefault();
             var issue = $(this).closest('.single-issue');
             var issue_id = $(".issue-info", issue).attr('issue-id');
             var csrf = $(".single-issue").attr('csrf');
-
             $.ajax({
                 url:'remove_issue',
                 data:{
