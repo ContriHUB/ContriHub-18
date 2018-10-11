@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import (HttpResponse, HttpResponseBadRequest,
-                         HttpResponseForbidden) 
-from django.template.context_processors import csrf  
+                         HttpResponseForbidden)
+from django.template.context_processors import csrf
 from django.core.mail import send_mail
 from django.conf import settings as django_settings
 from django.shortcuts import get_object_or_404, render, redirect
@@ -47,7 +47,7 @@ def profile(request, username):
 								'prs_pending': prs_pending,
 								'prs_vclosed': prs_vclosed,
 								'prs_unvclosed': prs_unvclosed,
-								}) 
+								})
 	elif request.user == user:
 		print('its a mentor')
 		all_prs			  = Prs.objects.all().filter(issue__mentor=user)
@@ -61,10 +61,10 @@ def profile(request, username):
 								'prs_pending': prs_pending,
 								'prs_vclosed': prs_vclosed,
 								'prs_unvclosed': prs_unvclosed,
-								}) 
+								})
 	else: return redirect("home")
 
- 
+
 def request_pr(request):
 	print('request_pr')
 	if request.method=='POST' and request.user.profile.role=='student':
@@ -73,50 +73,50 @@ def request_pr(request):
 		print('issueid, pr_link',issue_id,pr_link)
 		issue = get_object_or_404(Issues,id=issue_id)
 		user=request.user
-		message='some unknow error occured error :('
-		message_pr="No Such Issue"
+		message='Some unknow error has occured :('
+		message_pr="No such issue"
 		if issue:
-			message_pr='Your request has been sent to '+issue.mentor.username+', mentor of this issue, soon you will see result of this PR'
+			message_pr='Your request has been sent to the mentor for this issue, ' + issue.mentor.username + '. You will see the result of this PR shortly.'
 			mentor = issue.mentor
 			title_issue = issue.title_issue
 			title_project = issue.title_project
 			link_project = issue.link_project
 			link_issue = issue.link_issue
-			level = issue.level 
+			level = issue.level
 			pr_link = pr_link
- 
-			
+
+
 			exist_pr = Prs.objects.all().filter(issue=issue, from_user=user, status=2)
 			if exist_pr:
-				message_pr = "You have already a pending pr for this issue. You can create PR"+\
-				" again only after your current PR is reviewed. You should try contacting Issue mentor "\
-				+ issue.mentor.username + " at "+ issue.mentor.email +"\nThank You."
+				message_pr = "You  already have a pending PR for this issue. You can create PR"+\
+				" again only after your current PR is reviewed. You should try contacting the issue mentor, "\
+				+ issue.mentor.username + " at "+ issue.mentor.email +"\n\nThank You."
 			else:
 				new_pr = Prs()
 				new_pr.issue = issue
 				new_pr.from_user = request.user
 				new_pr.status = 2
 				new_pr.pr_link = pr_link
-				new_pr.all_such_prs = new_pr.all_such_prs+1 
+				new_pr.all_such_prs = new_pr.all_such_prs+1
 				new_pr.save()
 
-				print('created a new pr with pr_id',new_pr.id)
-				
+				print('Created a new PR with pr_id',new_pr.id)
+
 				from_email = django_settings.EMAIL_HOST_USER
 				to_email = [issue.mentor.email]
 
-				subject = request.user.username + ' has requested to accept pr '
-				message = 'Hi '+mentor.username +' !'+'<br>'+'Here is a request for verifying a pr which you are mentoring.<br>'\
-						'Issue - <a href="'+link_issue+'">'+title_issue+'</a><br>'+\
-						'Project - <a href="'+link_project+'">'+title_project+'</a><br>'+\
-						'Check the pr here - <a href="'+pr_link+'">PR</a><br>'+\
-						'You can also visit your profile to see all pending requests and accept or reject them.<br><br>Cheers!!!'
+				subject = request.user.username + ' has requested you accept PR'
+				message = 'Hi '+ mentor.username + '!' + '<br>' + 'Here is a request for verifying a PR which you mentor.<br>'\
+						'Issue - <a href="' + link_issue+ '">' + title_issue + '</a><br>' +\
+						'Project - <a href="' + link_project + '">' + title_project + '</a><br>' +\
+						'Check the PR here - <a href="' + pr_link + '">PR</a><br>' +\
+						'You can also visit your <a href="https://contrihubs.herokuapp.com/'+ issue.mentor.username +'"> profile </a> to see all pending requests and accept or reject them.<br><br>Cheers!!!'
 						# 'Label - '+ level +'<br>'+\
 
-				send_mail(subject, message, from_email, to_email, fail_silently=False, html_message=message)        
+				send_mail(subject, message, from_email, to_email, fail_silently=False, html_message=message)
 		print(message_pr)
 		return HttpResponse(message_pr)
-	else: return HttpResponse("You should be a student for making PRS")
+	else: return HttpResponse("You should be a student for making PRs")
 
 
 def response_pr(request):
@@ -126,19 +126,38 @@ def response_pr(request):
 
 		#1-not attempted, 2-pending_for_verification, 3-verified_closed, 4-unverified_closed
 		if pr:
-			print('changing the status of pr')
+			print(pr.issue.mentor.username)
+			print('Changing the status of PR')
 			print('pr_status',pr.status)
 			if pr.status==2:
 				pr.status=3
 				pr.from_user.profile.points=pr.from_user.profile.points+pr.issue.points
-				print('changing the status to', 3 ,'and points to',pr.from_user.profile.points)
+				subject = pr.issue.mentor.username + ' has verified your PR'
+				var_msg = 'Congratulations. Your pull request has been verified by mentor, '
+				# print('Changing the status to', 3 ,'and points to',pr.from_user.profile.points)
 			elif pr.status==3:
 				pr.status=2
 				pr.from_user.profile.points=pr.from_user.profile.points-pr.issue.points
+				subject = pr.issue.mentor.username + ' has rejected your PR'
+				var_msg = 'Your pull request has been rejected by mentor, '
 			pr.save()
 			pr.from_user.save()
 			print('pr_status',pr.status)
-		else: print('pr doesnt exist')
+
+			from_email = django_settings.EMAIL_HOST_USER
+			to_email = [pr.from_user.email] #I'm not sure what the request object looks like so this may not be the correct notation
+
+			
+			message = 'Hi '+ pr.from_user.username + '!' + '<br>' +\
+					 var_msg +\
+					 pr.issue.mentor.username + '.<br>'+\
+                    'Issue - <a href="'+pr.issue.link_issue+'">'+pr.issue.title_issue+'</a><br>'+\
+                    'Project - <a href="'+pr.issue.link_project+'">'+pr.issue.title_project+'</a><br>'+\
+                    'Check the PR here - <a href="'+pr.pr_link+'">PR</a><br>'+\
+                    'You can also visit your <a href="https://contrihubs.herokuapp.com/'+ pr.from_user.username +'"> profile </a>to see all pending/rejected requests.<br><br>Cheers!!!'
+			
+			send_mail(subject, message, from_email, to_email, fail_silently=False, html_message=message)
+		else: print('PR doesn\'t exist')
 	return HttpResponse("success")
 
 def remove_issue(request):
@@ -152,8 +171,8 @@ def remove_issue(request):
 			issue.delete()
 			response="Successfully deleted the issue."
 		else:
-			response="You didn't create this issue.So this can not be deleted by you. Sorry :("
-		
+			response="You didn't create this issue so this can not be deleted by you. Sorry :("
+
 		return HttpResponse(response)
 
 def remove_pr(request):
@@ -162,15 +181,15 @@ def remove_pr(request):
 	response=""
 	if request.method=="POST":
 		pr_id=request.POST.get('pr_id')
-		print('searching if such pr exists with id',pr_id)
+		print('Searching if such PR exists with id',pr_id)
 		pr = get_object_or_404(Prs, id=pr_id)
-		print("pr id is",pr_id,user.username,pr.from_user.username)
+		print("PR ID is",pr_id,user.username,pr.from_user.username)
 		if pr.from_user == user:
 			pr.delete()
 			response="Successfully deleted this PR."
 		else:
-			response="You didn't create this PR.So this can not be deleted by you. Sorry :("
-		
+			response="You didn't create this PR. So this can not be deleted by you. Sorry :("
+
 		return HttpResponse(response)
 
 # def add_issue(request):
@@ -193,4 +212,3 @@ def remove_pr(request):
 #         issue.save()
 #     else:
 #         return redirect('home')
-
