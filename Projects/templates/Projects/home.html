@@ -35,7 +35,7 @@
                   <div class="card" style="width: 500px">
                     <div class="card-body">
                       <div class="card-title">
-                        <h4>{{forloop.counter}}. Issue - 
+                        <h4>{{forloop.counter0|add:issues.start_index}}. Issue -
                         <a href="{{issue.link_issue}}" class="issue_info" issue-id="{{issue.id}}"> {{issue.title_issue}}</a><h4>
                         {% if request.user == issue.mentor %}
                         <a href="#"><i class="fa fa-trash-o delete" style="float:right;"></i></a>     
@@ -75,6 +75,23 @@
       </div>
       {% endfor %}
 </div>
+    <div class="row justify-content-center"> <ul  class="pagination">
+            <li class="page-item">
+                {% if issues.has_previous %}
+                    <a href="?page=1"  class="btn btn-primary page-link">&laquo; first</a>
+                    <a href="?page={{ issues.previous_page_number }}" class="btn btn-success page-link">previous</a>
+                {% endif %}
+            </li>
+                <li class="page-item">
+                   <button class="btn" style="color:black;">Page {{ issues.number }} of {{ issues.paginator.num_pages }}</button>
+                </li>
+              <li class="page-item">
+                {% if issues.has_next %}
+                    <a href="?page={{ issues.next_page_number }}" class="btn btn-success page-link">next</a>
+                    <a href="?page={{ issues.paginator.num_pages }}" class="btn btn-primary page-link" style="float:right;">last &raquo;</a>
+                {% endif %}
+            </li class="page-item">
+        </ul></div>
 </div>
   
 {% endblock body_content %}
