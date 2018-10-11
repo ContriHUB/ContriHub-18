@@ -1,34 +1,84 @@
 # ContriHub-18
-ContriHUB is an event where we are expecting to get more and more people involved in Open Source activities.
-
-
-### Instructions to run locally
-
-1. Install Python and some dev tools for Python 
-  - `$ sudo apt-get install python-pip python-dev build-essential`
-  - `$ apt install Python3.6`
-  - `use easy_install for older versions of ubuntu e.g -$ easy_install python3-pip`
   
-2. Install Pip
-  - `$ apt install python3-pip`
+  ContriHUB is an event where we are expecting to get more and more people involved in Open Source activities.
 
-3. Install other requirements given in requirements.txt file`
-  - `$ pip install requirements.txt`
+### Instructions to run Project locally
 
-4. Modify database engine,
-  - `Comment line 100-114 in settings.py` 
-  - `uncomment line 115-120`
-  - `save changes`
+## Linux
 
-5. sync db
-  - `$ python manage.py makemigrations`
-  - `$ python manage.py migrate`
+  #### Installing Python.
+    - `$ sudo apt-get install python-pip python-dev build-essential`
+    - `$ apt install Python3.6`
+    - `use easy_install for older versions of ubuntu e.g -$ easy_install python3-pip`
+    - `$ apt install python3-pip`
+    
+  #### Creating virtual environment activating and deactivating it
+    - `$ Here goes instructions`
+    
+  #### Installing all the requirements and mention if their are some exceptions while installations
+    - `$ pip install requirements.txt`
 
-6. runserver
-  - `$ Python manage.py runserver`
-  - `$ visit 127.0.0.1:8000`
+  #### Any changes if required in ContriHub/settings.py for running project in local like tell how to setup some environment        variables used in ContriHub/settings.py file.
 
-7. Done :-)
+  #### How to setup(Install/create_db/configure) different databases like Postgresql, Mysql, sqlite.
+    - `As per current settings you don't need to make any change in settings.py if you don't have an environment variable set       as 'DATABASE_URL' ` 
+    - `$ python manage.py makemigrations`
+    - `$ python manage.py migrate`
+    
+  #### Running Project
+    - `$ Python manage.py runserver`
+    - `$ visit 127.0.0.1:8000`
+
+  #### How to deploy?
+    - `$ Here goes instructions`
+    
+
+## Windows
+
+  #### Installing Python.
+    - `$ Here goes instructions`
+    
+  #### Creating virtual environment activating and deactivating it
+    - `$ Here goes instructions`
+
+  #### Installing all the requirements and mention if their are some exceptions while installations
+    - `$ Here goes instructions`
+
+  #### Any changes if required in ContriHub/settings.py for running project in local like tell how to setup some environment        variables used in ContriHub/settings.py file.
+    - `$ Here goes instructions`
+    
+  #### How to setup(Install/create_db/configure) different databases like Postgresql, Mysql, sqlite.
+    - `$ Here goes instructions`
+    
+  #### Running Project
+    - `$ Here goes instructions`
+
+  #### How to deploy?
+    - `$ Here goes instructions`
+    
+    
+## Mac
+
+  #### Installing Python.
+    - `$ Here goes instructions`
+    
+  #### Creating virtual environment activating and deactivating it
+    - `$ Here goes instructions`
+
+  #### Installing all the requirements and mention if their are some exceptions while installations
+    - `$ Here goes instructions`
+
+  #### Any changes if required in ContriHub/settings.py for running project in local like tell how to setup some environment        variables used in ContriHub/settings.py file.
+    - `$ Here goes instructions`
+    
+  #### How to setup(Install/create_db/configure) different databases like Postgresql, Mysql, sqlite.
+    - `$ Here goes instructions`
+    
+  #### Running Project
+    - `$ Here goes instructions`
+
+  #### How to deploy?
+    - `$ Here goes instructions`
 
 
 Deploy on Heroku - 
