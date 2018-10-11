@@ -1,17 +1,34 @@
-.single_issue {
-  border-radius: 30px;
-  font-size: 16px;
-  font-weight: bold;
-  margin-bottom: 5px;
-  padding: 10px;
-  z-index: 2;
+.issues-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 70px;
 }
 
-.request_item input {
-  border-radius: 6px;
-  font-size: 13px;
-  font-weight: normal;
-  margin: 2px;
+.issues-container ol {
+  padding-left: 15px;
+}
+
+.issues-container .card .card-footer {
+  background-color: transparent;
+  text-align: center;
+}
+
+.single-issue {
+  max-width: 500px;
+  padding: 10px;
+}
+
+.single-issue:not(:last-child) {
+  margin-bottom: 15px;
+}
+
+.single-issue .delete {
+  float: right;
+}
+
+.single-issue .request {
+  display: block;
+  margin: 0 auto;
 }
 
 .notice {
