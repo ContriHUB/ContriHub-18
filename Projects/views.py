@@ -13,7 +13,7 @@ from .models import Issues,Prs
 
 def home(request):
     issues = Issues.objects.all().order_by('points')
-    paginator = Paginator(issues, 25) # Show 25 issues per page
+    paginator = Paginator(issues, 15) # Show 25 issues per page
     page = request.GET.get('page', 1)
     try:
         issues = paginator.get_page(page)
@@ -175,11 +175,7 @@ def remove_issue(request):
 			issue.delete()
 			response="Successfully deleted the issue."
 		else:
-<<<<<<< HEAD
-			response="You didn't create this issue so this can not be deleted by you. Sorry :("
-=======
 			response="You didn't create this issue.So this can not be deleted by you. Sorry :("
->>>>>>> ed4ec76e0e1b37df08b49dddff58711696351a99
 
 		return HttpResponse(response)
 
@@ -196,11 +192,7 @@ def remove_pr(request):
 			pr.delete()
 			response="Successfully deleted this PR."
 		else:
-<<<<<<< HEAD
 			response="You didn't create this PR. So this can not be deleted by you. Sorry :("
-=======
-			response="You didn't create this PR.So this can not be deleted by you. Sorry :("
->>>>>>> ed4ec76e0e1b37df08b49dddff58711696351a99
 
 		return HttpResponse(response)
 
