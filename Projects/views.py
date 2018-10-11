@@ -110,7 +110,7 @@ def request_pr(request):
 						'Issue - <a href="' + link_issue+ '">' + title_issue + '</a><br>' +\
 						'Project - <a href="' + link_project + '">' + title_project + '</a><br>' +\
 						'Check the PR here - <a href="' + pr_link + '">PR</a><br>' +\
-						'You can also visit your profile to see all pending requests and accept or reject them.<br><br>Cheers!!!'
+						'You can also visit your <a href="https://contrihubs.herokuapp.com/'+ issue.mentor.username +'"> profile </a> to see all pending requests and accept or reject them.<br><br>Cheers!!!'
 						# 'Label - '+ level +'<br>'+\
 
 				send_mail(subject, message, from_email, to_email, fail_silently=False, html_message=message)
@@ -126,29 +126,37 @@ def response_pr(request):
 
 		#1-not attempted, 2-pending_for_verification, 3-verified_closed, 4-unverified_closed
 		if pr:
+			print(pr.issue.mentor.username)
 			print('Changing the status of PR')
 			print('pr_status',pr.status)
 			if pr.status==2:
 				pr.status=3
 				pr.from_user.profile.points=pr.from_user.profile.points+pr.issue.points
-				print('Changing the status to', 3 ,'and points to',pr.from_user.profile.points)
+				subject = pr.issue.mentor.username + ' has verified your PR'
+				var_msg = 'Congratulations. Your pull request has been verified by mentor, '
+				# print('Changing the status to', 3 ,'and points to',pr.from_user.profile.points)
 			elif pr.status==3:
 				pr.status=2
 				pr.from_user.profile.points=pr.from_user.profile.points-pr.issue.points
+				subject = pr.issue.mentor.username + ' has rejected your PR'
+				var_msg = 'Your pull request has been rejected by mentor, '
 			pr.save()
 			pr.from_user.save()
 			print('pr_status',pr.status)
 
-            from_email = django_settings.EMAIL_HOST_USER
-            to_email = [request.user.email] #I'm not sure what the request object looks like so this may not be the correct notation
+			from_email = django_settings.EMAIL_HOST_USER
+			to_email = [pr.from_user.email] #I'm not sure what the request object looks like so this may not be the correct notation
 
-            subject = mentor.username + ' has verified your PR'
-            message = 'Hi '+ request.user.username + '!' + '<br>' + 'Congratulations. Your pull request has been verified by your mentor, ' + mentor.username + '.<br>'\
-                    'Issue - <a href="'+link_issue+'">'+title_issue+'</a><br>'+\
-                    'Project - <a href="'+link_project+'">'+title_project+'</a><br>'+\
-                    'Check the PR here - <a href="'+pr_link+'">PR</a><br>'+\
-                    'You can also visit your profile to see all pending requests and accept or reject them.<br><br>Cheers!!!'
-            send_mail(subject, message, from_email, to_email, fail_silently=False, html_message=message)
+			
+			message = 'Hi '+ pr.from_user.username + '!' + '<br>' +\
+					 var_msg +\
+					 pr.issue.mentor.username + '.<br>'+\
+                    'Issue - <a href="'+pr.issue.link_issue+'">'+pr.issue.title_issue+'</a><br>'+\
+                    'Project - <a href="'+pr.issue.link_project+'">'+pr.issue.title_project+'</a><br>'+\
+                    'Check the PR here - <a href="'+pr.pr_link+'">PR</a><br>'+\
+                    'You can also visit your <a href="https://contrihubs.herokuapp.com/'+ pr.from_user.username +'"> profile </a>to see all pending/rejected requests.<br><br>Cheers!!!'
+			
+			send_mail(subject, message, from_email, to_email, fail_silently=False, html_message=message)
 		else: print('PR doesn\'t exist')
 	return HttpResponse("success")
 
