@@ -25,14 +25,6 @@ def home(request):
 
 def leaderboard(request):
 	users = User.objects.all().filter(profile__role='student').order_by('-profile__points')
-	# paginator = Paginator(users, 10) # Show 15 users per page
-	# page = request.GET.get('page', 1)
-	# try:
-	# 	users = paginator.get_page(page)
-	# except PageNotAnInteger:
-	# 	users = paginator.get_page(1)
-	# except EmptyPage:
-	# 	users = paginator.get_page(paginator.num_pages)
 	return render(request, 'Projects/leaderboard.html', {'users': users})
 
 @login_required(login_url='signin')
