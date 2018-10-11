@@ -19,6 +19,7 @@
     <link href="{% static 'Projects/css/style.min.css' %}" rel="stylesheet">
 
     <link type="text/css" href="{% static 'Projects/css/base.css' %}" rel="stylesheet">
+    <link type="text/css" href="{% static 'Projects/css/issues.css' %}" rel="stylesheet">
 
 
     <title>
@@ -74,6 +75,9 @@
 {% endblock js_extra %}
 
     <script type="text/javascript" src="{% static 'Projects/js/jquery-3.3.1.min.js' %}"></script>
+    <!-- Waypoints  -->
+    <script type="text/javascript" src="{% static 'Projects/js/jquery.waypoints.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'Projects/js/addons/infinite.min.js' %}"></script>
     <!-- Bootstrap tooltips -->
     <script type="text/javascript" src="{% static 'Projects/js/popper.min.js' %}"></script>
     <!-- Bootstrap core JavaScript -->
@@ -86,8 +90,6 @@
     <script type="text/javascript">
       // Animations initialization
       new WOW().init();
-  </script>
-
+    </script>
 </body>
 </html>
-

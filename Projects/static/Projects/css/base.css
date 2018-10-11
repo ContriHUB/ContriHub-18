@@ -34,3 +34,13 @@ body {
         background: #1C2331!important;
     }
 }
+
+.pagination {
+  background-color: aliceblue;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 15px;
+  padding: 5px;
+  width: 400px;
+}
