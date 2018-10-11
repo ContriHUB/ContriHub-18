@@ -18,7 +18,7 @@
                   <div class="card" style="width: 500px">
                     <div class="card-body">
                       <div class="card-title">
-                        <h4>{{forloop.counter0|add:issues.start_index}}. Issue -
+                        <h4>{{forloop.counter}}. Issue -
                         <a href="{{issue.link_issue}}" class="issue_info" issue-id="{{issue.id}}"> {{issue.title_issue}}</a><h4>
                         {% if request.user == issue.mentor %}
                         <a href="#"><i class="fa fa-trash-o delete" style="float:right;"></i></a>     
