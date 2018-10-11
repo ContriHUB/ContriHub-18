@@ -1,4 +1,14 @@
-{% extends "Projects/base.html" %} {% load staticfiles %} {% block title_extra %}Home - {% endblock title_extra %} {% block head_extra %} {% endblock head_extra %} {% block body_content %} {% include 'Projects/navbar.html' %}
+{% extends "Projects/base.html" %} 
+{% load staticfiles %} 
+
+{% block title_extra %}Home - {% endblock title_extra %} 
+
+{% block head_extra %} 
+<link type="text/css" href="{% static 'Projects/css/issues.css' %}" rel="stylesheet">
+{% endblock head_extra %} 
+
+{% block body_content %} 
+{% include 'Projects/navbar.html' %}
 <section class="container issues-container">
   <article class="card single-issue csrf="{{ csrf_token }}"">
     <div class="card-body">
@@ -72,6 +82,7 @@
   </div>
 {% endif %}
 {% endblock body_content %}
+
 {% block js_extra %}
 <script type="text/javascript">
     $(document).ready(function(){
