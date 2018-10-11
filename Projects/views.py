@@ -11,11 +11,7 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from .models import Issues,Prs
 
 def home(request):
-	issues = Issues.objects.all().order_by('points')
-	paginator = Paginator(issues, 4)  # Show 25 contacts per page
-	page = request.GET.get('page')
-	issues = paginator.get_page(page)
-
+	issues = Issues.objects.all()
 	return render(request, 'Projects/home.html', {'issues': issues})
 
 def leaderboard(request):

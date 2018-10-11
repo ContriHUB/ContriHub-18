@@ -41,7 +41,7 @@ urlpatterns = [
 
     #put such urls always after all
     path('<username>', profile, name='profile'),
-    path('accounts/',include('django.contrib.auth.urls')),
+
 ]
 # (?P<username>[^/]+)/
 
