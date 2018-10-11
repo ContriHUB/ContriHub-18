@@ -25,7 +25,7 @@ def home(request):
 
 def leaderboard(request):
 	users = User.objects.all().filter(profile__role='student').order_by('-profile__points')
-	paginator = Paginator(users, 15) # Show 15 users per page
+	paginator = Paginator(users, 35) # Show 15 users per page
 	page = request.GET.get('page', 1)
 	try:
 		users = paginator.get_page(page)
