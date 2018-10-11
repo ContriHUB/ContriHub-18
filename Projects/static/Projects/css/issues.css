@@ -1,7 +1,13 @@
 .issues-container {
+  align-items: center;
   display: flex;
   flex-direction: column;
+  justify-content: space-around;
   margin-top: 70px;
+}
+
+.issues-container p {
+  margin: 0;
 }
 
 .issues-container ol {
@@ -14,12 +20,11 @@
 }
 
 .single-issue {
+  min-height: 310px;
+  margin-bottom: 15px;
   max-width: 500px;
   padding: 10px;
-}
-
-.single-issue:not(:last-child) {
-  margin-bottom: 15px;
+  width: 100%;
 }
 
 .single-issue .delete {
@@ -33,4 +38,17 @@
 
 .notice {
   font-size: 16px;
+}
+
+@media screen and (min-width: 576px) {
+  .issues-container {
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 75px;
+  }
+
+  .single-issue {
+    min-height: 330px;
+    width: 500px;
+  }
 }

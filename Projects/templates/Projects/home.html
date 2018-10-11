@@ -1,6 +1,6 @@
 {% extends "Projects/base.html" %} {% load staticfiles %} {% block title_extra %}Home - {% endblock title_extra %} {% block head_extra %} {% endblock head_extra %} {% block body_content %} {% include 'Projects/navbar.html' %}
-<div class="container issues-container">
-  <div class="card single-issue csrf="{{ csrf_token }}"">
+<section class="container issues-container">
+  <article class="card single-issue csrf="{{ csrf_token }}"">
     <div class="card-body">
       <div class="card-title">
         <h4>Announcements</h4>
@@ -23,55 +23,54 @@
         </a>
       </div>
     </div>
-  </div>
-
+  </article>
   {% for issue in issues %}
-   <div class="card single-issue" csrf="{{ csrf_token }}">
-     <div class="card-body">
-         <div class="card-title">
-           <h4>{{forloop.counter}}. Issue -
-             <a href="{{issue.link_issue}}" class="issue-info" issue-id="{{issue.id}}">
-               {{issue.title_issue}}
-             </a>
-           <h4>
-           {% if request.user == issue.mentor %}
-            <a href="#"><i class="fa fa-trash-o delete"></i></a>
-           {% endif %}
-         </div>
-         <div class="card-text">
-           <p>
-             Project - <a href="{{issue.link_project}}"> {{issue.title_project}}</a><br />
-             Mentor - <a href="https://github.cpm/{{issue.mentor}}"> {{issue.mentor}}</a><br />
-             Label -
-                 {% if issue.level == 1 %}
-                     Easy
-                 {% elif issue.level == 2 %}
-                     Medium
-                 {% elif issue.level == 3 %}
-                     Hard
-                 {% endif %}<br />
-            Expected Points - {{issue.points}}<br />
-           </p>
-         </div>
-         {% if request.user.profile.role != 'mentor'  %}
-           <div class="md-form">
-             <input type="text" name="pr_link" id="form3" class="form-control" required="true">
-             <label for="form3">Paste your PR link here</label>
-           </div>
-           <button class="request btn btn-deep-orange"> request for verification </button>
-           <!-- <i class="fa fa-spinner fa-spin fa-1x process"></i></button> -->
-         {% endif %}
-     </div>
-   </div>
+    <article class="card single-issue issue-list-item" csrf="{{ csrf_token }}">
+      <div class="card-body">
+          <div class="card-title">
+            <h4>{{forloop.counter}}. Issue -
+              <a href="{{issue.link_issue}}" class="issue-info" issue-id="{{issue.id}}">
+                {{issue.title_issue}}
+              </a>
+            <h4>
+            {% if request.user == issue.mentor %}
+             <a href="#"><i class="fa fa-trash-o delete"></i></a>
+            {% endif %}
+          </div>
+          <div class="card-text">
+            <p>
+              Project - <a href="{{issue.link_project}}"> {{issue.title_project}}</a><br />
+              Mentor - <a href="https://github.cpm/{{issue.mentor}}"> {{issue.mentor}}</a><br />
+              Label -
+                  {% if issue.level == 1 %}
+                      Easy
+                  {% elif issue.level == 2 %}
+                      Medium
+                  {% elif issue.level == 3 %}
+                      Hard
+                  {% endif %}<br />
+             Expected Points - {{issue.points}}<br />
+            </p>
+          </div>
+          {% if request.user.profile.role != 'mentor'  %}
+            <div class="md-form">
+              <input type="text" name="pr_link" id="form3" class="form-control" required="true">
+              <label for="form3">Paste your PR link here</label>
+            </div>
+            <button class="request btn btn-deep-orange"> request for verification </button>
+            <!-- <i class="fa fa-spinner fa-spin fa-1x process"></i></button> -->
+          {% endif %}
+      </div>
+    </article>
   {% endfor %}
-
-  {% if issues.has_next %}
+</section>
+{% if issues.has_next %}
+  <div class="paginator">
     <a class="more-issues-link" href="?page={{ issues.next_page_number }}">
       More
     </a>
-  {% endif %}
-</div>
-
+  </div>
+{% endif %}
 {% endblock body_content %}
 {% block js_extra %}
 <script type="text/javascript">
@@ -147,7 +146,7 @@
         });
         var infiniteScroll = new Waypoint.Infinite({
           element: $('.issues-container')[0],
-          items: '.single-issue',
+          items: '.issue-list-item',
           loadingClass: 'more-issues-loading',
           more: '.more-issues-link'
         });

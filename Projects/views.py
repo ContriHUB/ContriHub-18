@@ -13,7 +13,7 @@ from .models import Issues,Prs
 
 def home(request):
     issues = Issues.objects.all().order_by('points')
-    paginator = Paginator(issues, 3) # Show 25 contacts per page
+    paginator = Paginator(issues, 25) # Show 25 contacts per page
     page = request.GET.get('page', 1)
     try:
         issues = paginator.get_page(page)
