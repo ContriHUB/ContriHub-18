@@ -14,7 +14,7 @@
 <div class="container users-container">
   <div class="card" style="margin-top: 100px">
 
-    <div class="card-body users-list-item" style="margin-bottom:20px">
+    <div class="card-body" style="margin-bottom:20px">
       <table class="table table-hover">
         <thead class="thead-dark">
           <tr>
@@ -25,7 +25,7 @@
         </thead>
         <tbody>
           {% for user in users %}
-            <tr>
+            <tr class="users-list-item">
               <th scope="row">{{forloop.counter}}</th>
               <td><a href="https://github.com/{{user.username}}">{{user.username}}</a></td>
               <td>{{user.profile.points}}</td>
