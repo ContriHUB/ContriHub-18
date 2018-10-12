@@ -52,8 +52,8 @@ def profile(request, username):
 								'prs_vclosed': prs_vclosed,
 								'prs_unvclosed': prs_unvclosed,
 								})
-	elif request.user == user:
-		print('its a mentor')
+	elif request.user.profile.role == 'mentor' and request.user.is_staff:
+		print('its a mentor and staff status approved')
 		all_prs			  = Prs.objects.all().filter(issue__mentor=user)
 		prs_vclosed       = Prs.objects.all().filter(issue__mentor=user, status=3)
 		prs_unvclosed     = Prs.objects.all().filter(issue__mentor=user, status=4)
