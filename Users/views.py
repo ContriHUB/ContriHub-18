@@ -13,20 +13,29 @@ def signin(request):
     if request.method == 'POST': 
         username = request.POST.get('username')
         password = request.POST.get('password')
-
+        error_signin = False 
+        error_password = False
         user = User.objects.all().filter(username=username)
         if user:
             print('user exists')
-            user = User.objects.all().filter(username=username)[0]
+            user = User.objects.all().filter(username=username)[0]                
+            try:
+                user = authenticate(username=username, password=password)
+                login(request, user)
+                return redirect('home')
+            except:
+                print('password is wrong')
+                error_password = True
             # if not user.is_active:
             #     error_inactive = True
             #     return render(request,'registration/login.html',{'error_inactive':error_inactive})            
             # else:
-            login(request, user)
-            return redirect('home')
         if not user:
             error_signin = True
-            return render(request,'registration/login.html',{'error_signin':error_signin})
+            return render(request,'registration/login.html',{
+                            'error_signin':error_signin, 
+                            'error_password':error_password
+                        })
 
     else: return render(request,'registration/login.html',{})
 
