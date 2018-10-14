@@ -20,7 +20,9 @@
                 </div>
                 
                 <div class="signin">
-                    {% if error_signin %}
+                    {% if error_password %}
+                        <span class="error_register">Wrong Password :-(</span>
+                    {% elif error_signin %}
                         <span class="error_signin">There is no user with this username, You need to register first!</span>
                     {% elif error_inactive %}
                     <span class="error_signin">You are a mentor and you are yet to be verified, contact 
