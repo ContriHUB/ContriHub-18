@@ -19,11 +19,12 @@ def signin(request):
         if user:
             print('user exists')
             user = User.objects.all().filter(username=username)[0]                
-            try:
-                user = authenticate(username=username, password=password)
+            # authenticate returns None if password is wrong
+            user = authenticate(username=username, password=password)
+            if user is not None:
                 login(request, user)
                 return redirect('home')
-            except:
+            else:
                 print('password is wrong')
                 error_password = True
             # if not user.is_active:
