@@ -27,9 +27,9 @@ from Users.views import (signin,register)
 urlpatterns = [
     path('cooladmins', admin.site.urls),
     path('', home, name='home'),
-    path('signin', signin , name='signin'), 
+    path('signin', signin , name='signin'),
     path('register', register , name='register'), 
-    path('logout', LogoutView.as_view(), {'next_page': 'signin'}, name='logout'),
+    path('logout', LogoutView.as_view(), {'next_page': '/'}, name='logout'),
 
     # path('api/github_webhook/', views.github_webhook, name='github_webhook')
     path('request_pr', request_pr , name='request_pr'),
