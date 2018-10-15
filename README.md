@@ -13,7 +13,15 @@
     - `$ apt install python3-pip`
     
   #### Creating virtual environment activating and deactivating it
-    - `$ Here goes instructions`
+	## Creating Virtual environment
+	# Python 2:
+    - `$ virtualenv env`
+  # Python 3:
+    - `$ python3 -m venv env`
+  ## Activating virtual environment
+  	- `$ source env/bin/activate`
+  ## Deactivating virtual environment
+  	- `(env) $ deactivate`
     
   #### Installing all the requirements and mention if their are some exceptions while installations
     - `$ pip install requirements.txt`
@@ -36,22 +44,36 @@
 ## Windows
 
   #### Installing Python.
-    - `$ Here goes instructions`
+    - `download python-X.exe file from [Download](https://www.python.org/downloads/) page of official website`
+    - `double click the downloaded file`
+    - `the setup installation wizard will guide you through installation process`
+    - `Ensure that python.exe is added to PATH. Adding Python to the PATH will allow you to call if from the command line.`
+    - `Installing pip`
+    - `Download [get-pip.py](https://bootstrap.pypa.io/get-pip.py)  being careful to save it as a .py file rather than .txt. Then, run it from the command prompt:`
+    - `$ python get-pip.py`
     
   #### Creating virtual environment activating and deactivating it
-    - `$ Here goes instructions`
+    - `Install virtualenv package `
+    - `$ pip install virtualenv`
+    - `Creating virtual environment`
+    - `$ mkvirtualenv *env_name*`
+    - `Activating virtual environment`
+    - `$ setprojectdir .`
+    - `Deactivating virtual environment`
+    - `$ deactivate`
+    
 
   #### Installing all the requirements and mention if their are some exceptions while installations
-    - `$ Here goes instructions`
+	- `run the command from cmd`
+    - `$ pip install -r requirements.txt`
 
   #### Any changes if required in ContriHub/settings.py for running project in local like tell how to setup some environment        variables used in ContriHub/settings.py file.
-    - `$ Here goes instructions`
     
   #### How to setup(Install/create_db/configure) different databases like Postgresql, Mysql, sqlite.
     - `$ Here goes instructions`
     
   #### Running Project
-    - `$ Here goes instructions`
+    - `$ Python manage.py runserver`
 
   #### How to deploy?
     - `$ Here goes instructions`
@@ -60,13 +82,24 @@
 ## Mac
 
   #### Installing Python.
-    - `$ Here goes instructions`
+    - `Install XCode from Apple store`
+    - `open Terminal and install *Homebrew* and then install python`
+    - `$ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
+    - `$ brew install python`
     
   #### Creating virtual environment activating and deactivating it
-    - `$ Here goes instructions`
+    - `Installing virtual environment`
+    - `pip install virtualenv`
+    - `Create a virtual environment for a project:`
+	- `$ cd my_project_folder`
+	- `$ virtualenv my_project`
+	- `Activating virtual environment`
+	- `$ source my_project/bin/activate`
+	- `deactivating virtual environment`
+	- `$ deactivate`
 
   #### Installing all the requirements and mention if their are some exceptions while installations
-    - `$ Here goes instructions`
+    - `$ pip install -r requirements.txt`
 
   #### Any changes if required in ContriHub/settings.py for running project in local like tell how to setup some environment        variables used in ContriHub/settings.py file.
     - `$ Here goes instructions`

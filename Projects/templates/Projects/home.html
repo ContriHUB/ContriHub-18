@@ -45,7 +45,7 @@
     <article class="card single-issue issue-list-item" csrf="{{ csrf_token }}">
       <div class="card-body">
           <div class="card-title">
-            <h4>{{forloop.counter}}. Issue -
+            <h4>{{forloop.counter0|add:issues.start_index}}. Issue -
               <a href="{{issue.link_issue}}" class="issue-info" issue-id="{{issue.id}}">
                 {{issue.title_issue}}
               </a>
@@ -71,8 +71,8 @@
           </div>
           {% if request.user.profile.role != 'mentor'  %}
             <div class="md-form">
-              <input type="text" name="pr_link" id="form3" class="form-control" required="true">
-              <label for="form3">Paste your PR link here</label>
+              <input type="text" name="pr_link" id="form3" class="form-control" required="true" placeholder="Paste your PR link here">
+
             </div>
             <button class="request btn btn-deep-orange"> request for verification </button>
             <!-- <i class="fa fa-spinner fa-spin fa-1x process"></i></button> -->
