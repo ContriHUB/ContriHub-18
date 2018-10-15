@@ -11,7 +11,7 @@ $(document).ready(function() {
     var pr_id = $(".pr_info", pr).attr("pr-id");
     var csrf = $(".ppr").attr("csrf");
     // $(".process",this).show();
-
+    console.log("csrf = "+csrf);
     $.ajax({
       url: "response_pr",
       data: {
@@ -84,6 +84,7 @@ $(document).ready(function() {
     var pr_id = $(".pr_info", pr).attr("pr-id");
     var csrf = $(".ppr").attr("csrf");
     console.log("pr_id " + pr_id);
+    console.log("csrf = "+csrf);
     $.ajax({
       url: "remove_pr",
       data: {
