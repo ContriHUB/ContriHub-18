@@ -38,32 +38,6 @@ $(document).ready(function() {
     });
   });
 
-  $(".delete").click(function(e) {
-    e.preventDefault();
-    var pr = $(this).closest(".ind_pr");
-    var pr_id = $(".pr_info", pr).attr("pr-id");
-    var csrf = $(".ppr").attr("csrf");
-    console.log("pr_id " + pr_id);
-    $.ajax({
-      url: "remove_pr",
-      data: {
-        pr_id: pr_id,
-        csrfmiddlewaretoken: csrf
-      },
-      type: "post",
-      cache: false,
-      beforeSend: function() {
-        //alert("Requesting server ...");
-      },
-      success: function(data) {
-        if (data) {
-          alert(data);
-          document.location.reload();
-        }
-      }
-    });
-  });
-
   $(".all").click(function() {
     $(".issues_all").show();
     $(".prs_pending").hide();
@@ -104,4 +78,29 @@ $(document).ready(function() {
     $(".prs_unvclosed").hide();
   }); 
 
+  $(".delete").click(function(e) {
+    e.preventDefault();
+    var pr = $(this).closest(".ind_pr");
+    var pr_id = $(".pr_info", pr).attr("pr-id");
+    var csrf = $(".ppr").attr("csrf");
+    console.log("pr_id " + pr_id);
+    $.ajax({
+      url: "remove_pr",
+      data: {
+        pr_id: pr_id,
+        csrfmiddlewaretoken: csrf
+      },
+      type: "post",
+      cache: false,
+      beforeSend: function() {
+        //alert("Requesting server ...");
+      },
+      success: function(data) {
+        if (data) {
+          alert(data);
+          document.location.reload();
+        }
+      }
+    });
+  });
 });
