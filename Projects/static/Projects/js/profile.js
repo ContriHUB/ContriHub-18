@@ -5,7 +5,6 @@ $(document).ready(function() {
   $(".prs_vclosed").hide();
   $(".prs_unvclosed").hide();
 
-  
   $(".vclose,.unvclose").click(function(e) {
     e.preventDefault();
     var pr = $(this).closest(".ppr");
@@ -81,7 +80,7 @@ $(document).ready(function() {
 
   $(".delete").click(function(e) {
     e.preventDefault();
-    var pr = $(this).closest(".pp");
+    var pr = $(this).closest(".ppr");
     var pr_id = $(".pr_info", pr).attr("pr-id");
     var csrf = $(".ppr").attr("csrf");
     console.log("pr_id " + pr_id);
