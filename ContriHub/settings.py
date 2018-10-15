@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 import django_heroku
 import os
 from unipath import Path
-from decouple import config, Csv
+# from decouple import config, Csv
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = Path(__file__).parent
@@ -119,24 +119,24 @@ if 'DATABASE_URL' in os.environ: #this is for heroku
 else: 
     #this is for local you need not to make any changes here, 
     # it'll work unless you are sure about how to setup postgres/mysql etc    
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        }
-    }
-    #An example how you can setup postgres sql in local, create a postgres db and provide relevant details in this format
-    # DB_PASS = os.environ.get('CONTRIHUB_PASS', "")
     # DATABASES = {
     #     'default': {
-    #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    #         'NAME': 'contrihub_db',
-    #         'USER': 'contrihub_user',
-    #         'PASSWORD': DB_PASS,
-    #         'HOST': 'localhost',
-    #         'PORT': '',
+    #         'ENGINE': 'django.db.backends.sqlite3',
+    #         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     #     }
     # }
+    #An example how you can setup postgres sql in local, create a postgres db and provide relevant details in this format
+    DB_PASS = os.environ.get('CONTRIHUB_PASS', "")
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'contrihub_db',
+            'USER': 'postgres',
+            'PASSWORD': 'lodulodu',
+            'HOST': 'localhost',
+            'PORT': '5433',
+        }
+    }
 
 
 # Password validation
@@ -206,20 +206,20 @@ FILE_UPLOAD_PERMISSIONS = 0o644
 #added to host on heroku
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
-import netifaces
-
-# Find out what the IP addresses are at run time
-# This is necessary because otherwise Gunicorn will reject the connections
-def ip_addresses():
-    ip_list = []
-    for interface in netifaces.interfaces():
-        addrs = netifaces.ifaddresses(interface)
-        for x in (netifaces.AF_INET, netifaces.AF_INET6):
-            if x in addrs:
-                ip_list.append(addrs[x][0]['addr'])
-    return ip_list
-
-# Discover our IP address
-ALLOWED_HOSTS += ip_addresses()
-
-django_heroku.settings(locals())
+# import netifaces
+#
+# # Find out what the IP addresses are at run time
+# # This is necessary because otherwise Gunicorn will reject the connections
+# def ip_addresses():
+#     ip_list = []
+#     for interface in netifaces.interfaces():
+#         addrs = netifaces.ifaddresses(interface)
+#         for x in (netifaces.AF_INET, netifaces.AF_INET6):
+#             if x in addrs:
+#                 ip_list.append(addrs[x][0]['addr'])
+#     return ip_list
+#
+# # Discover our IP address
+# ALLOWED_HOSTS += ip_addresses()
+#
+# django_heroku.settings(locals())
