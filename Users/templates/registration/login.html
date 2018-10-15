@@ -56,6 +56,8 @@
                 <div class="signup">
                     {% if error_register %}
                         <span class="error_register">User with this username already exists!</span>
+			{% elif error_pass %}
+                        	<span class="error_pass">Password didnt match!</span>
                     {% endif %}
 
                     <form action="{% url 'register' %}" class="form_register" method="post" autocomplete="off">
@@ -68,9 +70,13 @@
                             <input type="password" name="password" id="form4" class="form-control" required="true">
                             <label for="form4">Password</label>
                         </div>
+			<div class="md-form">
+                            <input type="password" name="confirmPassword" id="form5" class="form-control" required="true">
+                            <label for="form5">Confirm Password</label>
+                        </div>
                         <div class="md-form">
-                            <input type="text" name="email" id="form5" class="form-control" required="true">
-                            <label for="form5">Email Address</label>
+                            <input type="text" name="email" id="form6" class="form-control" required="true">
+                            <label for="form6">Email Address</label>
                         </div>
                         <br>
                         <div class="input-field">
@@ -109,7 +115,7 @@
 
 
 {% block js_extra %}
-{% if error_register %}
+{% if error_register  or error_pass%}
     <script>
         $(document).ready(function(){
             $(".signin").hide();
