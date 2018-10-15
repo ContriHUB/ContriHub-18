@@ -5,6 +5,7 @@ $(document).ready(function() {
   $(".prs_vclosed").hide();
   $(".prs_unvclosed").hide();
 
+  
   $(".vclose,.unvclose").click(function(e) {
     e.preventDefault();
     var pr = $(this).closest(".ppr");
