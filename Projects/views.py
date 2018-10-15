@@ -158,8 +158,8 @@ def response_pr(request):
                     'Issue - <a href="'+pr.issue.link_issue+'">'+pr.issue.title_issue+'</a><br>'+\
                     'Project - <a href="'+pr.issue.link_project+'">'+pr.issue.title_project+'</a><br>'+\
                     'Check the PR here - <a href="'+pr.pr_link+'">PR</a><br>'+\
-                    'You can also visit your <a href="https://contrihubs.herokuapp.com/'+ pr.from_user.username +'"> profile </a>to see all pending/rejected requests.<br><br>Cheers!!!'
-			
+					'You can also visit your <a href="https://contrihubs.herokuapp.com/'+ pr.from_user.username +'"> profile </a> to see all pending/rejected requests.<br><br>Cheers!!!'
+								
 			send_mail(subject, message, from_email, to_email, fail_silently=False, html_message=message)
 		else: print('PR doesn\'t exist')
 	return HttpResponse("success")
