@@ -12,16 +12,47 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from .models import Issues,Prs
 
 def home(request):
-	issues = Issues.objects.all().order_by('points')
-	paginator = Paginator(issues, 15) # Show 15 issues per page
-	page = request.GET.get('page', 1)
-	try:
-		issues = paginator.get_page(page)
-	except PageNotAnInteger:
-		issues = paginator.get_page(1)
-	except EmptyPage:
-		issues = paginator.get_page(paginator.num_pages)
-	return render(request, 'Projects/home.html', {'issues':issues})
+	if request.method == 'POST':
+		# Getting value of the clicked option
+		val = request.POST['value']
+
+		print(val)
+		# First it checks for project name
+		issues = Issues.objects.filter(title_project=val)
+		# Then it goes for mentor name
+		if (issues.count() == 0):
+			try:
+				mentor = User.objects.get(username=val)
+				issues = Issues.objects.filter(mentor=mentor)
+			# else ordered point wise
+			except User.DoesNotExist:
+				issues = Issues.objects.all().order_by('points')
+
+		paginator = Paginator(issues, 15)  # Show 15 issues per page
+		page = request.GET.get('page', 1)
+		try:
+			issues = paginator.get_page(page)
+		except PageNotAnInteger:
+			issues = paginator.get_page(1)
+		except EmptyPage:
+			issues = paginator.get_page(paginator.num_pages)
+		return render(request, 'Projects/home.html', {'issues': issues})
+
+
+	# By default issues are ordered alphabetically
+	else:
+
+		issues = Issues.objects.all().order_by('title_issue')
+		paginator = Paginator(issues, 15)  # Show 15 issues per page
+		page = request.GET.get('page', 1)
+		try:
+			issues = paginator.get_page(page)
+		except PageNotAnInteger:
+			issues = paginator.get_page(1)
+		except EmptyPage:
+			issues = paginator.get_page(paginator.num_pages)
+		return render(request, 'Projects/home.html', {'issues': issues})
+
 
 def leaderboard(request):
 	users = User.objects.all().filter(profile__role='student').order_by('-profile__points')
