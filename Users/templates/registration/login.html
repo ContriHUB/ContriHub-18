@@ -113,7 +113,6 @@
 
 {% endblock body_content %}
 
-
 {% block js_extra %}
 {% if error_register  or error_pass%}
     <script>
@@ -129,19 +128,6 @@
     </script>    
 {% endif %}
 
-<script type="text/javascript">
-    $(document).ready(function(){
-        $(".signup_text").click(function () {
-            $(".signin").hide(); //$("#human").removeClass('bottom');
-            $(".signup").show();  //$("#product").addClass('bottom');
-        });
-        
-        $(".signin_text").click(function () {
-            $(".signup").hide(); //  $("#product").removeClass('bottom');
-            $(".signin").show();  // $("#human").addClass('bottom');
-        });
-
-        $('select').formSelect();
-    })      
+<script type="text/javascript" src = "/static/Users/js/login.js">      
 </script>
 {% endblock js_extra %}
