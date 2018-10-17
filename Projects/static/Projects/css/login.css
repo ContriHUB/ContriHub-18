@@ -1,4 +1,4 @@
-.error_signin, .error_register {
+.error_signin, .error_register, .error_pass {
     color:brown;
     padding: 2px;
     font-size: 12px;
