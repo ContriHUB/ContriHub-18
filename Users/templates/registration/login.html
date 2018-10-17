@@ -31,14 +31,14 @@
                         <a href="mailto:akshay31057@gmail.com">Akshay</a>
                     </span>
                     {% endif %}
-                    <form action="{% url 'signin' %}" class="form_login" method="post" autocomplete="off">
+                    <form action="{% url 'signin' %}" class="form_login" method="post">
                         {% csrf_token %}
                         <div class="md-form">
-                            <input type="text" name="username" id="form1" class="form-control" required="true">
+                            <input type="text" name="username" id="form1" class="form-control" required="true" autocomplete="off">
                             <label for="form1">GitHub Username</label>
                         </div>
                         <div class="md-form">
-                            <input type="password" name="password" id="form2" class="form-control" required="true">
+                            <input type="password" name="password" id="form2" class="form-control" required="true" autocomplete="off">
                             <label for="form2">Password</label>
                             <p class="font-small blue-text d-flex justify-content-end">
                                 <a href="#" class="blue-text ml-1"> Forgot Password?</a>
@@ -65,15 +65,15 @@
                     <form action="{% url 'register' %}" class="form_register" method="post" autocomplete="off">
                         {% csrf_token %}
                         <div class="md-form">
-                            <input type="text" name="username" id="form3" class="form-control" required="true">
+                            <input type="text" name="username" id="form3" class="form-control" required="true" autocomplete="off">
                             <label for="form3">GitHub Username</label>
                         </div>
                         <div class="md-form">
-                            <input type="password" name="password" id="form4" class="form-control" required="true">
+                            <input type="password" name="password" id="form4" class="form-control" required="true" autocomplete="off">
                             <label for="form4">Password</label>
                         </div>
 			<div class="md-form">
-                            <input type="password" name="confirm_assword" id="form5" class="form-control" required="true">
+                            <input type="password" name="confirm_assword" id="form5" class="form-control" required="true" autocomplete="off">
                             <label for="form5">Confirm Password</label>
                         </div>
                         <div class="md-form">
