@@ -23,7 +23,7 @@ def home(request):
 			pass
 		print('val - ',val)
 		# First it checks for project name
-		if val: # here the issues after or should belike 
+		if val and val != 'points': # here the issues after or should belike 
 				# Issues.objects.filter( Q(title_project=val) & Q(mentor__username=mentor_name)) 
 			issues = Issues.objects.filter(title_project=val) or Issues.objects.filter(mentor__username=val) 
 		else: issues = Issues.objects.all()
