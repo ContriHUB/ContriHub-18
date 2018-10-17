@@ -12,22 +12,22 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from .models import Issues,Prs
 
 def home(request):
-	if request.method == 'POST':
+	if request.method == 'GET':
+		print('home GET')
 		# Getting value of the clicked option
-		val = request.POST['value']
-
-		print(val)
+		val=''
+		try:
+			val = request.GET['value']  #Now here you'll be looking for more attributes like 
+										# title_project,title_issue,mentor_name etc
+		except Exception:
+			pass
+		print('val - ',val)
 		# First it checks for project name
-		issues = Issues.objects.filter(title_project=val)
-		# Then it goes for mentor name
-		if (issues.count() == 0):
-			try:
-				mentor = User.objects.get(username=val)
-				issues = Issues.objects.filter(mentor=mentor)
-			# else ordered point wise
-			except User.DoesNotExist:
-				issues = Issues.objects.all().order_by('points')
-
+		if val: # here the issues after or should belike 
+				# Issues.objects.filter( Q(title_project=val) & Q(mentor__username=mentor_name)) 
+			issues = Issues.objects.filter(title_project=val) or Issues.objects.filter(mentor__username=val) 
+		else: issues = Issues.objects.all()
+		issues = issues.order_by('points')
 		paginator = Paginator(issues, 15)  # Show 15 issues per page
 		page = request.GET.get('page', 1)
 		try:
@@ -36,22 +36,8 @@ def home(request):
 			issues = paginator.get_page(1)
 		except EmptyPage:
 			issues = paginator.get_page(paginator.num_pages)
-		return render(request, 'Projects/home.html', {'issues': issues})
-
-
-	# By default issues are ordered alphabetically
-	else:
-
-		issues = Issues.objects.all().order_by('title_issue')
-		paginator = Paginator(issues, 15)  # Show 15 issues per page
-		page = request.GET.get('page', 1)
-		try:
-			issues = paginator.get_page(page)
-		except PageNotAnInteger:
-			issues = paginator.get_page(1)
-		except EmptyPage:
-			issues = paginator.get_page(paginator.num_pages)
-		return render(request, 'Projects/home.html', {'issues': issues})
+		return render(request, 'Projects/home.html', {'issues': issues, 'val':val}) #this dic will have value of
+																					#all filter attributes or you can also send a list of all such attrs
 
 
 def leaderboard(request):
