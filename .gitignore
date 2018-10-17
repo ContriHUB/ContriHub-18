@@ -100,3 +100,6 @@ venv/
 *.iws
 *.ipr
 out
+
+#visual-studio-related
+.vscode
