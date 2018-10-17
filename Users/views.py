@@ -46,13 +46,13 @@ def register(request):
     if request.method == 'POST': 
         username = request.POST.get('username')
         password = request.POST.get('password')
-        confirmPassword = request.POST.get('confirmPassword')
+        confirm_assword = request.POST.get('confirm_assword')
         email = request.POST.get('email')
         gender = request.POST.get('gender')
         role = request.POST.get('role')
 
         user = User.objects.all().filter(username=username)
-        if password != confirmPassword:
+        if password != confirm_assword:
             error_pass = True
             return render(request,'registration/login.html',{'error_pass':error_pass})		
         else:

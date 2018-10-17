@@ -32,7 +32,6 @@ def home(request):
 		page = request.GET.get('page', 1)
 		try:
 			issues = paginator.get_page(page)
-		except PageNotAnInteger:
 			issues = paginator.get_page(1)
 		except EmptyPage:
 			issues = paginator.get_page(paginator.num_pages)
