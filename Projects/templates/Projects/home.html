@@ -83,9 +83,15 @@
 </section>
 {% if issues.has_next %}
   <div class="paginator">
-    <a class="more-issues-link" href="?page={{ issues.next_page_number }}">
-      More
-    </a>
+    {% if val %}
+        <a id="more-issues" class="more-issues-link" href="?value={{val}}&page={{issues.next_page_number}}">
+            More
+        </a>
+    {% else %}
+    <a id="more-issues" class="more-issues-link" href="&page={{issues.next_page_number}}">
+            More
+        </a>
+    {% endif %}
   </div>
 {% endif %}
 
@@ -161,6 +167,7 @@
                 }
             });
         });
+
         var infiniteScroll = new Waypoint.Infinite({
           element: $('.issues-container')[0],
           items: '.issue-list-item',
