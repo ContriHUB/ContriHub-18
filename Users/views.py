@@ -74,5 +74,6 @@ def register(request):
                 return redirect('home')
 
                 # user.profile.gender = gender
-            else: 
-                return render(request,'registration/login.html',{})
+            # else: 
+            #     return render(request,'registration/login.html',{})
+    else: return render(request,'registration/login.html',{})
