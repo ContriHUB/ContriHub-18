@@ -17,7 +17,7 @@ def home(request):
 		# Getting value of the clicked option
 		val=''
 		try:
-			val = request.GET['value']  #Now here you'll be looking for more attributes like 
+			val = request.GET['value']  #Now here you need to look for more attributes like 
 										# title_project,title_issue,mentor_name etc
 		except Exception:
 			pass
@@ -38,6 +38,7 @@ def home(request):
 			issues = paginator.get_page(paginator.num_pages)
 		return render(request, 'Projects/home.html', {'issues': issues, 'val':val}) #this dic will have value of
 																					#all filter attributes or you can also send a list of all such attrs
+																	
 
 
 def leaderboard(request):
