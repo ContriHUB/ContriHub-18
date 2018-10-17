@@ -46,27 +46,33 @@ def register(request):
     if request.method == 'POST': 
         username = request.POST.get('username')
         password = request.POST.get('password')
+        confirm_assword = request.POST.get('confirm_assword')
         email = request.POST.get('email')
         gender = request.POST.get('gender')
         role = request.POST.get('role')
 
         user = User.objects.all().filter(username=username)
-        if user:
-            error_register = True
-            return render(request,'registration/login.html',{'error_register':error_register})
-        if not user:
-            print('No user exists')
-            User.objects.create_user(username=username, password=password, email=email)  # removed email at signup to make signup fast
-            user = authenticate(username=username, password=password)           
+        if password != confirm_assword:
+            error_pass = True
+            return render(request,'registration/login.html',{'error_pass':error_pass})		
+        else:
+            if user:
+                error_register = True
+                return render(request,'registration/login.html',{'error_register':error_register})
+            if not user:
+                print('No user exists')
+                User.objects.create_user(username=username, password=password, email=email)  # removed email at signup to make signup fast
+                user = authenticate(username=username, password=password)           
 
-            user.profile.gender = gender
-            if role=='student': user.profile.role = 'student'
-            else:
-                user.profile.role = 'mentor'
+                user.profile.gender = gender
+                if role=='student': user.profile.role = 'student'
+                else:
+                    user.profile.role = 'mentor'
 
-            user.save()
-            login(request, user)
-            return redirect('home')
+                user.save()
+                login(request, user)
+                return redirect('home')
 
-            # user.profile.gender = gender
-    else: return render(request,'registration/login.html',{})
+                # user.profile.gender = gender
+            else: 
+                return render(request,'registration/login.html',{})
