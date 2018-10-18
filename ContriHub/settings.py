@@ -108,7 +108,7 @@ WSGI_APPLICATION = 'ContriHub.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-print(DB_PASS)
+# print(DB_PASS)
 if 'DATABASE_URL' in os.environ:
     import dj_database_url
     DATABASES = {'default': dj_database_url.config(default=os.environ.get('DATABASE_URL',""))}
@@ -212,7 +212,7 @@ def ip_addresses():
                 ip_list.append(addrs[x][0]['addr'])
     return ip_list
 
-Discover our IP address
+# Discover our IP address
 ALLOWED_HOSTS += ip_addresses()
 
 django_heroku.settings(locals())
