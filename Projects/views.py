@@ -24,8 +24,8 @@ def home(request):
 		print('val - ',val)
 		# First it checks for project name
 		if val and val != 'points': # here the issues after or should belike 
-				# Issues.objects.filter( Q(title_project=val) & Q(mentor__username=mentor_name)) 
-			issues = Issues.objects.filter(title_project=val) or Issues.objects.filter(mentor__username=val) 
+			# Issues.objects.filter( Q(title_project=val) & Q(mentor__username=mentor_name)) 
+			issues = Issues.objects.filter(title_project=val) or Issues.objects.filter(mentor__username=val) or Issues.objects.filter(level=val)
 		else: issues = Issues.objects.all()
 		issues = issues.order_by('points')
 		paginator = Paginator(issues, 15)  # Show 15 issues per page
