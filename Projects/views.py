@@ -34,12 +34,12 @@ def home(request):
 			issues = paginator.get_page(page)
 		except PageNotAnInteger:
 			issues = paginator.get_page(1)
+			# issues = paginator.get_page(1)
 		except EmptyPage:
 			issues = paginator.get_page(paginator.num_pages)
+			issues = Issues.objects.none()
 		return render(request, 'Projects/home.html', {'issues': issues, 'val':val}) #this dic will have value of
 																					#all filter attributes or you can also send a list of all such attrs
-																	
-
 
 def leaderboard(request):
 	users = User.objects.all().filter(profile__role='student').order_by('-profile__points')
