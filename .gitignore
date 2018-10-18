@@ -93,7 +93,6 @@ db.sqlite3
 venv/
 
 
-
 #idea related
 .idea
 *.iml
@@ -103,3 +102,4 @@ out
 
 #visual-studio-related
 .vscode
+
