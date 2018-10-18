@@ -119,12 +119,12 @@ if 'DATABASE_URL' in os.environ: #this is for heroku
 else: 
     #this is for local you need not to make any changes here, 
     # it'll work unless you are sure about how to setup postgres/mysql etc    
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        }
-    }
+    # DATABASES = {
+    #     'default': {
+    #         'ENGINE': 'django.db.backends.sqlite3',
+    #         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    #     }
+    # }
     #An example how you can setup postgres sql in local, create a postgres db and provide relevant details in this format
     # DB_PASS = os.environ.get('CONTRIHUB_PASS', "")
     # DATABASES = {
@@ -137,20 +137,20 @@ else:
     #         'PORT': '',
     #     }
     # }
-    # DATABASES = {
-    #     'default': {
-    #         'ENGINE': 'django.db.backends.mysql',
-    #         'OPTIONS': {
-    #             # 'read_default_file': '/path/to/my.cnf',
-    #         },
-    #         # 'NAME': os.path.join(BASE_DIR, 'testdb'),
-    #         'NAME': 'contrihub_db',
-    #         'USER': 'user',
-    #         'PASSWORD': '1234',
-    #         'HOST': '127.0.0.1',
-    #         'PORT': '',
-    #     }
-    # }
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'OPTIONS': {
+                # 'read_default_file': '/path/to/my.cnf',
+            },
+            # 'NAME': os.path.join(BASE_DIR, 'testdb'),
+            'NAME': 'contrihub_db',
+            'USER': 'user',
+            'PASSWORD': '1234',
+            'HOST': '127.0.0.1',
+            'PORT': '',
+        }
+    }
 
 
 # Password validation
