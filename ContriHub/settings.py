@@ -14,7 +14,6 @@ import os
 from unipath import Path
 from decouple import config, Csv
 
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = Path(__file__).parent
 
@@ -34,8 +33,8 @@ DEBUG=True
 # else: DEBUG = False
 
 
-ALLOWED_HOSTS = []
-# ALLOWED_HOSTS = ['*']
+
+ALLOWED_HOSTS = ['*']
 # ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 
 
@@ -46,10 +45,6 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER='deepakbharti@mnnit.ac.in'
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', "")
 EMAIL_PORT = 587
-
-'''When runniing in development mode just comment the above lines
-and uncomment the below line '''
-#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  
 
 '''
 If using gmail, you will need to
@@ -124,12 +119,12 @@ else:
             'PORT': '',
         }
     }
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
+    # DATABASES = {
+    #     'default': {
+    #         'ENGINE': 'django.db.backends.sqlite3',
+    #         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    #     }
+    # }
 
 
 # Password validation
