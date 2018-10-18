@@ -9,6 +9,10 @@
     .dropdown-item{
         cursor: pointer;
     }
+    #more-issues {
+        color: azure;
+        font-weight: bold;
+    }
 </style>
 {% endblock head_extra %} 
 
@@ -87,15 +91,15 @@
   {% endfor %}
 </section>
 {% if issues.has_next %}
-  <div class="paginator">
+  <div class="paginator col col-md-12">
     {% if val %}
-        <span id="more-issues" class="more-issues-link text-center" href="?value={{val}}&page={{issues.next_page_number}}">
+        <span id="more-issues" class="more-issues-link" href="?value={{val}}&page={{issues.next_page_number}}">
             Loding More Issues ...
         </span>
     {% else %}
-    <span id="more-issues" class="more-issues-link text-center" href="?page={{issues.next_page_number}}">
+        <span id="more-issues" class="more-issues-link" href="?page={{issues.next_page_number}}">
             Loading More Issues ...
-    </span>
+        </span>
     {% endif %}
   </div>
 
@@ -104,7 +108,6 @@
   </div>
 --> 
 {% endif %}
-
 
 {% endblock body_content %}
 
