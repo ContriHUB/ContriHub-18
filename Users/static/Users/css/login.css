@@ -1,3 +1,14 @@
+.error_signin, .error_register {
+        color:brown;
+        padding: 2px;
+        font-size: 12px;
+    }
+
+body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 
 .registration {
     background-color: bisque;

@@ -5,6 +5,15 @@
 
 {% block head_extra %} 
 <link type="text/css" href="{% static 'Projects/css/home.css' %}" rel="stylesheet">
+<style>
+    .dropdown-item{
+        cursor: pointer;
+    }
+    #more-issues {
+        color: azure;
+        font-weight: bold;
+    }
+</style>
 {% endblock head_extra %} 
 
 {% block body_content %} 
@@ -45,7 +54,7 @@
     <article class="card single-issue issue-list-item" csrf="{{ csrf_token }}">
       <div class="card-body">
           <div class="card-title">
-            <h4>{{forloop.counter}}. Issue -
+            <h4>{{forloop.counter0|add:issues.start_index}}. Issue -
               <a href="{{issue.link_issue}}" class="issue-info" issue-id="{{issue.id}}">
                 {{issue.title_issue}}
               </a>
@@ -68,11 +77,11 @@
                   {% endif %}<br />
              Expected Points - {{issue.points}}<br />
             </p>
-          </div>
+          </div> 
           {% if request.user.profile.role != 'mentor'  %}
             <div class="md-form">
-              <input type="text" name="pr_link" id="form3" class="form-control" required="true">
-              <label for="form3">Paste your PR link here</label>
+                <input type="text" name="pr_link" id="form3" class="form-control" required="true" placeholder="PR link here">
+                <!-- <label for="form3">PR link here </label> -->
             </div>
             <button class="request btn btn-deep-orange"> request for verification </button>
             <!-- <i class="fa fa-spinner fa-spin fa-1x process"></i></button> -->
@@ -82,11 +91,22 @@
   {% endfor %}
 </section>
 {% if issues.has_next %}
-  <div class="paginator">
-    <a class="more-issues-link" href="?page={{ issues.next_page_number }}">
-      More
-    </a>
+  <div class="paginator col col-md-12">
+    {% if val %}
+        <span id="more-issues" class="more-issues-link" href="?value={{val}}&page={{issues.next_page_number}}">
+            Loding More Issues ...
+        </span>
+    {% else %}
+        <span id="more-issues" class="more-issues-link" href="?page={{issues.next_page_number}}">
+            Loading More Issues ...
+        </span>
+    {% endif %}
   </div>
+
+<!--  <div class="more-issues-loading container">
+      <img src="static/Projects/img/loading.gif" alt="loading more issues" width="100%">
+  </div>
+--> 
 {% endif %}
 
 {% endblock body_content %}
@@ -98,7 +118,8 @@
         $(".request").click(function(e){
             e.preventDefault();
             {% if not request.user.is_authenticated %}
-                alert("You need to register before requesting verification.");
+                alert("You need to login first before requesting verification.");
+                window.location.href = 'signin';
             {% else %}
                 var issue = $(this).closest(".single-issue");
                 var pr_link = $("input[name='pr_link']", issue).val();
@@ -123,7 +144,7 @@
                         success: function(data){
                             if(data){
                                 alert(data);
-                                document.location.reload();
+                                // document.location.reload();
                             }
                         },
                         afterSend: function(){
@@ -155,11 +176,12 @@
                 success:function(data){
                     if(data){
                         alert(data);
-                        document.location.reload();
+                        // document.location.reload();
                     }
                 }
             });
         });
+
         var infiniteScroll = new Waypoint.Infinite({
           element: $('.issues-container')[0],
           items: '.issue-list-item',

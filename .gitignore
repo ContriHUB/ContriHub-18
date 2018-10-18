@@ -91,3 +91,15 @@ db.sqlite3
 
 # Virtualenv
 venv/
+
+
+#idea related
+.idea
+*.iml
+*.iws
+*.ipr
+out
+
+#visual-studio-related
+.vscode
+

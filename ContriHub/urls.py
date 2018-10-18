@@ -23,15 +23,16 @@ from django.contrib.auth.views import (LoginView, LogoutView)
 
 from Projects.views import (home,request_pr,response_pr,leaderboard,profile,remove_issue,remove_pr)
 from Users.views import (signin,register, forgot_pass, verify, change_pass)
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('cooladmins', admin.site.urls),
     path('', home, name='home'),
     path('signin', signin , name='signin'), 
     path('register', register , name='register'), 
-	path('forgot_pass', forgot_pass , name='forgot_pass'),
-	path('verify', verify , name='verify'),
-	path('change_pass', change_pass , name='change_pass'),
+	  path('forgot_pass', forgot_pass , name='forgot_pass'),
+  	path('verify', verify , name='verify'),
+	  path('change_pass', change_pass , name='change_pass'),
     path('logout', LogoutView.as_view(), {'next_page': 'signin'}, name='logout'),
 
     # path('api/github_webhook/', views.github_webhook, name='github_webhook')
@@ -44,6 +45,12 @@ urlpatterns = [
 
     #put such urls always after all
     path('<username>', profile, name='profile'),
+    
+    # password reset urls
+    path('password_reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),
+    path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
+    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
 ]
 # (?P<username>[^/]+)/
 
