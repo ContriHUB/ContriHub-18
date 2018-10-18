@@ -89,16 +89,22 @@
 {% if issues.has_next %}
   <div class="paginator">
     {% if val %}
-        <a id="more-issues" class="more-issues-link" href="?value={{val}}&page={{issues.next_page_number}}">
-            More
-        </a>
+        <span id="more-issues" class="more-issues-link text-center" href="?value={{val}}&page={{issues.next_page_number}}">
+            Loding More Issues ...
+        </span>
     {% else %}
-    <a id="more-issues" class="more-issues-link" href="?page={{issues.next_page_number}}">
-            More
-        </a>
+    <span id="more-issues" class="more-issues-link text-center" href="?page={{issues.next_page_number}}">
+            Loading More Issues ...
+    </span>
     {% endif %}
   </div>
+
+<!--  <div class="more-issues-loading container">
+      <img src="static/Projects/img/loading.gif" alt="loading more issues" width="100%">
+  </div>
+--> 
 {% endif %}
+
 
 {% endblock body_content %}
 
