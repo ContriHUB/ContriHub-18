@@ -1,5 +1,10 @@
-.error_signin, .error_register {
+.error_signin, .error_register, .error_username_verify, .not_verified{
     color:brown;
+    padding: 2px;
+    font-size: 12px;
+}
+.mail_sent, .verified {
+    color:green;
     padding: 2px;
     font-size: 12px;
 }

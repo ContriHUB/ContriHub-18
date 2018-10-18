@@ -18,7 +18,7 @@
                 <div class="card-title">
                     <h4 style="font-family: Cormorant Infant">Welcome to ContriHUB</h4>
                 </div>
-                
+                   
                 <div class="signin">
                     {% if error_signin %}
                         <span class="error_signin">There is no user with this username, You need to register first!</span>
@@ -29,29 +29,28 @@
                         <a href="mailto:akshay31057@gmail.com">Akshay</a>
                     </span>
                     {% endif %}
-                    <form action="{% url 'signin' %}" class="form_login" method="post" autocomplete="off">
-                        {% csrf_token %}
-                        <div class="md-form">
-                            <input type="text" name="username" id="form1" class="form-control" required="true">
-                            <label for="form1">GitHub Username</label>
-                        </div>
-                        <div class="md-form">
-                            <input type="password" name="password" id="form2" class="form-control" required="true">
-                            <label for="form2">Password</label>
-                            <p class="font-small blue-text d-flex justify-content-end">Forgot
-                                <a href="#" class="blue-text ml-1"> Password?</a>
-                            </p>
-                        </div>
-                        <div class="text-center mb-3">
-                            <button class="submit btn btn-indigo"> Login </button>
-                        </div>
-                        <div class="modal-footer mx-5 pt-3 mb-1">
+                        <form action="{% url 'signin' %}" class="form_login" method="post" autocomplete="off">
+                            {% csrf_token %}
+                            <div class="md-form">
+                                <input type="text" name="username" id="form1" class="form-control" required="true">
+                                <label for="form1">GitHub Username</label>
+                            </div>
+                            <div class="md-form">
+                                <input type="password" name="password" id="form2" class="form-control" required="true">
+                                <label for="form2">Password</label>
+                                <p class="forgot_pass_text font-small blue-text d-flex justify-content-end">Forgot Password?
+                                </p>
+                            </div>
+                            <div class="text-center mb-3">
+                                <button class="submit btn btn-indigo"> Login </button>
+                            </div>
+                            <div class="modal-footer mx-5 pt-3 mb-1">
                                 <p class="font-small grey-text d-flex justify-content-end">Not a member?
                                     <span class="signup_text blue-text ml-1"> SignUp </span>
                                 </p>
-                        </div>
-                    </form>
-                </div>
+                            </div>
+                        </form>
+                    </div>
 
                 <div class="signup">
                     {% if error_register %}
@@ -101,10 +100,77 @@
                         </div>
                     </form>
                 </div>
+                <div class="forgot_pass">
+                    
+                    <form action="{% url 'forgot_pass' %}" class="form_login" method="post" autocomplete="off">
+                        {% csrf_token %}
+                        <div class="md-form">
+                            <input type="text" name="username" id="form6" class="form-control" required="true">
+                            <label for="form1">GitHub Username</label>
+                        </div>
+                        {% if error_username_verify %}
+                             <span class="error_username_verify">User with this username doesn't exists!</span>
+                        {% endif %}
+                         
+                        <div class="text-center mb-3">
+                            <button class="submit btn btn-indigo"> Send Verification code </button>
+                        </div>
+                        
+                        <div class="modal-footer mx-5 pt-3 mb-1">
+                            <p class="font-small grey-text d-flex justify-content-end">Not a member?
+                                <span class="signup_text blue-text ml-1"> SignUp </span>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="verify">
+	                <form action="{% url 'verify' %}" class="form_login" method="post" autocomplete="off">	
+	                	{% csrf_token %}
+	                	{% if mail_sent %}
+                             <span class="mail_sent">Verification code has been sent to your mail!</span>
+                        {% endif %}
+	                    <div class="md-form">
+	                        <input type="text" name="code" id="form7" class="form-control">
+	                        <label for="form7">Enter code</label>
+	                    </div>
+	                    {% if not_verified %}
+                             <span class="not_verified">Code didn't match!</span>
+                        {% endif %}
+                        <div class="text-center mb-3">
+                            <button class="submit btn btn-indigo"> Verify </button>
+                        </div>
+                        <div class="modal-footer mx-5 pt-3 mb-1">
+                            <p class="font-small grey-text d-flex justify-content-end">Not a member?
+                                <span class="signup_text blue-text ml-1"> SignUp </span>
+                            </p>
+                        </div>                        
+		            </form>
+                </div>
+                <div class="change_pass">
+	                	<form action="{% url 'change_pass' %}" class="form_login" method="post" autocomplete="off">	
+    	                	{% csrf_token %}
+	                    	{% if verified %}
+                                <span class="verified">Verified!</span>
+                            {% endif %}
+	                        <div class="md-form">
+	                            <input type="password" name="new_password" id="form7" class="form-control">
+	                            <label for="form7">New Password</label>
+	                        </div>
+	                        <div class="text-center mb-3">
+                                <button class="submit btn btn-indigo"> Change </button>
+                            </div>
+                            <div class="modal-footer mx-5 pt-3 mb-1">
+                                <p class="font-small grey-text d-flex justify-content-end">Not a member?
+                                    <span class="signup_text blue-text ml-1"> SignUp </span>
+                                </p>
+                            </div>
+            	       </form>
+                </div>
             </div>
         </div>
     </div>
-
+		
 {% endblock body_content %}
 
 
@@ -113,29 +179,99 @@
     <script>
         $(document).ready(function(){
             $(".signin").hide();
+            $(".forgot_pass").hide();
+            $(".verify").hide();
+            $(".change_pass").hide();
         });
     </script>
 {% else %}
+    {% if error_username_verify %}
     <script>
         $(document).ready(function(){
+            $(".signin").hide();
             $(".signup").hide();
+            $(".verify").hide();
+            $(".change_pass").hide();
+        });
+    </script>
+    {% else %}
+        <script>
+            $(document).ready(function(){
+                $(".signup").hide();
+                $(".forgot_pass").hide();
+                $(".verify").hide();
+                $(".change_pass").hide();
+            });
+        </script>    
+   {% endif %}
+{% endif %}
+{% if mail_sent %}
+    <script>
+        $(document).ready(function(){
+            $(".signin").hide();
+            $(".signup").hide();
+            $(".forgot_pass").hide();
+            $(".verify").show();
+            $(".change_pass").hide();
         });
     </script>    
+{% endif %}
+
+{% if verified %}
+    <script>
+        $(document).ready(function(){
+            $(".signin").hide();
+            $(".signup").hide();
+            $(".forgot_pass").hide();
+            $(".verify").hide();
+            $(".change_pass").show();
+        });
+    </script>
+{% elif not_verified %}
+    <script>
+        $(document).ready(function(){
+            $(".signin").hide();
+            $(".signup").hide();
+            $(".forgot_pass").hide();
+            $(".verify").show();
+            $(".change_pass").hide();
+        });
+    </script>
+{% endif %}
+
+{% if pass_changed %}
+<script>
+    alert("Password changed successfully!");
+</script>
 {% endif %}
 
 <script type="text/javascript">
     $(document).ready(function(){
         $(".signup_text").click(function () {
-            $(".signin").hide(); //$("#human").removeClass('bottom');
-            $(".signup").show();  //$("#product").addClass('bottom');
+            $(".signin").hide(); 
+            $(".signup").show();
+            $(".forgot_pass").hide();
+            $(".verify").hide();
+            $(".change_pass").hide(); 
         });
         
         $(".signin_text").click(function () {
-            $(".signup").hide(); //  $("#product").removeClass('bottom');
-            $(".signin").show();  // $("#human").addClass('bottom');
+            $(".signup").hide(); 
+            $(".signin").show();
+            $(".forgot_pass").hide();
+            $(".verify").hide();
+            $(".change_pass").hide();  
         });
-
+	
+    	$(".forgot_pass_text").click(function () {
+            $(".signup").hide(); 
+            $(".signin").hide();
+		    $(".forgot_pass").show();
+		    $(".change_pass").hide();
+		    $(".verify").hide();
+        });  
         $('select').formSelect();
-    })      
+        
+       }) 
 </script>
 {% endblock js_extra %}

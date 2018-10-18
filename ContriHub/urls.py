@@ -22,13 +22,16 @@ from django.conf.urls.static import static
 from django.contrib.auth.views import (LoginView, LogoutView)
 
 from Projects.views import (home,request_pr,response_pr,leaderboard,profile,remove_issue,remove_pr)
-from Users.views import (signin,register)
+from Users.views import (signin,register, forgot_pass, verify, change_pass)
 
 urlpatterns = [
     path('cooladmins', admin.site.urls),
     path('', home, name='home'),
     path('signin', signin , name='signin'), 
     path('register', register , name='register'), 
+	path('forgot_pass', forgot_pass , name='forgot_pass'),
+	path('verify', verify , name='verify'),
+	path('change_pass', change_pass , name='change_pass'),
     path('logout', LogoutView.as_view(), {'next_page': 'signin'}, name='logout'),
 
     # path('api/github_webhook/', views.github_webhook, name='github_webhook')

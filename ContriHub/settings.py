@@ -51,10 +51,9 @@ ADMINS = (
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER= os.environ.get('EMAIL_HOST_USER','')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD','')
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER','') 		#Host email id
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD','')	#Host Application generated password
 EMAIL_PORT = 587
-
 '''
 If using gmail, you will need to
 unlock Captcha to enable Django 

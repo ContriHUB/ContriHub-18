@@ -38,7 +38,7 @@
     align-items: center;
     justify-content: center;
 }
-.signup_text {
+.signup_text{
     background-color: rgb(96, 247, 37);
     display: flex; 
     flex-wrap: wrap;
@@ -50,7 +50,17 @@
     justify-content: center;
 
 }
-
+.forgot_pass_text {
+    background-color: rgb(36, 102, 80);
+    display: flex; 
+    flex-wrap: wrap;
+    width:50%;
+    height: 30px;
+    padding: 0px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+}
 h1 {
     background-color: blueviolet;
     display: flex;
