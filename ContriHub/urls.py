@@ -27,10 +27,10 @@ from django.contrib.auth import views as auth_views
 
 
 urlpatterns = [
-    path('admin', admin.site.urls),
+    path('cooladmins', admin.site.urls),
     path('', home, name='home'),
-    path('signin', signin , name='signin'), 
-    path('register', register , name='register'), 
+    path('signin', signin , name='signin'),
+    path('signup', register , name='register'), 
     path('logout', LogoutView.as_view(), {'next_page': 'signin'}, name='logout'),
 
     # path('api/github_webhook/', views.github_webhook, name='github_webhook')

@@ -1,0 +1,46 @@
+html, body, header, .view {
+    height: 100%;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #1C2331 url("{% static 'Projects/img/background.jpg' %}") no-repeat center center fixed;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    opacity: 0.8;
+    z-index: -100;
+}
+
+@media (max-width: 740px) {
+    html, body, header, .view {
+        height: 1000px;
+    }
+}
+
+@media (min-width: 800px) and (max-width: 850px) {
+    html, body, header, .view {
+        height: 650px;
+    }
+}
+
+@media (min-width: 800px) and (max-width: 850px) {
+    .navbar:not(.top-nav-collapse) {
+        background: #1C2331!important;
+    }
+}
+
+.pagination {
+  background-color: aliceblue;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 15px;
+  padding: 5px;
+  width: 400px;
+}

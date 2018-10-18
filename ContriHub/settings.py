@@ -29,22 +29,30 @@ SECRET_KEY = os.environ.get('SECRET_KEY', "faf541d1cdd7da1d485ccd6c27de8a9cc8a29
 # ENV is an environment var which is set to Dev in local and Prod in production
 
 DEBUG=True
+ALLOWED_HOSTS = ['*']
+
 # ENV=os.environ.get("ENV","")
-# if ENV=='Dev': DEBUG = True
-# else: DEBUG = False
+# if ENV=='Dev': 
+#     DEBUG = True
+#     ALLOWED_HOSTS = ['*']
+# else: 
+#     DEBUG = False
+#     ALLOWED_HOSTS = ['.contrihubs.herokuapp.com','www.contrihubs.herokuapp.com']
 
-
-ALLOWED_HOSTS = []
-# ALLOWED_HOSTS = ['*']
 # ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 
+
+ADMINS = (   
+        ('Deepak Bharti',os.environ.get('admin1_email','')),
+        ('Abhey Rana',os.environ.get('admin2_email','')),
+    )
 
 # Application definition
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER='deepakbharti@mnnit.ac.in'
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', "")
+EMAIL_HOST_USER= os.environ.get('EMAIL_HOST_USER','')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD','')
 EMAIL_PORT = 587
 
 '''When runniing in development mode just comment the above lines
@@ -105,31 +113,36 @@ TEMPLATES = [
 WSGI_APPLICATION = 'ContriHub.wsgi.application'
 
 
-# Database
+# Database documentation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-print(DB_PASS)
-if 'DATABASE_URL' in os.environ:
+
+# print(DB_PASS)
+if 'DATABASE_URL' in os.environ: #this is for heroku
     import dj_database_url
     DATABASES = {'default': dj_database_url.config(default=os.environ.get('DATABASE_URL',""))}
-else:
-    DB_PASS = os.environ.get('CONTRIHUB_PASS', "")
+else: 
+    #this is for local you need not to make any changes here, 
+    # it'll work unless you are sure about how to setup postgres/mysql etc    
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'contrihub_db',
-            'USER': 'contrihub_user',
-            'PASSWORD': DB_PASS,
-            'HOST': 'localhost',
-            'PORT': '',
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         }
     }
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
+    
+    #An example how you can setup postgres sql in local, create a postgres db and provide relevant details in this format
+    # DB_PASS = os.environ.get('CONTRIHUB_PASS', "")
+    # DATABASES = {
+    #     'default': {
+    #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #         'NAME': 'contrihub_db',
+    #         'USER': 'contrihub_user',
+    #         'PASSWORD': DB_PASS,
+    #         'HOST': 'localhost',
+    #         'PORT': '',
+    #     }
+    # }
 
 
 # Password validation

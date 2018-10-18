@@ -4,17 +4,17 @@
 {% block title_extra %}LeaderBoard - {% endblock title_extra %} ContriHub
 
 {% block head_extra %}
-<link href="{% static 'Projects/css/navbar.css' %}" rel="stylesheet"> 
+
 {% endblock head_extra %}
 
 
 {% block body_content %}
 {% include 'Projects/navbar.html' %}
 
-
 <div class="container">
   <div class="card" style="margin-top: 100px">
-    <div class="card-body">
+
+    <div class="card-body" style="margin-bottom:20px">
       <table class="table table-hover">
         <thead class="thead-dark">
           <tr>
@@ -32,11 +32,13 @@
             </tr>
           {% endfor %}
         </tbody>
+      </table>
     </div>
-  </div>
 </div>
+</div>
+
 {% endblock body_content %}
-    
+
 
 
 {% block js_extra %}
