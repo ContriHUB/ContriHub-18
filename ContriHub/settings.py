@@ -66,15 +66,16 @@ https://accounts.google.com/displayunlockcaptcha
 
 
 INSTALLED_APPS = [
-    'Users',
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'Projects',
     
+    'Users',
+    'Projects',
+    'crispy_forms',
+    'django.contrib.admin',
 ]
 
 MIDDLEWARE = [
