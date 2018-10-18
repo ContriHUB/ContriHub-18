@@ -1,19 +1,22 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import gettext as _
-from django.db.models.signals import post_save 
+from django.db.models.signals import post_save
 
 # Create your models here.
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True) 
-    role = models.CharField(_('user_role'), max_length=10, blank=True, null=True)
-    first_name = models.CharField(_('first_name'), max_length=40, blank=True, null=True) 
-    last_name = models.CharField(_('last_name'), max_length=40, blank=True, null=True)
-    bio = models.CharField(_('status'), max_length=100, blank=True, null=True) 
-    points = models.IntegerField(_('points'), default=0)
-    rank = models.IntegerField(_('rank'), default=0)
-    gender = models.CharField(_('gender'), max_length=7, blank=True, null=True) 
+    user            = models.OneToOneField(User, on_delete=models.CASCADE, null=True) 
+    role            = models.CharField(_('user_role'), max_length=10, blank=True, null=True)
+    first_name      = models.CharField(_('first_name'), max_length=40, blank=True, null=True) 
+    last_name       = models.CharField(_('last_name'), max_length=40, blank=True, null=True)
+    bio             = models.CharField(_('bio'), max_length=100, blank=True, null=True) 
+    points          = models.IntegerField(_('points'), default=0)
+    rank            = models.IntegerField(_('rank'), default=0)
+    gender          = models.CharField(_('gender'), max_length=7, blank=True, null=True)
+    college         = models.CharField(_('college_name'), max_length=100, blank=True, null=True)
+    issues_solved   = models.IntegerField(_('issues_solved'), default=0)
+    country         = models.CharField(_('country'), max_length=20, blank=True, null=True)
 
     class Meta:
         db_table = 'user_profile'

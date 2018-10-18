@@ -92,6 +92,14 @@ db.sqlite3
 # Virtualenv
 venv/
 
-# IDE settings
-/.vscode
-/.idea
+
+#idea related
+.idea
+*.iml
+*.iws
+*.ipr
+out
+
+#visual-studio-related
+.vscode
+

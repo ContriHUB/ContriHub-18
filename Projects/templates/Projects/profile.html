@@ -5,68 +5,7 @@
 
 
 {% block head_extra %}
-
-<style>
-
-.single_issue{
-    font-size: 16px;
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-.pr_types ul li {
-    list-style-type: none;
-    padding: 3px;
-    font-size: 16px;    
-    cursor:pointer;
-}
-
-/*
-@media screen and (min-width:600px){
-    .pr_types ul li {
-        list-style-type: none;
-        padding: 3px;
-        font-size: 16px;    
-        cursor:pointer;
-        position: fixed;
-    }    
-}
-*/
-.pr_types ul li a {
-    list-style-type: none;
-    padding: 3px;
-    font-size: 16px;    
-    cursor:pointer;
-}
-
-.ind_pr {
-    font-size: 16px;
-    font-weight: bold;
-    margin-bottom: 5px;
-    padding:10px;
-    border-radius: 30px;
-    z-index: 100;
-    opacity: 0.;
-}
-.ind_pr a { 
-    background-color: black;
-    color: white; 
-    text-decoration: none; 
-    border-radius: 7px;
-}
-
-.note {
-    background-color:beige;
-    color: brown;
-    border-radius: 7px;
-    font-size: 12px;
-    padding: 2px;
-    margin: 2px;
-}
-
-.ind_pr button { border-radius: 10px; }
-
-</style>
+<link href="{% static 'Projects/css/profile.css' %}" rel="stylesheet">
 {% endblock head_extra %}
 
 
@@ -96,7 +35,7 @@
                 {% if all_prs %}
                     {% for pr in all_prs %}
                     <div class="container">
-                        <div class="card">
+                        <div class="card ppr" csrf="{{ csrf_token }}">
                             <div class="card-body">
                                  <div class="card-title">
                                     {{forloop.counter}}. Issue - 
@@ -107,6 +46,10 @@
                                     <a href="#"><i class="fa fa-trash-o delete" style="float:right;"></i></a>     
                                     {% endif %}
 
+                                    {% if pr.pr_link %}
+                                        Pr Link - <a href="{{pr.pr_link}}"> see pr </a> <br>
+                                    {% endif %}
+        
                                     Project - 
                                     <a href="{{pr.issue.link_project}}"> {{pr.issue.title_project}}</a> <br>
                                     
@@ -125,6 +68,7 @@
                                             Hard 
                                         {% endif %}                              
                                     <br>
+                                    Expected Points - {{pr.issue.points}}
                                 </div>
                             </div>
                         </div>
@@ -148,118 +92,6 @@
 
 
 {% block js_extra %}
-<script type="text/javascript"> 
-    $(document).ready(function(){
-        $(".process").hide();
-        $(".vclose,.unvclose").click(function(e){
-            e.preventDefault();
-            var pr=$(this).closest(".ppr");
-            var pr_id = $(".pr_info", pr).attr('pr-id');
-            var csrf=$(".ppr").attr('csrf');
-            // $(".process",this).show();
-
-            $.ajax({
-                url:'response_pr',
-                data:{
-                    'pr_id': pr_id,
-                    'csrfmiddlewaretoken':csrf,
-                },
-                type:'post',
-                cache:false,
-                beforeSend: function(){
-                    // $(".request").html('<i class="fa fa-spinner fa-spin fa-1x"></i>');
-                    //$(".process",this).show();
-                },
-                success: function(data){
-                    if(data=="success"){
-                        alert("Successfully updated the status of this Pull Request");  
-                        //alert(data);
-                        document.location.reload();                    
-                    }
-                },
-                afterSend: function(){
-                    // $(".request").html(' request for verification ');
-                    // $(".process",this).hide();
-                },
-            });
-        });
-
-        $('.delete').click(function(e){
-            e.preventDefault();
-            var pr=$(this).closest(".ind_pr");
-            var pr_id = $(".pr_info", pr).attr('pr-id');
-            var csrf=$(".ppr").attr('csrf');
-            console.log("pr_id "+pr_id);
-            $.ajax({
-                url:'remove_pr',
-                data:{
-                    'pr_id': pr_id,
-                    'csrfmiddlewaretoken':csrf,
-                },
-                type:'post',
-                cache:false,
-                beforeSend:function(){
-                   //alert("Requesting server ...");
-                },
-                success:function(data){
-                    if(data){
-                        alert(data);
-                        document.location.reload();  
-                    }
-                }
-            });
-        });
-        
-    });
-</script>
-
-
-<script type="text/javascript">
-
-    $(document).ready(function(){
-        $(".prs_pending").hide();
-        $(".prs_nattempted").hide();
-        $(".prs_vclosed").hide();
-        $(".prs_unvclosed").hide();
-
-        $(".all").click(function () {
-            $(".issues_all").show();
-            $(".prs_pending").hide();
-            $(".prs_nattempted").hide();
-            $(".prs_vclosed").hide();
-            $(".prs_unvclosed").hide();
-        });
-        $(".pending").click(function () {
-            $(".prs_pending").show();
-            $(".issues_all").hide();
-            $(".prs_nattempted").hide();
-            $(".prs_vclosed").hide();
-            $(".prs_unvclosed").hide();
-        });
-        $(".vclosed").click(function () {
-            $(".prs_vclosed").show();
-            $(".prs_pending").hide();
-            $(".issues_all").hide();
-            $(".prs_nattempted").hide();
-            $(".prs_unvclosed").hide();
-        });
-        $(".nvclosed").click(function () {
-            $(".prs_unvclosed").show();
-            $(".prs_pending").hide();
-            $(".issues_all").hide();
-            $(".prs_nattempted").hide();
-            $(".prs_vclosed").hide();
-        });
-        $(".nattempted").click(function () {
-            $(".prs_nattempted").show();
-            $(".prs_pending").hide();
-            $(".issues_all").hide();
-            $(".prs_vclosed").hide();
-            $(".prs_unvclosed").hide();
-        });
-
-
-    })      
-    </script>
+<script type="text/javascript" src="{% static 'Projects/js/profile.js' %}"></script>
 {% endblock js_extra %}
     

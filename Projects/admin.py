@@ -5,16 +5,18 @@ from django.contrib import admin
 from .models import Issues, Prs
 
 class IssuesModelAdmin(admin.ModelAdmin):
-	# list_display = ["title_issue","title_project","status"]
-	# list_display_link = ["title_project"]
+	list_display_fields= ['title_issue','title_project','mentor__username']
 	# list_editables = ["title"]
 	# list_filter = ["date"]
-	# search_fields = ["title_issue","title_project","status"]
+	search_fields = ['title_issue','title_project','mentor__username']
 	class Meta: 
 		model = Issues
  
 class PrsModelAdmin(admin.ModelAdmin):
-	class Meta:
+	list_display_fields = ['issue__title_issue','issue__title_project','from_user__username']
+	search_fields = ['issue__title_issue','issue__title_project','from_user__username']
+	
+	class Meta: 
 		model = Prs 
 
 admin.site.register(Prs,PrsModelAdmin)

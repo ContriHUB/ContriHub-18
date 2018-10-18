@@ -3,13 +3,20 @@
     {% if prs_vclosed %}
     <div class="container">
         {% for pr in prs_vclosed %}
-        <div class="card" csrf="{{ csrf_token }}">
+        <div class="card ppr" csrf="{{ csrf_token }}">
             <div class="card-body"> 
                 <div class="card-title">
                     {{forloop.counter}}. Issue - 
                     <a href="{{pr.issue.link_issue}}" class="pr_info" pr-id="{{pr.id}}"> {{pr.issue.title_issue}}</a> <br>
                 </div>
                 <div class="card-text">
+
+                    {% if pr.pr_link %}
+                        Pr Link - <a href="{{pr.pr_link}}"> see pr </a> <br>
+                    {% endif %}
+
+                    From User - <a href="https://github.com/{{pr.from_user.username}}"> {{pr.from_user.username}} </a> <br>
+                    
                     Project - 
                     <a href="{{pr.issue.link_project}}"> {{pr.issue.title_project}}</a> <br>
 
@@ -25,6 +32,7 @@
                     Hard 
                     {% endif %}                              
                     <br>
+                    Expected Points - {{pr.issue.points}}
                     {% if page_user.profile.role == 'mentor' and page_user.is_staff %}
                     <button class="unvclose">Reject</button>
                     {% endif %}
