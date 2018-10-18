@@ -6,26 +6,8 @@
 {% block head_extra %}
 
 <link type="text/css" rel="stylesheet" href="static/Projects/css/materialize.min.css"  media="screen,projection"/>
+<link type="text/css" rel="stylesheet" href="static/Users/css/login.css"  media="screen,projection"/>
 
-<style>
-    .error_signin, .error_register {
-        color:brown;
-        padding: 2px;
-        font-size: 12px;
-    }
-    body {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .registration {
-        background-color: bisque;
-        display: flex;
-        flex-wrap: wrap;
-        width: 500px;
-        margin-top: 100px;
-    }
-</style>
 {% endblock head_extra %}
 
 {% block body_content %}
@@ -57,7 +39,7 @@
                             <input type="password" name="password" id="form2" class="form-control" required="true">
                             <label for="form2">Password</label>
                             <p class="font-small blue-text d-flex justify-content-end">Forgot
-                                <a href="#" class="blue-text ml-1"> Password?</a>
+                                <a href="{% url 'password_reset' %}" class="blue-text ml-1"> Password?</a>
                             </p>
                         </div>
                         <div class="text-center mb-3">

@@ -12,7 +12,8 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 import django_heroku
 import os
 from unipath import Path
-from decouple import config, Csv
+# from decouple import config, Csv
+import config, csv
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = Path(__file__).parent
@@ -33,18 +34,19 @@ DEBUG=True
 # else: DEBUG = False
 
 
-
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = ['*']
 # ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 
 
 # Application definition
 
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER='deepakbharti@mnnit.ac.in'
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', "")
-EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_HOST_USER='deepakbharti@mnnit.ac.in'
+# EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', "")
+# EMAIL_PORT = 587
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  
 
 '''
 If using gmail, you will need to
@@ -56,15 +58,15 @@ https://accounts.google.com/displayunlockcaptcha
 
 
 INSTALLED_APPS = [
+    'Users',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
     'Projects',
-    'Users',
+    
 ]
 
 MIDDLEWARE = [
@@ -104,27 +106,27 @@ WSGI_APPLICATION = 'ContriHub.wsgi.application'
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
 # print(DB_PASS)
-if 'DATABASE_URL' in os.environ:
-    import dj_database_url
-    DATABASES = {'default': dj_database_url.config(default=os.environ.get('DATABASE_URL',""))}
-else:
-    DB_PASS = os.environ.get('CONTRIHUB_PASS', "")
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'contrihub_db',
-            'USER': 'contrihub_user',
-            'PASSWORD': DB_PASS,
-            'HOST': 'localhost',
-            'PORT': '',
-        }
+# if 'DATABASE_URL' in os.environ:
+#     import dj_database_url
+#     DATABASES = {'default': dj_database_url.config(default=os.environ.get('DATABASE_URL',""))}
+# else:
+#     DB_PASS = os.environ.get('CONTRIHUB_PASS', "")
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#             'NAME': 'contrihub_db',
+#             'USER': 'contrihub_user',
+#             'PASSWORD': DB_PASS,
+#             'HOST': 'localhost',
+#             'PORT': '',
+#         }
+#     }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
-    # DATABASES = {
-    #     'default': {
-    #         'ENGINE': 'django.db.backends.sqlite3',
-    #         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    #     }
-    # }
+}
 
 
 # Password validation
@@ -194,20 +196,20 @@ FILE_UPLOAD_PERMISSIONS = 0o644
 #added to host on heroku
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
-import netifaces
+# import netifaces
 
 # Find out what the IP addresses are at run time
 # This is necessary because otherwise Gunicorn will reject the connections
-def ip_addresses():
-    ip_list = []
-    for interface in netifaces.interfaces():
-        addrs = netifaces.ifaddresses(interface)
-        for x in (netifaces.AF_INET, netifaces.AF_INET6):
-            if x in addrs:
-                ip_list.append(addrs[x][0]['addr'])
-    return ip_list
+# def ip_addresses():
+#     ip_list = []
+#     for interface in netifaces.interfaces():
+#         addrs = netifaces.ifaddresses(interface)
+#         for x in (netifaces.AF_INET, netifaces.AF_INET6):
+#             if x in addrs:
+#                 ip_list.append(addrs[x][0]['addr'])
+#     return ip_list
 
 # Discover our IP address
-ALLOWED_HOSTS += ip_addresses()
+# ALLOWED_HOSTS += ip_addresses()
 
-django_heroku.settings(locals())
+# django_heroku.settings(locals())
