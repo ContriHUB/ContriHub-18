@@ -1,12 +1,22 @@
-<div class="col prs_vclosed">
+{% extends "Projects/base.html" %}
+{% load staticfiles %}
+ {% block title_extra %}Contributions {% endblock title_extra %}
+ {% block body_content %}
+ {% include 'Projects/navbar.html' %}
+<div class="container" style="margin-top:80px; color:#41f4c1">
+     <h2 style="text-align:center;">Solved Issues!!</h2>
+    <hr style="background-color:#42f4eb">
+
+
+    <div class="col prs_vclosed">
     <br>
     {% if prs_vclosed %}
     <div class="container">
         {% for pr in prs_vclosed %}
-        <div class="card ppr" csrf="{{ csrf_token }}">
-            <div class="card-body"> 
+        <div class="card">
+            <div class="card-body">
                 <div class="card-title">
-                    {{forloop.counter}}. Issue - 
+                    {{forloop.counter}}. Issue -
                     <a href="{{pr.issue.link_issue}}" class="pr_info" pr-id="{{pr.id}}"> {{pr.issue.title_issue}}</a> <br>
                 </div>
                 <div class="card-text">
@@ -16,8 +26,8 @@
                     {% endif %}
 
                     From User - <a href="https://github.com/{{pr.from_user.username}}"> {{pr.from_user.username}} </a> <br>
-                    
-                    Project - 
+
+                    Project -
                     <a href="{{pr.issue.link_project}}"> {{pr.issue.title_project}}</a> <br>
 
                     Mentor -
@@ -25,17 +35,15 @@
 
                     Label -
                     {% if pr.issue.level == 1 %}
-                    Easy 
+                    Easy
                     {% elif pr.issue.level == 2 %}
-                    Medium 
+                    Medium
                     {% elif pr.issue.level == 3 %}
-                    Hard 
-                    {% endif %}                              
+                    Hard
+                    {% endif %}
                     <br>
                     Expected Points - {{pr.issue.points}}
-                    {% if page_user.profile.role == 'mentor' and page_user.is_staff %}
-                    <button class="unvclose">Reject</button>
-                    {% endif %}
+
                 </div>
             </div>
         </div>
@@ -43,10 +51,9 @@
     </div>
 
     {% else %}
-    {% if page_user.profile.role == 'student' %}
-    <h3 style="color: white"> You have pull requests which are not yet verified :(. </h3>
-    {% else %}
-    <h3 style="color: white"> You are a mentor and you aren't suppose to have any such prs :-) </h3>
+        <div class="container"><h4 style="text-align:center">No solved Issues.</h4></div>
+
     {% endif %}
-    {% endif %}
-</div> 
+</div>
+</div>
+ {% endblock body_content %}
