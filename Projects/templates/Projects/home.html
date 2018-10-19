@@ -67,6 +67,11 @@
                       Hard
                   {% endif %}<br />
              Expected Points - {{issue.points}}<br />
+             {% if issue.label == 1 %}
+                <span class="label open">OPEN</span><br />
+             {% elif issue.label == 0 %}
+                <span class="label closed">CLOSED</span><br />
+             {% endif %}
             </p>
           </div>
           {% if request.user.profile.role != 'mentor'  %}
