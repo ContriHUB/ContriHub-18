@@ -39,7 +39,6 @@ ALLOWED_HOSTS = ['*']
 #     ALLOWED_HOSTS = ['.contrihubs.herokuapp.com','www.contrihubs.herokuapp.com']
 
 
-ALLOWED_HOSTS = ['*']
 # ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 
 
@@ -66,16 +65,15 @@ https://accounts.google.com/displayunlockcaptcha
 
 
 INSTALLED_APPS = [
+    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
-    'Users',
+
     'Projects',
-    'crispy_forms',
-    'django.contrib.admin',
+    'Users',
 ]
 
 MIDDLEWARE = [
@@ -113,7 +111,6 @@ WSGI_APPLICATION = 'ContriHub.wsgi.application'
 
 # Database documentation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
-
 
 # print(DB_PASS)
 if 'DATABASE_URL' in os.environ: #this is for heroku
