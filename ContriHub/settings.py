@@ -39,6 +39,7 @@ ALLOWED_HOSTS = ['*']
 #     ALLOWED_HOSTS = ['.contrihubs.herokuapp.com','www.contrihubs.herokuapp.com']
 
 
+ALLOWED_HOSTS = ['*']
 # ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 
 
@@ -65,15 +66,16 @@ https://accounts.google.com/displayunlockcaptcha
 
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    'Projects',
+    
     'Users',
+    'Projects',
+    'crispy_forms',
+    'django.contrib.admin',
 ]
 
 MIDDLEWARE = [
@@ -112,6 +114,7 @@ WSGI_APPLICATION = 'ContriHub.wsgi.application'
 # Database documentation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
+
 # print(DB_PASS)
 if 'DATABASE_URL' in os.environ: #this is for heroku
     import dj_database_url
@@ -125,6 +128,7 @@ else:
             'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         }
     }
+    
     #An example how you can setup postgres sql in local, create a postgres db and provide relevant details in this format
     # DB_PASS = os.environ.get('CONTRIHUB_PASS', "")
     # DATABASES = {
@@ -134,6 +138,20 @@ else:
     #         'USER': 'contrihub_user',
     #         'PASSWORD': DB_PASS,
     #         'HOST': 'localhost',
+    #         'PORT': '',
+    #     }
+    # }
+    # DATABASES = {
+    #     'default': {
+    #         'ENGINE': 'django.db.backends.mysql',
+    #         'OPTIONS': {
+    #             # 'read_default_file': '/path/to/my.cnf',
+    #         },
+    #         # 'NAME': os.path.join(BASE_DIR, 'testdb'),
+    #         'NAME': 'contrihub_db',
+    #         'USER': 'user',
+    #         'PASSWORD': '1234',
+    #         'HOST': '127.0.0.1',
     #         'PORT': '',
     #     }
     # }

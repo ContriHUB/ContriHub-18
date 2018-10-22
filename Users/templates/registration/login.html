@@ -5,6 +5,7 @@
 
 {% block head_extra %}
 
+
 <link type="text/css" rel="stylesheet" href="{% static 'Projects/css/materialize.min.css' %}"  media="screen,projection"/>
 
 <link type="text/css" rel="stylesheet" href="{% static 'Projects/css/login.css' %}"/>
@@ -20,7 +21,9 @@
                 </div>
                 
                 <div class="signin">
-                    {% if error_signin %}
+                    {% if error_password %}
+                        <span class="error_register">Wrong Password :-(</span>
+                    {% elif error_signin %}
                         <span class="error_signin">There is no user with this username, You need to register first!</span>
                     {% elif error_inactive %}
                     <span class="error_signin">You are a mentor and you are yet to be verified, contact 
@@ -29,17 +32,18 @@
                         <a href="mailto:akshay31057@gmail.com">Akshay</a>
                     </span>
                     {% endif %}
-                    <form action="{% url 'signin' %}" class="form_login" method="post" autocomplete="off">
+                    <form action="{% url 'signin' %}" class="form_login" method="post">
                         {% csrf_token %}
                         <div class="md-form">
-                            <input type="text" name="username" id="form1" class="form-control" required="true">
+                            <input type="text" name="username" id="form1" class="form-control" required="true" autocomplete="off">
                             <label for="form1">GitHub Username</label>
                         </div>
                         <div class="md-form">
-                            <input type="password" name="password" id="form2" class="form-control" required="true">
+                            <input type="password" name="password" id="form2" class="form-control" required="true" autocomplete="off">
                             <label for="form2">Password</label>
+
                             <p class="font-small blue-text d-flex justify-content-end">Forgot
-                                <a href="#" class="blue-text ml-1"> Password?</a>
+                                <a href="{% url 'password_reset' %}" class="blue-text ml-1"> Password?</a>
                             </p>
                         </div>
                         <div class="text-center mb-3">
@@ -47,7 +51,7 @@
                         </div>
                         <div class="modal-footer mx-5 pt-3 mb-1">
                                 <p class="font-small grey-text d-flex justify-content-end">Not a member?
-                                    <span class="signup_text blue-text ml-1"> SignUp </span>
+                                    <a class="signup_text blue-text ml-1"> SignUp </a>
                                 </p>
                         </div>
                     </form>
@@ -56,21 +60,27 @@
                 <div class="signup">
                     {% if error_register %}
                         <span class="error_register">User with this username already exists!</span>
+			{% elif error_pass %}
+                        	<span class="error_pass">Password didnt match!</span>
                     {% endif %}
 
                     <form action="{% url 'register' %}" class="form_register" method="post" autocomplete="off">
                         {% csrf_token %}
                         <div class="md-form">
-                            <input type="text" name="username" id="form3" class="form-control" required="true">
+                            <input type="text" name="username" id="form3" class="form-control" required="true" autocomplete="off">
                             <label for="form3">GitHub Username</label>
                         </div>
                         <div class="md-form">
-                            <input type="password" name="password" id="form4" class="form-control" required="true">
+                            <input type="password" name="password" id="form4" class="form-control" required="true" autocomplete="off">
                             <label for="form4">Password</label>
                         </div>
+			<div class="md-form">
+                            <input type="password" name="confirm_assword" id="form5" class="form-control" required="true" autocomplete="off">
+                            <label for="form5">Confirm Password</label>
+                        </div>
                         <div class="md-form">
-                            <input type="text" name="email" id="form5" class="form-control" required="true">
-                            <label for="form5">Email Address</label>
+                            <input type="text" name="email" id="form6" class="form-control" required="true">
+                            <label for="form6">Email Address</label>
                         </div>
                         <br>
                         <div class="input-field">
@@ -96,7 +106,7 @@
                         </div>
                         <div class="modal-footer mx-5 pt-3 mb-1">
                                 <p class="font-small grey-text d-flex justify-content-end">Already a member?
-                                    <span class="signin_text blue-text ml-1"> Sign In </span>
+                                    <a class="signin_text blue-text ml-1"> Sign In </a>
                                 </p>
                         </div>
                     </form>
@@ -107,9 +117,8 @@
 
 {% endblock body_content %}
 
-
 {% block js_extra %}
-{% if error_register %}
+{% if error_register  or error_pass%}
     <script>
         $(document).ready(function(){
             $(".signin").hide();
@@ -123,19 +132,6 @@
     </script>    
 {% endif %}
 
-<script type="text/javascript">
-    $(document).ready(function(){
-        $(".signup_text").click(function () {
-            $(".signin").hide(); //$("#human").removeClass('bottom');
-            $(".signup").show();  //$("#product").addClass('bottom');
-        });
-        
-        $(".signin_text").click(function () {
-            $(".signup").hide(); //  $("#product").removeClass('bottom');
-            $(".signin").show();  // $("#human").addClass('bottom');
-        });
-
-        $('select').formSelect();
-    })      
+<script type="text/javascript" src = "/static/Users/js/login.js">      
 </script>
 {% endblock js_extra %}
