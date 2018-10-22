@@ -27,6 +27,13 @@ def leaderboard(request):
 	users = User.objects.all().filter(profile__role='student').order_by('-profile__points')
 	return render(request, 'Projects/leaderboard.html', {'users': users})
 
+def contri(request, username):
+    user = get_object_or_404(User, username=username)
+    prs_vclosed = Prs.objects.all().filter(from_user=user, status=3)
+    return render(request, 'Projects/contribution.html', {
+                                                    'prs_vclosed': prs_vclosed,
+                                                    'user':user})
+
 @login_required(login_url='signin')
 def profile(request, username):
 	#solved issues are closed after verification
@@ -54,7 +61,7 @@ def profile(request, username):
 								})
 	elif request.user.profile.role == 'mentor' and request.user.is_staff:
 		print('its a mentor and staff status approved')
-		all_prs			  = Prs.objects.all().filter(issue__mentor=user)
+		all_prs           = Prs.objects.all().filter(issue__mentor=user)
 		prs_vclosed       = Prs.objects.all().filter(issue__mentor=user, status=3)
 		prs_unvclosed     = Prs.objects.all().filter(issue__mentor=user, status=4)
 		prs_pending 	  = Prs.objects.all().filter(issue__mentor=user, status=2)
@@ -108,7 +115,6 @@ def request_pr(request):
 
 				from_email = django_settings.EMAIL_HOST_USER
 				to_email = [issue.mentor.email]
-
 				subject = request.user.username + ' has requested you accept PR'
 				message = 'Hi '+ mentor.username + '!' + '<br>' + 'Here is a request for verifying a PR which you mentor.<br>'\
 						'Issue - <a href="' + link_issue+ '">' + title_issue + '</a><br>' +\
@@ -195,7 +201,7 @@ def remove_pr(request):
 			response="You didn't create this PR. So this can not be deleted by you. Sorry :("
 
 		return HttpResponse(response)
-
+		    
 # def add_issue(request):
 #     if request.method=='POST':
 #         title_issue=request.POST.get('title_issue')
