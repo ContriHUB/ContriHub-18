@@ -185,8 +185,14 @@
         var infiniteScroll = new Waypoint.Infinite({
           element: $('.issues-container')[0],
           items: '.issue-list-item',
-          loadingClass: 'more-issues-loading',
-          more: '.more-issues-link'
+          //loadingClass: 'more-issues-loading',
+          more: '.more-issues-link',
+          onBeforePageLoad: function(){
+              $('.more-issues-loading').show();
+          },
+          onAfterPageLoad: function(){
+              $('.more-issues-loading').hide();
+          }
         });
     });
 </script>

@@ -30,6 +30,7 @@ def home(request):
 		issues = issues.order_by('points')
 		paginator = Paginator(issues, 15)  # Show 15 issues per page
 		page = request.GET.get('page', 1)
+		
 		try:
 			issues = paginator.get_page(page)
 		except PageNotAnInteger:
@@ -42,8 +43,9 @@ def home(request):
 																					#all filter attributes or you can also send a list of all such attrs
 
 def leaderboard(request):
-	users = User.objects.all().filter(profile__role='student').order_by('-profile__points')
-	return render(request, 'Projects/leaderboard.html', {'users': users})
+	if request.method == 'GET':
+		users = User.objects.all().filter(profile__role='student').order_by('-profile__points')
+		return render(request, 'Projects/leaderboard.html', {'users': users})
 
 @login_required(login_url='signin')
 def profile(request, username):
