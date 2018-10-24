@@ -1,9 +1,6 @@
 $(document).ready(function() {
-  $(".process").hide();
   $(".prs_pending").hide();
-  $(".prs_nattempted").hide();
   $(".prs_vclosed").hide();
-  $(".prs_unvclosed").hide();
 
   $(".vclose,.unvclose").click(function(e) {
     e.preventDefault();
@@ -67,41 +64,31 @@ $(document).ready(function() {
   $(".all").click(function() {
     $(".issues_all").show();
     $(".prs_pending").hide();
-    $(".prs_nattempted").hide();
     $(".prs_vclosed").hide();
-    $(".prs_unvclosed").hide();
   });
 
   $(".pending").click(function() {
     $(".prs_pending").show();
     $(".issues_all").hide();
-    $(".prs_nattempted").hide();
     $(".prs_vclosed").hide();
-    $(".prs_unvclosed").hide();
   });
 
   $(".vclosed").click(function() {
     $(".prs_vclosed").show();
     $(".prs_pending").hide();
     $(".issues_all").hide();
-    $(".prs_nattempted").hide();
-    $(".prs_unvclosed").hide();
   });
 
   $(".nvclosed").click(function() {
-    $(".prs_unvclosed").show();
     $(".prs_pending").hide();
     $(".issues_all").hide();
-    $(".prs_nattempted").hide();
     $(".prs_vclosed").hide();
   });
 
   $(".nattempted").click(function() {
-    $(".prs_nattempted").show();
     $(".prs_pending").hide();
     $(".issues_all").hide();
     $(".prs_vclosed").hide();
-    $(".prs_unvclosed").hide();
   }); 
 
 });
