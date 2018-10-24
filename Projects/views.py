@@ -11,32 +11,6 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
 from .models import Issues,Prs
 
-
-def ajax_fetch(request):
-    user = get_object_or_404(User, username=request.GET['username'])
-    if request.method=='GET':
-        if request.user.profile.role == 'student' and request.user == user:
-
-            prs_pending = Prs.objects.all().filter(from_user=user, status=request.GET['status'])
-            print("inside ajax _fetch")
-            return render(request,'Projects/prs_pending.html',{'prs_pending':prs_pending,'page_user':user,})
-
-        elif request.user.profile.role == 'mentor' and request.user.is_staff:
-
-            prs_pending = Prs.objects.all().filter(issue__mentor=user, status=request.GET['status'])
-            print("inside ajax _fetch")
-            return render(request, 'Projects/prs_pending.html', {'prs_pending': prs_pending, 'page_user': user, })
-
-
-def contri_user(request,username):
-    user = get_object_or_404(User, username=username)
-    prs_vclosed = Prs.objects.all().filter(from_user=user, status=3)
-    prs_pending = Prs.objects.all().filter(from_user=user, status=2)
-    return render(request, 'Projects/contribution_user.html', {
-                                'prs_vclosed': prs_vclosed,
-                                'prs_pending':prs_pending,
-                                })
-
 def home(request):
 	if request.method == 'GET':
 		print('home GET')
@@ -79,6 +53,7 @@ def leaderboard(request):
 		users = User.objects.all().filter(profile__role='student').order_by('-profile__points')
 		return render(request, 'Projects/leaderboard.html', {'users': users})
 
+
 @login_required(login_url='signin')
 def profile(request, username):
 	#solved issues are closed after verification
@@ -91,24 +66,19 @@ def profile(request, username):
 	all_prs 		  = Prs.objects.all().filter(from_user=user)
 	if request.user.profile.role=='student' and request.user == user:
 		print('its a student', user.username)
-		prs_nattempted    = Prs.objects.all().filter(from_user=user, status=1)
 		prs_vclosed       = Prs.objects.all().filter(from_user=user, status=3)
-		prs_unvclosed     = Prs.objects.all().filter(from_user=user, status=4)
 		prs_pending 	  = Prs.objects.all().filter(from_user=user, status=2)
 		print(len(prs_nattempted),len(prs_vclosed))
 		return render(request, 'Projects/profile.html', {
 								'page_user' : user,
 								'all_prs' : all_prs,
-								'prs_not_attempted': prs_nattempted,
 								'prs_pending': prs_pending,
 								'prs_vclosed': prs_vclosed,
-								'prs_unvclosed': prs_unvclosed,
 								})
 	elif request.user.profile.role == 'mentor' and request.user.is_staff:
 		print('its a mentor and staff status approved')
 		all_prs			  = Prs.objects.all().filter(issue__mentor=user)
 		prs_vclosed       = Prs.objects.all().filter(issue__mentor=user, status=3)
-		prs_unvclosed     = Prs.objects.all().filter(issue__mentor=user, status=4)
 		prs_pending 	  = Prs.objects.all().filter(issue__mentor=user, status=2)
 		print(len(prs_vclosed))
 		return render(request, 'Projects/profile.html', {
@@ -116,9 +86,17 @@ def profile(request, username):
 								'all_prs' : all_prs,
 								'prs_pending': prs_pending,
 								'prs_vclosed': prs_vclosed,
-								'prs_unvclosed': prs_unvclosed,
 								})
 	else: return redirect("home")
+
+def contri_user(request,username):
+    user = get_object_or_404(User, username=username)
+    prs_vclosed = Prs.objects.all().filter(from_user=user, status=3)
+    prs_pending = Prs.objects.all().filter(from_user=user, status=2)
+    return render(request, 'Projects/contribution_user.html', {
+                                'prs_vclosed': prs_vclosed,
+                                'prs_pending':prs_pending,
+                                })
 
 
 def request_pr(request):
