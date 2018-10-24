@@ -20,7 +20,7 @@
           <tr>
             <th scope="col"><strong>Rank</strong></th>
             <th scope="col"><strong>User</strong> (Github Profile)</th>
-            <th scope="col"><strong>Score</strong>(Contributions)</th>
+            <th scope="col"><strong>Score</strong><br> (click on score to see Contributions)</th>
           </tr>
         </thead>
         <tbody>
@@ -28,7 +28,7 @@
             <tr>
               <th scope="row">{{forloop.counter}}</th>
               <td><a href="https://github.com/{{user.username}}">{{user.username}}</a></td>
-              <td><a href="{%url 'contri_user' user.username %}">{{user.profile.points}}</a></td>
+              <td><a href="{%url 'contri_user' user.username %}" style="color:blue;">{{user.profile.points}}</a></td>
             </tr>
           {% endfor %}
         </tbody>
