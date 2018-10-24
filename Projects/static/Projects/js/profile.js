@@ -1,8 +1,8 @@
 $(document).ready(function() {
   $(".process").hide();
-  $(".prs_pending").hide();
+  $(".pending_prs").hide();
   $(".prs_nattempted").hide();
-  $(".prs_vclosed").hide();
+  $(".verified_prs").hide();
   $(".prs_unvclosed").hide();
 
   $(".vclose,.unvclose").click(function(e) {
@@ -38,27 +38,69 @@ $(document).ready(function() {
     });
   });
 
+
+
+
+
+
+$(".pending").click(function(e) {
+    e.preventDefault();
+    dataType:'json',
+    $.ajax({
+      url: "ajax_fetch",
+      data: {
+       'status':2,
+       'username':username,
+
+      },
+      type: "get",
+      cache: false,
+
+      success: function(data) {
+
+       $(".pending_prs").html(data);
+       $(".pending_prs").show();
+       $(".issues_all").hide();
+       $(".verified_prs").hide();
+      },
+
+    });
+  });
+
+
+
+$(".vclosed").click(function(e) {
+    e.preventDefault();
+    dataType:'json',
+    $.ajax({
+      url: "ajax_fetch",
+      data: {
+       'status':3,
+       'username':username,
+
+
+      },
+      type: "get",
+      cache: false,
+
+      success: function(data) {
+
+       $(".verified_prs").html(data);
+       $(".verified_prs").show();
+       $(".issues_all").hide();
+       $(".pending_prs").hide();
+      },
+
+    });
+  });
+
+
+
   $(".all").click(function() {
     $(".issues_all").show();
-    $(".prs_pending").hide();
+    $(".pending_prs").hide();
     $(".prs_nattempted").hide();
-    $(".prs_vclosed").hide();
-    $(".prs_unvclosed").hide();
-  });
-
-  $(".pending").click(function() {
-    $(".prs_pending").show();
-    $(".issues_all").hide();
-    $(".prs_nattempted").hide();
-    $(".prs_vclosed").hide();
-    $(".prs_unvclosed").hide();
-  });
-
-  $(".vclosed").click(function() {
-    $(".prs_vclosed").show();
-    $(".prs_pending").hide();
-    $(".issues_all").hide();
-    $(".prs_nattempted").hide();
+    $(".verified_prs").hide();
     $(".prs_unvclosed").hide();
   });
 
@@ -76,7 +118,7 @@ $(document).ready(function() {
     $(".issues_all").hide();
     $(".prs_vclosed").hide();
     $(".prs_unvclosed").hide();
-  }); 
+  });
 
   $(".delete").click(function(e) {
     e.preventDefault();
