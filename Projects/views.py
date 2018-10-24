@@ -32,8 +32,10 @@ def ajax_fetch(request):
 def contri_user(request,username):
     user = get_object_or_404(User, username=username)
     prs_vclosed = Prs.objects.all().filter(from_user=user, status=3)
+    prs_pending = Prs.objects.all().filter(from_user=user, status=2)
     return render(request, 'Projects/contribution_user.html', {
                                 'prs_vclosed': prs_vclosed,
+                                'prs_pending':prs_pending,
                                 })
 
 def home(request):
