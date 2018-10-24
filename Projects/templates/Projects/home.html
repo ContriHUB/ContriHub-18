@@ -13,6 +13,13 @@
         color: azure;
         font-weight: bold;
     }
+    .open,.close {
+        border-radius: 30%;
+        font-size: 14px;
+    } 
+    .delete {
+        font-size: 14px;
+    }
 </style>
 {% endblock head_extra %} 
 
@@ -58,7 +65,13 @@
               <a href="{{issue.link_issue}}" class="issue-info" issue-id="{{issue.id}}">
                 {{issue.title_issue}}
               </a>
+              {% if issue.label == 1 %}
+                <small class="label open pull-right">OPEN</small>
+              {% elif issue.label == 0 %}
+                 <small class="label closed pull-right">CLOSED</small>
+              {% endif %}
             <h4>
+    
             {% if request.user == issue.mentor %}
              <a href="#"><i class="fa fa-trash-o delete"></i></a>
             {% endif %}
@@ -74,8 +87,8 @@
                       Medium
                   {% elif issue.level == 3 %}
                       Hard
-                  {% endif %}<br />
-             Expected Points - {{issue.points}}<br />
+                  {% endif %}<br>
+             Expected Points - {{issue.points}}<br />             
             </p>
           </div> 
           {% if request.user.profile.role != 'mentor'  %}
