@@ -55,9 +55,8 @@ def home(request):
 				project_filter = Issues.objects.filter(title_project=val)
 				mentor_filter  = Issues.objects.filter(mentor__username=val)
 				level_filter   =  Issues.objects.filter(level=val)
-				issues = project_filter or mentor_filter or level_filter 
+				issues = project_filter or mentor_filter or level_filter
 			except Exception:
-				print('no such issues as val fallback to all isues')
 				issues = Issues.objects.all()	
 		else: issues = Issues.objects.all()
 		issues = issues.order_by('points')
