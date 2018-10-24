@@ -28,7 +28,6 @@ def ajax_fetch(request):
             return render(request, 'Projects/prs_pending.html', {'prs_pending': prs_pending, 'page_user': user, })
 
 
-
 def contri_user(request,username):
     user = get_object_or_404(User, username=username)
     prs_vclosed = Prs.objects.all().filter(from_user=user, status=3)
@@ -52,7 +51,14 @@ def home(request):
 		# First it checks for project name
 		if val and val != 'points': # here the issues after or should belike 
 			# Issues.objects.filter( Q(title_project=val) & Q(mentor__username=mentor_name)) 
-			issues = Issues.objects.filter(title_project=val) or Issues.objects.filter(mentor__username=val) or Issues.objects.filter(level=val)
+			try:
+				project_filter = Issues.objects.filter(title_project=val)
+				mentor_filter  = Issues.objects.filter(mentor__username=val)
+				level_filter   =  Issues.objects.filter(level=val)
+				issues = project_filter or mentor_filter or level_filter 
+			except Exception:
+				print('no such issues as val fallback to all isues')
+				issues = Issues.objects.all()	
 		else: issues = Issues.objects.all()
 		issues = issues.order_by('points')
 		paginator = Paginator(issues, 15)  # Show 15 issues per page
