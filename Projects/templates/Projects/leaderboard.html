@@ -15,6 +15,7 @@
   <div class="card" style="margin-top: 100px">
 
     <div class="card-body" style="margin-bottom:20px">
+      
       <table class="table table-hover">
         <thead class="thead-dark">
           <tr>
@@ -24,6 +25,7 @@
           </tr>
         </thead>
         <tbody>
+          
           {% for user in users %}
             <tr>
               <th scope="row">{{forloop.counter}}</th>
@@ -31,6 +33,7 @@
               <td><a href="{%url 'contri_user' user.username %}" style="color:blue;">{{user.profile.points}}</a></td>
             </tr>
           {% endfor %}
+          
         </tbody>
       </table>
     </div>
@@ -39,6 +42,7 @@
     </div>
 </div>
 </div>
+
 
 {% endblock body_content %}
 
