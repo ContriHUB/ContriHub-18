@@ -128,6 +128,7 @@ else:
             'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         }
     }
+    
     #An example how you can setup postgres sql in local, create a postgres db and provide relevant details in this format
     # DB_PASS = os.environ.get('CONTRIHUB_PASS', "")
     # DATABASES = {
