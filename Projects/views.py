@@ -68,7 +68,7 @@ def profile(request, username):
 		print('its a student', user.username)
 		prs_vclosed       = Prs.objects.all().filter(from_user=user, status=3)
 		prs_pending 	  = Prs.objects.all().filter(from_user=user, status=2)
-		print(len(prs_nattempted),len(prs_vclosed))
+		print(len(prs_vclosed))
 		return render(request, 'Projects/profile.html', {
 								'page_user' : user,
 								'all_prs' : all_prs,
