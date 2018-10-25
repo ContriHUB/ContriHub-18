@@ -14,6 +14,8 @@ class Issues(models.Model):
 
     level  = models.IntegerField(_('level_issue'), default=1) #1-easy, 2-medium, 3-difficult 
     points = models.IntegerField(_('points_for_issue'), default=0)
+    label  = models.IntegerField(_('label_of_issue'), default=1) #1=open and 0=closed issue
+    
     class Meta:
         db_table = 'issues_info'
         managed = True

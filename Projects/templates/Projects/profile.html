@@ -84,15 +84,16 @@
                 {% endif %}
         </div>   
         
-        {% include 'Projects/prs_vclosed.html' %}
         {% include 'Projects/prs_pending.html' %}
-        
+        {% include 'Projects/prs_vclosed.html' %}
+
     </div>
 </div>
 {% endblock body_content %}
 
 
 {% block js_extra %}
+<script>var username='{{page_user.username}}'</script>
 <script type="text/javascript" src="{% static 'Projects/js/profile.js' %}"></script>
 {% endblock js_extra %}
     

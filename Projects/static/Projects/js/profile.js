@@ -1,9 +1,6 @@
 $(document).ready(function() {
-  $(".process").hide();
   $(".prs_pending").hide();
-  $(".prs_nattempted").hide();
   $(".prs_vclosed").hide();
-  $(".prs_unvclosed").hide();
 
   $(".vclose,.unvclose").click(function(e) {
     e.preventDefault();
@@ -11,7 +8,7 @@ $(document).ready(function() {
     var pr_id = $(".pr_info", pr).attr("pr-id");
     var csrf = $(".ppr").attr("csrf");
     // $(".process",this).show();
-    console.log("csrf = "+csrf);
+
     $.ajax({
       url: "response_pr",
       data: {
@@ -38,53 +35,12 @@ $(document).ready(function() {
     });
   });
 
-  $(".all").click(function() {
-    $(".issues_all").show();
-    $(".prs_pending").hide();
-    $(".prs_nattempted").hide();
-    $(".prs_vclosed").hide();
-    $(".prs_unvclosed").hide();
-  });
-
-  $(".pending").click(function() {
-    $(".prs_pending").show();
-    $(".issues_all").hide();
-    $(".prs_nattempted").hide();
-    $(".prs_vclosed").hide();
-    $(".prs_unvclosed").hide();
-  });
-
-  $(".vclosed").click(function() {
-    $(".prs_vclosed").show();
-    $(".prs_pending").hide();
-    $(".issues_all").hide();
-    $(".prs_nattempted").hide();
-    $(".prs_unvclosed").hide();
-  });
-
-  $(".nvclosed").click(function() {
-    $(".prs_unvclosed").show();
-    $(".prs_pending").hide();
-    $(".issues_all").hide();
-    $(".prs_nattempted").hide();
-    $(".prs_vclosed").hide();
-  });
-
-  $(".nattempted").click(function() {
-    $(".prs_nattempted").show();
-    $(".prs_pending").hide();
-    $(".issues_all").hide();
-    $(".prs_vclosed").hide();
-    $(".prs_unvclosed").hide();
-  }); 
-
   $(".delete").click(function(e) {
     e.preventDefault();
-    var pr = $(this).closest(".ppr");
+    var pr = $(this).closest(".ind_pr");
     var pr_id = $(".pr_info", pr).attr("pr-id");
     var csrf = $(".ppr").attr("csrf");
     console.log("pr_id " + pr_id);
-    console.log("csrf = "+csrf);
     $.ajax({
       url: "remove_pr",
       data: {
@@ -104,4 +60,35 @@ $(document).ready(function() {
       }
     });
   });
+
+  $(".all").click(function() {
+    $(".issues_all").show();
+    $(".prs_pending").hide();
+    $(".prs_vclosed").hide();
+  });
+
+  $(".pending").click(function() {
+    $(".prs_pending").show();
+    $(".issues_all").hide();
+    $(".prs_vclosed").hide();
+  });
+
+  $(".vclosed").click(function() {
+    $(".prs_vclosed").show();
+    $(".prs_pending").hide();
+    $(".issues_all").hide();
+  });
+
+  $(".nvclosed").click(function() {
+    $(".prs_pending").hide();
+    $(".issues_all").hide();
+    $(".prs_vclosed").hide();
+  });
+
+  $(".nattempted").click(function() {
+    $(".prs_pending").hide();
+    $(".issues_all").hide();
+    $(".prs_vclosed").hide();
+  }); 
+
 });

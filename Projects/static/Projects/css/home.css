@@ -41,6 +41,14 @@
   padding: 0px;
 }
 
+.label {
+    color: white;
+    padding: 5px;
+}
+
+.open {background-color: #4CAF50;}
+.closed {background-color: #f44336;}
+
 @media screen and (min-width: 576px) {
   .issues-container {
     flex-direction: row;
