@@ -9,85 +9,90 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
-from .models import Issues,Prs
+from .models import Issues, Prs
+
 
 def home(request):
-	if request.method == 'GET':
-		print('home GET')
+    if request.method == 'GET':
+        print('home GET')
 		# Getting value of the clicked option
-		val=''
-		try:
-			val = request.GET['value']  #Now here you need to look for more attributes like 
-										# title_project,title_issue,mentor_name etc
-		except Exception:
-			pass
-		print('val - ',val)
-		# First it checks for project name
-		if val and val != 'points': # here the issues after or should belike 
-			# Issues.objects.filter( Q(title_project=val) & Q(mentor__username=mentor_name)) 
-			try:
-				project_filter = Issues.objects.filter(title_project=val)
-				mentor_filter  = Issues.objects.filter(mentor__username=val)
-				level_filter   =  Issues.objects.filter(level=val)
-				issues = project_filter or mentor_filter or level_filter
-			except Exception:
-				issues = Issues.objects.all()	
-		else: issues = Issues.objects.all()
-		issues = issues.order_by('points')
-		paginator = Paginator(issues, 15)  # Show 15 issues per page
-		page = request.GET.get('page', 1)
-		
-		try:
-			issues = paginator.get_page(page)
-		except PageNotAnInteger:
-			issues = paginator.get_page(1)
-			# issues = paginator.get_page(1)
-		except EmptyPage:
-			issues = paginator.get_page(paginator.num_pages)
-			issues = Issues.objects.none()
-		return render(request, 'Projects/home.html', {'issues': issues, 'val':val}) #this dic will have value of
+        val = ''
+        try:
+            val = request.GET['value']
+        except Exception:
+            pass
+        print('val - ', val)
+        # First it checks for project name
+        if val and val != 'points':
+            try:
+                print("in the try block")
+                val = int(val)
+                issues = Issues.objects.filter(level = val)
+            except Exception:
+                print("in the except block")
+                project_filter = Issues.objects.filter(title_project=str(val))
+                mentor_filter  = Issues.objects.filter(mentor__username=str(val))
+                issues = project_filter or mentor_filter
+                
+        else:
+            print("all issues|else block")
+            issues = Issues.objects.all()
+            
+        issues = issues.order_by('points')
+        paginator = Paginator(issues, 15)  # Show 15 issues per page
+        page = request.GET.get('page', 1)
+        
+        try:
+            issues = paginator.get_page(page)
+        except PageNotAnInteger:
+            issues = paginator.get_page(1)
+            # issues = paginator.get_page(1)
+        except EmptyPage:
+            issues = paginator.get_page(paginator.num_pages)
+            issues = Issues.objects.none()
+        return render(request, 'Projects/home.html', {'issues': issues, 'val':val}) #this dic will have value of
 																					#all filter attributes or you can also send a list of all such attrs
 
 def leaderboard(request):
-	if request.method == 'GET':
-		users = User.objects.all().filter(profile__role='student').order_by('-profile__points')
-		return render(request, 'Projects/leaderboard.html', {'users': users})
+    if request.method == 'GET':
+        users = User.objects.all().filter(profile__role='student').order_by('-profile__points')
+        return render(request, 'Projects/leaderboard.html', {'users': users})
 
 
 @login_required(login_url='signin')
 def profile(request, username):
-	#solved issues are closed after verification
-	#'student'-not attempted, 2-pending_for_verification, 3-verified_closed, 4-unverified_closed
-	try:
-		user = get_object_or_404(User, username=username)
-	except: #this is a fix for a non existing source too
-		return redirect("home")
+    #solved issues are closed after verification
+    #'student'-not attempted, 2-pending_for_verification, 3-verified_closed, 4-unverified_closed
+    try:
+        user = get_object_or_404(User, username=username)
+    except: #this is a fix for a non existing source too
+        return redirect("home")
 
-	all_prs 		  = Prs.objects.all().filter(from_user=user)
-	if request.user.profile.role=='student' and request.user == user:
-		print('its a student', user.username)
-		prs_vclosed       = Prs.objects.all().filter(from_user=user, status=3)
-		prs_pending 	  = Prs.objects.all().filter(from_user=user, status=2)
-		print(len(prs_vclosed))
-		return render(request, 'Projects/profile.html', {
-								'page_user' : user,
-								'all_prs' : all_prs,
-								'prs_pending': prs_pending,
-								'prs_vclosed': prs_vclosed,
-								})
-	elif request.user.profile.role == 'mentor' and request.user.is_staff:
-		print('its a mentor and staff status approved')
-		all_prs			  = Prs.objects.all().filter(issue__mentor=user)
-		prs_vclosed       = Prs.objects.all().filter(issue__mentor=user, status=3)
-		prs_pending 	  = Prs.objects.all().filter(issue__mentor=user, status=2)
-		print(len(prs_vclosed))
-		return render(request, 'Projects/profile.html', {
-								'page_user' : user,
-								'all_prs' : all_prs,
-								'prs_pending': prs_pending,
-								'prs_vclosed': prs_vclosed,
-								})
-	else: return redirect("home")
+    all_prs 		  = Prs.objects.all().filter(from_user=user)
+    if request.user.profile.role=='student' and request.user == user:
+        print('its a student', user.username)
+        prs_vclosed       = Prs.objects.all().filter(from_user=user, status=3)
+        prs_pending 	  = Prs.objects.all().filter(from_user=user, status=2)
+        print(len(prs_vclosed))
+        return render(request, 'Projects/profile.html', {
+                                'page_user' : user,
+                                'all_prs' : all_prs,
+                                'prs_pending': prs_pending,
+                                'prs_vclosed': prs_vclosed,
+                                })
+    elif request.user.profile.role == 'mentor' and request.user.is_staff:
+        print('its a mentor and staff status approved')
+        all_prs			  = Prs.objects.all().filter(issue__mentor=user)
+        prs_vclosed       = Prs.objects.all().filter(issue__mentor=user, status=3)
+        prs_pending 	  = Prs.objects.all().filter(issue__mentor=user, status=2)
+        print(len(prs_vclosed))
+        return render(request, 'Projects/profile.html', {
+                                'page_user' : user,
+                                'all_prs' : all_prs,
+                                'prs_pending': prs_pending,
+                                'prs_vclosed': prs_vclosed,
+                                })
+    else: return redirect("home")
 
 def contri_user(request,username):
     user = get_object_or_404(User, username=username)
