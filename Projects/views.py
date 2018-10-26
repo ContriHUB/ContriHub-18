@@ -59,7 +59,7 @@ def home(request):
 def leaderboard(request):
     if request.method == 'GET':
         users = User.objects.all().filter(profile__role='student').order_by('-profile__points')
-        paginator = Paginator(users,5)
+        paginator = Paginator(users,10)
         page = request.GET.get('page',1)
         try:
             users = paginator.get_page(page)
