@@ -77,7 +77,7 @@ def home(request):
             print("all issues|else block")
             issues = Issues.objects.all()
 
-        issues = issues.order_by('points')
+        issues = issues.order_by('-pk')
         paginator = Paginator(issues, 15)  # Show 15 issues per page
         page = request.GET.get('page', 1)
         
