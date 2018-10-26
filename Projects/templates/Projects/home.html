@@ -90,13 +90,33 @@
                   {% endif %}<br>
              Expected Points - {{issue.points}}<br />             
             </p>
+
           </div> 
           {% if request.user.profile.role != 'mentor'  %}
             <div class="md-form">
                 <input type="text" name="pr_link" id="form3" class="form-control" required="true" placeholder="PR link here">
                 <!-- <label for="form3">PR link here </label> -->
             </div>
+
             <button class="request btn btn-deep-orange"> request for verification </button>
+
+              <div class="card-footer" style="margin-top:5px; ">
+                  <button class="upVote  btn btn-sm btn-primary" voting_type="up" issue_id="{{issue.id}}" style="border-radius: 30px;">Upvotes =
+                     <span class="upV">
+
+                        {{issue.upvotes.count}}
+
+                     </span>
+                  </button>
+
+                  <button  class="downVote btn btn-sm btn-primary"  voting_type="down" issue_id="{{issue.id}}" style="border-radius: 30px;">Downvotes =
+                    <span class="downV">
+
+                        {{issue.downvotes.count}}
+
+                    </span>
+                  </button>
+              </div>
             <!-- <i class="fa fa-spinner fa-spin fa-1x process"></i></button> -->
           {% endif %}
       </div>
@@ -124,6 +144,9 @@
 
 {% block js_extra %}
 <script type="text/javascript">
+
+
+
     $(document).ready(function(){
         $(".process").hide();
         $(".request").click(function(e){
@@ -205,6 +228,68 @@
               $('.more-issues-loading').hide();
           }
         });
+
+        $('.upVote').click(function(e){
+          e.preventDefault();
+            var that =this
+            var next = $(this).next('.btn')//Since The downvote button is after upvote
+            var type = $(this).attr('voting_type');
+            var issue = $(this).closest('.single-issue');
+            var issue_id = $(".issue-info", issue).attr('issue-id');
+            console.log(type);
+
+            $.ajax({
+                url:'vote',
+                data:{
+                    'issue_id': issue_id,
+                     'type': type,
+                },
+                dataType:'json',
+                type:'get',
+                cache:false,
+                success:function(data){
+
+                    // $('.upV').html(data.upvotes_count);
+                    $(that).html('Upvotes = '+data.upvotes_count);
+
+                    $(next).html('Downvotes = '+data.downvotes_count);
+
+                }
+            });
+
+
+        });
+
+
+        $('.downVote').click(function(e){
+          e.preventDefault();
+            var that = this;
+            var prev = $(this).prev('.btn')//Since The upvote button is before downvote
+            var type = $(this).attr('voting_type');
+            var issue = $(this).closest('.single-issue');
+            var issue_id = $(".issue-info", issue).attr('issue-id');
+            console.log(type);
+
+            $.ajax({
+                url:'vote',
+                data:{
+                    'issue_id': issue_id,
+                     'type': type,
+                },
+                dataType:'json',
+                type:'get',
+                cache:false,
+                success:function(data){
+
+                    $(that).html('Downvotes = '+data.downvotes_count);
+                    $(prev).html('Upvotes = '+data.upvotes_count);
+
+                }
+            });
+
+
+        });
+
     });
 </script>
 
