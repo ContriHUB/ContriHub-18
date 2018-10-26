@@ -9,49 +9,64 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
-from .models import Issues,Prs
+from .models import Issues, Prs
+
+import time
+
 
 def home(request):
-	if request.method == 'GET':
-		print('home GET')
+    if request.method == 'GET':
+        print('home GET')
 		# Getting value of the clicked option
-		val=''
-		try:
-			val = request.GET['value']  #Now here you need to look for more attributes like 
-										# title_project,title_issue,mentor_name etc
-		except Exception:
-			pass
-		print('val - ',val)
-		# First it checks for project name
-		if val and val != 'points': # here the issues after or should belike 
-			# Issues.objects.filter( Q(title_project=val) & Q(mentor__username=mentor_name)) 
-			try:
-				project_filter = Issues.objects.filter(title_project=val)
-				mentor_filter  = Issues.objects.filter(mentor__username=val)
-				level_filter   =  Issues.objects.filter(level=val)
-				issues = project_filter or mentor_filter or level_filter
-			except Exception:
-				issues = Issues.objects.all()	
-		else: issues = Issues.objects.all()
-		issues = issues.order_by('points')
-		paginator = Paginator(issues, 15)  # Show 15 issues per page
-		page = request.GET.get('page', 1)
-		
-		try:
-			issues = paginator.get_page(page)
-		except PageNotAnInteger:
-			issues = paginator.get_page(1)
-			# issues = paginator.get_page(1)
-		except EmptyPage:
-			issues = paginator.get_page(paginator.num_pages)
-			issues = Issues.objects.none()
-		return render(request, 'Projects/home.html', {'issues': issues, 'val':val}) #this dic will have value of
+        val = ''
+        try:
+            val = request.GET['value']
+        except Exception:
+            pass
+        print('val - ', val)
+        # First it checks for project name
+        if val and val != 'points':
+            try:
+                print("in the try block")
+                val = int(val)
+                issues = Issues.objects.filter(level = val)
+            except Exception:
+                print("in the except block")
+                project_filter = Issues.objects.filter(title_project=str(val))
+                mentor_filter  = Issues.objects.filter(mentor__username=str(val))
+                issues = project_filter or mentor_filter
+                
+        else:
+            print("all issues|else block")
+            issues = Issues.objects.all()
+        issues = issues.order_by('points')
+        paginator = Paginator(issues, 15)  # Show 15 issues per page
+        page = request.GET.get('page', 1)
+        
+        try:
+            issues = paginator.get_page(page)
+        except PageNotAnInteger:
+            issues = paginator.get_page(1)
+            # issues = paginator.get_page(1)
+        except EmptyPage:
+            issues = paginator.get_page(paginator.num_pages)
+            issues = Issues.objects.none()
+        return render(request, 'Projects/home.html', {'issues': issues, 'val':val}) #this dic will have value of
 																					#all filter attributes or you can also send a list of all such attrs
 
 def leaderboard(request):
-	if request.method == 'GET':
-		users = User.objects.all().filter(profile__role='student').order_by('-profile__points')
-		return render(request, 'Projects/leaderboard.html', {'users': users})
+    if request.method == 'GET':
+        users = User.objects.all().filter(profile__role='student').order_by('-profile__points')
+        paginator = Paginator(users,10)
+        page = request.GET.get('page',1)
+        try:
+            users = paginator.get_page(page)
+        except PageNotAnInteger:
+            users = paginator.get_page(1)
+        except EmptyPage:
+            users = paginator.objects.none()
+        time.sleep(0.5)
+        return render(request, 'Projects/leaderboard.html', {'users': users})
 
 
 @login_required(login_url='signin')
