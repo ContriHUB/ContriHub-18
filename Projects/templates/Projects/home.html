@@ -90,7 +90,14 @@
                   {% endif %}<br>
              Expected Points - {{issue.points}}<br />             
             </p>
-          </div> 
+          </div>
+          {% if request.user.profile.role == 'mentor'  %}
+                {% if issue.label == 1 %}
+                <button class="switchLabel btn btn-deep-orange"> Close this issue </button>
+                {% elif issue.label == 0 %}
+                <button class="switchLabel btn btn-deep-orange"> Open this issue </button>
+                {% endif %}
+          {% endif %}
           {% if request.user.profile.role != 'mentor'  %}
             <div class="md-form">
                 <input type="text" name="pr_link" id="form3" class="form-control" required="true" placeholder="PR link here">
@@ -167,6 +174,25 @@
                     alert("First put your PR link with the corresponding issue.");
                 }
             {% endif %}
+        });
+        $(".switchLabel").click(function(e){
+            e.preventDefault();
+            $.ajax({
+                url:'switch_label',
+                data:{
+                    'issue_id': issue_id,
+                    'csrfmiddlewaretoken':csrf,
+                },
+                type:'post',
+                cache:false,
+                success:function(data){
+                    if(data){
+                        alert(data);
+                        //showing alert message regarding status of issue(closed/open)
+                    }
+                },
+            });
+        
         });
         $('.delete').click(function(e){
             e.preventDefault();

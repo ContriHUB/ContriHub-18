@@ -108,6 +108,16 @@ def contri_user(request,username):
                                 'prs_pending':prs_pending,
                                 })
 
+def switch_label(request):
+    if request.method == 'POST':
+        issue_id = request.POST.get('issue_id')            
+        issue = get_object_or_404(Issues,id=issue_id)
+        if issue.label == 1:
+            issue.label = 0
+            return HttpResponse("Successfully Closed this issue!") 
+        elif issue.label == 0:
+            issue.label = 1
+            return HttpResponse("Successfully Opened this issue!")
 
 def request_pr(request):
     print('request_pr')
