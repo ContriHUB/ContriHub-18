@@ -69,7 +69,6 @@ def home(request):
                 project_filter = Issues.objects.filter(title_project=str(val))
                 mentor_filter  = Issues.objects.filter(mentor__username=str(val))
                 issues = project_filter or mentor_filter
-                
         else:
             print("all issues|else block")
             issues = Issues.objects.all()
