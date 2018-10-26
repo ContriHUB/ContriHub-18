@@ -11,6 +11,8 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
 from .models import Issues, Prs
 
+import time
+
 
 def home(request):
     if request.method == 'GET':
@@ -55,6 +57,15 @@ def home(request):
 def leaderboard(request):
     if request.method == 'GET':
         users = User.objects.all().filter(profile__role='student').order_by('-profile__points')
+        paginator = Paginator(users,5)
+        page = request.GET.get('page',1)
+        try:
+            users = paginator.get_page(page)
+        except PageNotAnInteger:
+            users = paginator.get_page(1)
+        except EmptyPage:
+            users = paginator.objects.none()
+        time.sleep(0.5)
         return render(request, 'Projects/leaderboard.html', {'users': users})
 
 
