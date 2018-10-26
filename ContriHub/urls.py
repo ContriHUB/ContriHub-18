@@ -21,7 +21,7 @@ from django.conf.urls import include, url
 from django.conf.urls.static import static  
 from django.contrib.auth.views import (LoginView, LogoutView)
 
-from Projects.views import (home,request_pr,response_pr,leaderboard,profile,remove_issue,remove_pr,contri_user,vote)
+from Projects.views import (home,request_pr,response_pr,leaderboard,profile,remove_issue,remove_pr,contri_user,vote,change_label)
 from Users.views import (signin,register)
 from django.contrib.auth import views as auth_views
 
@@ -40,7 +40,7 @@ urlpatterns = [
     path('leaderboard', leaderboard , name='leaderboard'),     
     path('remove_issue', remove_issue , name='remove_issue'),
     path('remove_pr', remove_pr , name='remove_pr'),
-    # path('change_label',change_label, name='change_label'),
+    path('change_label',change_label, name='change_label'),
     path('vote', vote, name='vote'),
     #put such urls always after all
     path('<username>', profile, name='profile'),

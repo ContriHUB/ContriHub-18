@@ -311,4 +311,5 @@ def change_label(request):
         else:
             issue.label = 1
             res="opened the issue "+issue.title_issue
+        issue.save()
         return HttpResponse(res)
