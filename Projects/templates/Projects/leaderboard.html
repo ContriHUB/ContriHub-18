@@ -24,11 +24,11 @@
             <th scope="col"><strong>Score</strong><br> (click on score to see Contributions)</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody class="infinite-container">
           
           {% for user in users %}
-            <tr>
-              <th scope="row">{{forloop.counter}}</th>
+            <tr class="infinite-item">
+              <th scope="row">{{forloop.counter0|add:users.start_index}}</th>
               <td><a href="https://github.com/{{user.username}}">{{user.username}}</a></td>
               <td><a href="{%url 'contri_user' user.username %}" style="color:blue;">{{user.profile.points}}</a></td>
             </tr>
@@ -37,10 +37,17 @@
         </tbody>
       </table>
     </div>
-     <div class="card-footer">
-      <p class="text-muted">* Click on score to see contributions from user</p>
-    </div>
+     
 </div>
+
+{% if users.has_next %}
+  <a class="infinite-more-link" href="?page={{users.next_page_number}}"></a>
+
+  <div class="loading">
+    <img src="{% static 'Projects/img/loader.gif' %}" alt="loading more issues" width="60px" style="display:block;margin-left:auto;margin-right:auto;">
+  </div>
+
+{% endif %}
 </div>
 
 
@@ -49,4 +56,17 @@
 
 
 {% block js_extra %}
+  <script>
+      $(document).ready(function(){
+          var infiniteScroll = new Waypoint.Infinite({
+          element: $('.infinite-container')[0],
+          onBeforePageLoad: function () {
+            $('.loading').show();
+          },
+          onAfterPageLoad: function () {
+            $('.loading').hide();
+          }
+        });
+      });
+  </script>
 {% endblock js_extra %}
