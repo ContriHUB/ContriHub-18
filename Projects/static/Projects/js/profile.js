@@ -37,8 +37,8 @@ $(document).ready(function() {
 
   $(".delete").click(function(e) {
     e.preventDefault();
-    var pr = $(this).closest(".ind_pr");
-    var pr_id = $(".pr_info",pr).attr("pr-id");
+    var pr = $(this).closest(".ppr");
+    var pr_id = $(".pr_info", pr).attr("pr-id");
     var csrf = $(".ppr").attr("csrf");
     console.log("pr_id " + pr_id);
     $.ajax({
@@ -77,7 +77,7 @@ $(document).ready(function() {
     $(".prs_vclosed").show();
     $(".prs_pending").hide();
     $(".issues_all").hide();
-  });
+  }); 
 
   $(".nvclosed").click(function() {
     $(".prs_pending").hide();

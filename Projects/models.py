@@ -15,7 +15,8 @@ class Issues(models.Model):
     level  = models.IntegerField(_('level_issue'), default=1) #1-easy, 2-medium, 3-difficult 
     points = models.IntegerField(_('points_for_issue'), default=0)
     label  = models.IntegerField(_('label_of_issue'), default=1) #1=open and 0=closed issue
-    
+    upvotes = models.ManyToManyField(User, blank=True ,related_name='upvotes_t')
+    downvotes = models.ManyToManyField(User, blank=True, related_name='downvotes_t')
     class Meta:
         db_table = 'issues_info'
         managed = True
