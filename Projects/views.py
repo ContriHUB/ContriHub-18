@@ -35,6 +35,8 @@ def home(request):
                 if val[0]=='_':
                     val=int(val[1])
                     status_filter = Issues.objects.filter(label=val)
+                else:
+                    status_filter = Issues.objects.none()
                 project_filter = Issues.objects.filter(title_project=str(val))
                 mentor_filter  = Issues.objects.filter(mentor__username=str(val))
                 issues = project_filter or mentor_filter or status_filter
@@ -262,3 +264,17 @@ def remove_pr(request):
 #         issue.save()
 #     else:
 #         return redirect('home')
+
+def change_label(request):
+    if request.method == 'POST':
+        res=""
+        print('closing issue')
+        issue_id = request.POST.get('issue_id')
+        issue = get_object_or_404(Issues, id=issue_id)
+        if issue.label == 1:
+            issue.label = 0
+            res="closed the issue "+issue.title_issue
+        else:
+            issue.label = 1
+            res="opened the issue "+issue.title_issue
+        return HttpResponse(res)

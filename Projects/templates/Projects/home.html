@@ -26,9 +26,6 @@
 {% block body_content %} 
 
 {% include 'Projects/navbar.html' %}
-<div class="container">
-
-</div>
 <section class="container issues-container">
   <article class="card single-issue" csrf="{{ csrf_token }}">
     <div class="card-body">
@@ -101,6 +98,14 @@
             </div>
             <button class="request btn btn-deep-orange"> request for verification </button>
             <!-- <i class="fa fa-spinner fa-spin fa-1x process"></i></button> -->
+          {% else %}    
+                <br>
+                <br> 
+                {% if issue.label == 0 %}
+                    <button class="btn btn-dark-green change-label">Open this issue</button>
+                {% else %}
+                    <button class="btn btn-warning change-label">Close this issue</button>
+                {% endif %}
           {% endif %}
       </div>
     </article>
@@ -195,6 +200,30 @@
                 }
             });
         });
+
+        $('.change-label').click(function (e) {
+            e.preventDefault();
+            var issue = $(this).closest('.single-issue');
+            var issue_id = $(".issue-info", issue).attr('issue-id');
+            var csrf = $(".single-issue").attr('csrf');
+            $.ajax({
+                url: 'change_label',
+                data: {
+                    'issue_id': issue_id,
+                    'csrfmiddlewaretoken': csrf,
+                },
+                type: 'post',
+                cache: false,
+                beforeSend: function () {
+                    // alert("Requesting server ...")
+                },
+                success: function (data) {
+                    if (data) {
+                        alert(data);
+                    }
+                }
+            });
+        });        
 
         var infiniteScroll = new Waypoint.Infinite({
           element: $('.issues-container')[0],
