@@ -73,11 +73,14 @@ def home(request):
                     project_filter = Issues.objects.filter(title_project=str(val))
                     mentor_filter  = Issues.objects.filter(mentor__username=str(val))
                     issues = project_filter or mentor_filter
+            issues = issues.order_by('-pk')
         else:
             print("all issues|else block")
-            issues = Issues.objects.all()
+            if val and val == 'points':
+                issues = Issues.objects.all().order_by('points')
+            else:
+                issues = Issues.objects.all().order_by('-pk')
 
-        issues = issues.order_by('points')
         paginator = Paginator(issues, 15)  # Show 15 issues per page
         page = request.GET.get('page', 1)
         
@@ -143,8 +146,8 @@ def profile(request, username):
 
 def contri_user(request,username):
     user = get_object_or_404(User, username=username)
-    prs_vclosed = Prs.objects.all().filter(from_user=user, status=3)
-    prs_pending = Prs.objects.all().filter(from_user=user, status=2)
+    prs_vclosed = Prs.objects.all().filter(from_user=user, status=3).order_by('-pk')
+    prs_pending = Prs.objects.all().filter(from_user=user, status=2).order_by('-pk')
     return render(request, 'Projects/contribution_user.html', {
                                 'prs_vclosed': prs_vclosed,
                                 'prs_pending':prs_pending,

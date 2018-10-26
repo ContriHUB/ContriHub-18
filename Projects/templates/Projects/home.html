@@ -102,25 +102,27 @@
 
             <button class="request btn btn-deep-orange"> request for verification </button>
 
-              <div class="card-footer" style="margin-top:5px; ">
-                  <button class="upVote  btn btn-sm btn-info" voting_type="up" issue_id="{{issue.id}}">
-                    <i class="fa fa-2x fa-thumbs-up"></i>
-                     <span class="upV">
+            <!-- <i class="fa fa-spinner fa-spin fa-1x process"></i></button> -->
 
-                        {{issue.upvotes.count}}
+          <div class="card-footer" style="margin-top:5px; ">
+                <button class="upVote  btn btn-sm btn-info" voting_type="up" issue_id="{{issue.id}}">
+                  <i class="fa fa-2x fa-thumbs-up"></i>
+                   <span class="upV">
 
-                     </span>
-                  </button>
+                      {{issue.upvotes.count}}
 
-                  <button  class="downVote btn btn-sm btn-info"  voting_type="down" issue_id="{{issue.id}}">
-                        <i class="fa fa-2x fa-thumbs-down"></i>
-                    <span class="downV">
+                   </span>
+                </button>
 
-                        {{issue.downvotes.count}}
+                <button  class="downVote btn btn-sm btn-info"  voting_type="down" issue_id="{{issue.id}}">
+                      <i class="fa fa-2x fa-thumbs-down"></i>
+                  <span class="downV">
 
-                    </span> 
-                  </button>
-              </div>
+                      {{issue.downvotes.count}}
+
+                  </span> 
+                </button>
+        </div>
             <!-- <i class="fa fa-spinner fa-spin fa-1x process"></i></button> -->
           {% else %}    
                 <br>
