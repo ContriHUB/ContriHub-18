@@ -8,9 +8,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-
 from .models import Issues, Prs
-
 import time
 
 
@@ -28,13 +26,18 @@ def home(request):
                 issues = Issues.objects.filter(level = val)
             except Exception:
                 print("in the except block")
-                project_filter = Issues.objects.filter(title_project=str(val))
-                mentor_filter  = Issues.objects.filter(mentor__username=str(val))
-                issues = project_filter or mentor_filter
-                
+                # status_filter = 
+                if val[0]=='_':
+                    val=int(val[1])
+                    issues = Issues.objects.filter(label=val)
+                else:
+                    project_filter = Issues.objects.filter(title_project=str(val))
+                    mentor_filter  = Issues.objects.filter(mentor__username=str(val))
+                    issues = project_filter or mentor_filter
         else:
             print("all issues|else block")
             issues = Issues.objects.all()
+
         issues = issues.order_by('points')
         paginator = Paginator(issues, 15)  # Show 15 issues per page
         page = request.GET.get('page', 1)
