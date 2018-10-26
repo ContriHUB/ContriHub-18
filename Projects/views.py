@@ -8,9 +8,48 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+import json
 from .models import Issues, Prs
 import time
 
+def vote(request):
+    issue_id= int(request.GET['issue_id'])
+    vote_type = request.GET['type']
+
+    issue = get_object_or_404(Issues, pk=issue_id)
+    print(issue_id)
+    print(issue.upvotes.count())
+    print("inside votes")
+    UserUpVote = issue.upvotes.filter(id=request.user.id).count()
+    UserDownVote = issue.downvotes.filter(id=request.user.id).count()
+    if (UserUpVote == 0) and (UserDownVote == 0):
+        if (vote_type == 'up'):
+            issue.upvotes.add(request.user)
+        elif (vote_type == 'down'):
+            issue.downvotes.add(request.user)
+        else:
+            return HttpResponse('error-unknown vote type')
+    else:
+        if (vote_type == 'up') and (UserUpVote == 1):
+            issue.upvotes.remove(request.user)
+         #When a user clicks downvote while he/she has already upvoted then upvote will dec by 1 and downvote will get updated
+        elif (vote_type == 'down') and (UserUpVote==1):
+            issue.upvotes.remove(request.user)
+            issue.downvotes.add(request.user)
+        elif (vote_type == 'up') and (UserDownVote == 1):
+            issue.downvotes.remove(request.user)
+            issue.upvotes.add(request.user)
+        elif (vote_type == 'down') and (UserDownVote == 1):
+            issue.downvotes.remove(request.user)
+        else:
+            return HttpResponse('error - unknown vote type or no vote to recall')
+    upvotes_count = issue.upvotes.count()
+    downvotes_count = issue.downvotes.count()
+
+    count={'upvotes_count':upvotes_count,
+           'downvotes_count':downvotes_count}
+
+    return HttpResponse(json.dumps(count), content_type="application/json")
 
 def home(request):
     if request.method == 'GET':
