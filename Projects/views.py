@@ -73,11 +73,14 @@ def home(request):
                     project_filter = Issues.objects.filter(title_project=str(val))
                     mentor_filter  = Issues.objects.filter(mentor__username=str(val))
                     issues = project_filter or mentor_filter
+            issues = issues.order_by('-pk')
         else:
             print("all issues|else block")
-            issues = Issues.objects.all()
+            if val and val == 'points':
+                issues = Issues.objects.all().order_by('points')
+            else:
+                issues = Issues.objects.all().order_by('-pk')
 
-        issues = issues.order_by('-pk')
         paginator = Paginator(issues, 15)  # Show 15 issues per page
         page = request.GET.get('page', 1)
         
