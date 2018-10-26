@@ -77,7 +77,7 @@ $(document).ready(function() {
     $(".prs_vclosed").show();
     $(".prs_pending").hide();
     $(".issues_all").hide();
-  });
+  }); 
 
   $(".nvclosed").click(function() {
     $(".prs_pending").hide();
