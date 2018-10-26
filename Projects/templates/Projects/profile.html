@@ -43,7 +43,7 @@
                                     <a href="{{pr.issue.link_issue}}" class="pr_info" pr-id="{{pr.id}}">    {{pr.issue.title_issue}}</a> <br>
                                 </div>
                                 <div class="card-text">
-                                    {% if request.user == pr.from_user or request.user == pr.mentor %}
+                                    {% if request.user == pr.from_user %}
                                         <a href="#"><i class="fa fa-trash-o delete" style="float:right;"></i></a>     
                                     {% endif %}
 
