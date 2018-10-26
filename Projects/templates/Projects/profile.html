@@ -35,8 +35,9 @@
                 {% if all_prs %}
                     {% for pr in all_prs %}
                     <div class="container">
+                        <div class="container pp">
                         <div class="card ppr" csrf="{{ csrf_token }}">
-                            <div class="card-body">
+                            <div class="card-body ">
                                  <div class="card-title">
                                     {{forloop.counter}}. Issue - 
                                     <a href="{{pr.issue.link_issue}}" class="pr_info" pr-id="{{pr.id}}">    {{pr.issue.title_issue}}</a> <br>
@@ -54,10 +55,10 @@
                                     <a href="{{pr.issue.link_project}}"> {{pr.issue.title_project}}</a> <br>
                                     
                                     Requested by -
-                                    <a href="https://github.cpm/{{pr.from_user.username}}"> {{pr.from_user.username}}</a> <br>
+                                    <a href="https://github.com/{{pr.from_user.username}}"> {{pr.from_user.username}}</a> <br>
 
                                     Mentor -
-                                    <a href="https://github.cpm/{{pr.issue.mentor}}"> {{pr.issue.mentor}}</a> <br>
+                                    <a href="https://github.com/{{pr.issue.mentor}}"> {{pr.issue.mentor}}</a> <br>
                                     
                                     Label -
                                         {% if pr.issue.level == 1 %}
@@ -71,6 +72,7 @@
                                     Expected Points - {{pr.issue.points}}
                                 </div>
                             </div>
+                        </div>
                         </div>
                     </div>
                     <br>
