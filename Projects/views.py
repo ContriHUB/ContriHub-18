@@ -18,11 +18,7 @@ def home(request):
     if request.method == 'GET':
         print('home GET')
 		# Getting value of the clicked option
-        val = ''
-        try:
-            val = request.GET['value']
-        except Exception:
-            pass
+        val = request.GET.get('value','')
         print('val - ', val)
         # First it checks for project name
         if val and val != 'points':
