@@ -68,9 +68,9 @@
                 {{issue.title_issue}}
               </a>
               {% if issue.label == 1 %}
-                <small class="label open pull-right">OPEN</small>
+                <small class="open pull-right change-label" title="Click to change the label status">OPEN</small>
               {% elif issue.label == 0 %}
-                 <small class="label closed pull-right">CLOSED</small>
+                 <small class="closed pull-right change-label" title="Click to change the label status">CLOSED</small>
               {% endif %}
             <h4>
     
@@ -125,13 +125,7 @@
         </div>
             <!-- <i class="fa fa-spinner fa-spin fa-1x process"></i></button> -->
           {% else %}    
-                <br>
-                <br> 
-                {% if issue.label == 0 %}
-                    <button class="btn btn-dark-green change-label">Open this issue</button>
-                {% else %}
-                    <button class="btn btn-warning change-label">Close this issue</button>
-                {% endif %}
+
           {% endif %}
       </div>
     </article>
