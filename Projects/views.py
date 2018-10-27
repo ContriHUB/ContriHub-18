@@ -214,7 +214,14 @@ def response_pr(request):
     if request.method=='POST' and request.user.profile.role=='mentor':
         pr_id = request.POST.get('pr_id')
         pr = get_object_or_404(Prs, id=pr_id)
-
+        bonus_pts=request.POST.get('bonus_pts','0')
+        deduct_pts=request.POST.get('deduct_pts','0')
+        try:
+            bonus_pts=int(bonus_pts)
+            deduct_pts=int(deduct_pts)
+        except Exception:
+            bonus_pts=0
+            deduct_pts=0            
         #1-not attempted, 2-pending_for_verification, 3-verified_closed, 4-unverified_closed
         if pr:
             print(pr.issue.mentor.username)
@@ -222,7 +229,7 @@ def response_pr(request):
             print('pr_status',pr.status)
             if pr.status==2:
                 pr.status=3
-                pr.from_user.profile.points=pr.from_user.profile.points+pr.issue.points
+                pr.from_user.profile.points=pr.from_user.profile.points+pr.issue.points+bonus_pts-deduct_pts
                 subject = pr.issue.mentor.username + ' has verified your PR'
                 var_msg = 'Congratulations. Your pull request has been verified by mentor, '
                 # print('Changing the status to', 3 ,'and points to',pr.from_user.profile.points)
@@ -238,7 +245,7 @@ def response_pr(request):
             from_email = django_settings.EMAIL_HOST_USER
             to_email = [pr.from_user.email] #I'm not sure what the request object looks like so this may not be the correct notation
 
-
+            print(pr.from_user.username)
             message = 'Hi '+ pr.from_user.username + '!' + '<br>' +\
                      var_msg +\
                      pr.issue.mentor.username + '.<br>'+\
@@ -246,8 +253,11 @@ def response_pr(request):
                     'Project - <a href="'+pr.issue.link_project+'">'+pr.issue.title_project+'</a><br>'+\
                     'Check the PR here - <a href="'+pr.pr_link+'">PR</a><br>'+\
                     'You can also visit your <a href="https://contrihubs.herokuapp.com/'+ pr.from_user.username +'"> profile </a> to see all pending/rejected requests.<br><br>Cheers!!!'
-
-            send_mail(subject, message, from_email, to_email, fail_silently=False, html_message=message)
+            # try:
+            #     send_mail(subject, message, from_email, to_email, fail_silently=False, html_message=message)
+            #     # print()
+            # except Exception:
+            #     pass
         else: print('PR doesn\'t exist')
     return HttpResponse("success")
 
@@ -275,12 +285,12 @@ def remove_pr(request):
         print('Searching if such PR exists with id',pr_id)
         pr = get_object_or_404(Prs, id=pr_id)
         print("PR ID is",pr_id,user.username,pr.from_user.username)
-        if pr.from_user == user:
+        if pr.from_user == user or user.is_staff :
             pr.delete()
             response="Successfully deleted this PR."
         else:
             response="You didn't create this PR. So this can not be deleted by you. Sorry :("
-
+  
         return HttpResponse(response)
 
 # def add_issue(request):
@@ -303,3 +313,21 @@ def remove_pr(request):
 #         issue.save()
 #     else:
 #         return redirect('home')
+
+def change_label(request):
+    if request.method == 'POST' and request.user.profile.role == 'mentor':
+        res=""
+        print('closing issue')
+        issue_id = request.POST.get('issue_id')
+        try:
+            issue = get_object_or_404(Issues, id=issue_id)
+        except expression as identifier:
+            return HttpResponseBadRequest()
+        if issue.label == 1:
+            issue.label = 0
+            res="closed the issue "+issue.title_issue
+        else:
+            issue.label = 1
+            res="opened the issue "+issue.title_issue
+        issue.save()
+        return HttpResponse(res)

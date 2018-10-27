@@ -44,7 +44,11 @@
                                 </div>
                                 <div class="card-text">
                                     {% if request.user == pr.from_user %}
-                                    <a href="#"><i class="fa fa-trash-o delete" style="float:right;"></i></a>     
+                                        <a href="#"><i class="fa fa-trash-o delete" style="float:right;"></i></a>     
+                                    {% endif %}
+
+                                    {% if page_user.profile.role == 'mentor' and page_user.is_staff %}
+                                        <a href="#"><i class="fa fa-trash-o delete" style="float:right;"></i></a>
                                     {% endif %}
 
                                     {% if pr.pr_link %}
@@ -96,6 +100,6 @@
 
 {% block js_extra %}
 <script>var username='{{page_user.username}}'</script>
-<script type="text/javascript" src="{% static 'Projects/js/profile.js' %}"></script>
+<script type="text/javascript" src="{% static 'Projects/js/profile.js?newversion' %}"></script>
 {% endblock js_extra %}
     

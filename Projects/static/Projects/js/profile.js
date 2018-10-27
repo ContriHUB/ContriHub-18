@@ -5,14 +5,24 @@ $(document).ready(function() {
   $(".vclose,.unvclose").click(function(e) {
     e.preventDefault();
     var pr = $(this).closest(".ppr");
-    var pr_id = $(".pr_info", pr).attr("pr-id");
+    var pr_id = $(".pr_info",pr).attr("pr-id");
     var csrf = $(".ppr").attr("csrf");
     // $(".process",this).show();
+    //alert($("#bonus").val())
+    var bonus_pts = $("#bonus").val();
+    var deduct_pts = $("#deduct").val();
+    console.log(pr_id)
+    console.log('bonus_pts - '+bonus_pts)
+    console.log('deduct_pts - '+deduct_pts)
+    if(bonus_pts=='') bonus_pts=0;
+    if(deduct_pts=='') deduct_pts=0;
 
     $.ajax({
       url: "response_pr",
       data: {
         pr_id: pr_id,
+        bonus_pts: bonus_pts,
+        deduct_pts: deduct_pts,
         csrfmiddlewaretoken: csrf
       },
       type: "post",
@@ -27,7 +37,7 @@ $(document).ready(function() {
           //alert(data);
           document.location.reload();
         }
-      },
+      },  
       afterSend: function() {
         // $(".request").html(' request for verification ');
         // $(".process",this).hide();

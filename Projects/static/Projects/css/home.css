@@ -41,9 +41,10 @@
   padding: 0px;
 }
 
-.label {
+.change-label {
     color: white;
-    padding: 5px;
+    padding: 3px;
+    cursor: pointer;
 }
 
 .open {background-color: #4CAF50;}
