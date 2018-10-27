@@ -103,7 +103,9 @@
             <button class="request btn btn-deep-orange"> request for verification </button>
 
             <!-- <i class="fa fa-spinner fa-spin fa-1x process"></i></button> -->
-
+          {% endif %}
+          
+          
           <div class="card-footer" style="margin-top:5px; ">
                 <button class="upVote  btn btn-sm btn-info" voting_type="up" issue_id="{{issue.id}}">
                   <i class="fa fa-2x fa-thumbs-up"></i>
@@ -122,11 +124,8 @@
 
                   </span> 
                 </button>
-        </div>
-            <!-- <i class="fa fa-spinner fa-spin fa-1x process"></i></button> -->
-          {% else %}    
+         </div>
 
-          {% endif %}
       </div>
     </article>
   {% endfor %}
