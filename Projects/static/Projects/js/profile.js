@@ -48,6 +48,7 @@ $(document).ready(function() {
   $(".delete").click(function(e) {
     e.preventDefault();
     var pr = $(this).closest(".ppr");
+    var that=$(this).prev('.ppr');
     var pr_id = $(".pr_info", pr).attr("pr-id");
     var csrf = $(".ppr").attr("csrf");
     console.log("pr_id " + pr_id);
@@ -65,7 +66,9 @@ $(document).ready(function() {
       success: function(data) {
         if (data) {
           alert(data);
-          document.location.reload();
+          // document.location.reload();
+            $(pr).hide();
+
         }
       }
     });
