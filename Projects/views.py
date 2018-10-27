@@ -71,8 +71,8 @@ def home(request):
                 print("in the except block")
                 # status_filter = 
                 if val[0]=='_':
-                    val=int(val[1])
-                    issues = Issues.objects.filter(label=val)
+                    temp_val=int(val[1]) #don't change this val as it's being passed to template
+                    issues = Issues.objects.filter(label=temp_val)
                 else:
                     project_filter = Issues.objects.filter(title_project=str(val))
                     mentor_filter  = Issues.objects.filter(mentor__username=str(val))
