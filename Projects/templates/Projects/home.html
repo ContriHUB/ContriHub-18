@@ -79,7 +79,7 @@
           <div class="card-text">
             <p>
               Project - <a href="{{issue.link_project}}"> {{issue.title_project}}</a><br />
-              Mentor - <a href="https://github.cpm/{{issue.mentor}}"> {{issue.mentor}}</a><br />
+              Mentor - <a href="https://github.com/{{issue.mentor}}"> {{issue.mentor}}</a><br />
               Label -
                   {% if issue.level == 1 %}
                       Easy
@@ -93,9 +93,9 @@
           </div>
           {% if request.user.profile.role == 'mentor'  %}
                 {% if issue.label == 1 %}
-                <button class="switchLabel btn btn-deep-orange"> Close this issue </button>
+                <button class="switchLabel close btn btn-deep-orange"> Close this issue </button>
                 {% elif issue.label == 0 %}
-                <button class="switchLabel btn btn-deep-orange"> Open this issue </button>
+                <button class="switchLabel open btn btn-deep-orange"> Open this issue </button>
                 {% endif %}
           {% endif %}
           {% if request.user.profile.role != 'mentor'  %}
@@ -177,6 +177,8 @@
         });
         $(".switchLabel").click(function(e){
             e.preventDefault();
+            var issue_id = $(".issue-info", issue).attr('issue-id');
+            var csrf = $(".single-issue").attr('csrf');
             $.ajax({
                 url:'switch_label',
                 data:{
