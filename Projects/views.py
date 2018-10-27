@@ -125,8 +125,8 @@ def profile(request, username):
 	all_prs 		  = Prs.objects.all().filter(from_user=user)
 	if request.user.profile.role=='student' and request.user == user:
 		print('its a student', user.username)
-		prs_vclosed       = Prs.objects.all().filter(from_user=user, status=3)
-		prs_pending 	  = Prs.objects.all().filter(from_user=user, status=2)
+		prs_vclosed       = Prs.objects.all().filter(from_user=user, status=3).order_by('-pk')
+		prs_pending 	  = Prs.objects.all().filter(from_user=user, status=2).order_by('-pk')
 		return render(request, 'Projects/profile.html', {
 								'page_user' : user,
 								'all_prs' : all_prs,
@@ -135,9 +135,9 @@ def profile(request, username):
 								})
 	elif request.user.profile.role == 'mentor' and request.user.is_staff:
 		print('its a mentor and staff status approved')
-		all_prs			  = Prs.objects.all().filter(issue__mentor=user)
-		prs_vclosed       = Prs.objects.all().filter(issue__mentor=user, status=3)
-		prs_pending 	  = Prs.objects.all().filter(issue__mentor=user, status=2)
+		all_prs			  = Prs.objects.all().filter(issue__mentor=user).order_by('-pk')
+		prs_vclosed       = Prs.objects.all().filter(issue__mentor=user, status=3).order_by('-pk')
+		prs_pending 	  = Prs.objects.all().filter(issue__mentor=user, status=2).order_by('-pk')
 		print(len(prs_vclosed))
 		return render(request, 'Projects/profile.html', {
 								'page_user' : user,
