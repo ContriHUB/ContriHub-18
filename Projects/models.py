@@ -17,6 +17,8 @@ class Issues(models.Model):
     label  = models.IntegerField(_('label_of_issue'), default=1) #1=open and 0=closed issue
     upvotes = models.ManyToManyField(User, blank=True ,related_name='upvotes_t')
     downvotes = models.ManyToManyField(User, blank=True, related_name='downvotes_t')
+    bonus_points = models.IntegerField(_('bonus_points'), default=0)
+    deducted_points = models.IntegerField(_('deducted_points'), default=0)
     class Meta:
         db_table = 'issues_info'
         managed = True
