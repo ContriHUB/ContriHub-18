@@ -1,3 +1,5 @@
+{% load static %}
+<link type="text/css" href="{% static 'Projects/css/navbar.css' %}" rel="stylesheet">
 <nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
     <div class="container">
 
@@ -31,10 +33,10 @@
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Issues
             </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <div class="dropdown-menu scrollable-menu" aria-labelledby="navbarDropdown">
 
 
-              <h6 class="dropdown-header">Projects</h6>
+              <small class="dropdown-header">Projects</small>
                 <button class="dropdown-item" href="#" value="contrihub-18" onclick="value_filter('ContriHub-18')">ContriHub-18</button>
                 <button class="dropdown-item" href="#" value="sac-portal" onclick="value_filter('Sac-Portal')">Sac-Portal</button>
                 <button class="dropdown-item" href="#" value="contrihub_git" onclick="value_filter('ContriHUB.github.io')">ContriHUB.github.io</button>
@@ -42,15 +44,19 @@
                 <button class="dropdown-item" href="#" value="stare" onclick="value_filter('stare')">stare</button>
                 <button class="dropdown-item" href="#" value="chef-recommender" onclick="value_filter('Chef-Recommender')">Chef-Recommender</button>
 
-              <h6 class="dropdown-header">Mentors</h6>
+              <small class="dropdown-header">Mentors</small>
                 <button class="dropdown-item" href="#"  onclick="value_filter('dbads')">Deepak Bharti</button>
                 <button class="dropdown-item" href="#"  onclick="value_filter('Abhey')">Abhey rana</a>
                 <button  class="dropdown-item" href="#"  onclick="value_filter('akshay31057')">Akshay Sharma</button>
               
-              <h6 class="dropdown-header">Difficulty</h6>
+              <small class="dropdown-header">Difficulty</small>
                 <button class="dropdown-item" href="#" onclick="value_filter('1')">Easy</button>
                 <button class="dropdown-item" href="#" onclick="value_filter('2')">Medium</button>
                 <button class="dropdown-item" href="#" onclick="value_filter('3')">Hard</button>
+
+              <small class="dropdown-header">Status</small>
+              <button class="dropdown-item" href="#" onclick="value_filter('_1_')">open</button>
+              <button class="dropdown-item" href="#" onclick="value_filter('_0_')">close</button>
 
             <div class="dropdown-divider">
             </div>
