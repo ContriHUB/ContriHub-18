@@ -217,12 +217,10 @@ def response_pr(request):
         pr = get_object_or_404(Prs, id=pr_id)
         bonus_pts=request.POST.get('bonus_pts','0')
         deduct_pts=request.POST.get('deduct_pts','0')
-        try:
-            bonus_pts=int(bonus_pts)
-            deduct_pts=int(deduct_pts)
-        except Exception:
-            bonus_pts=0
-            deduct_pts=0            
+        bonus_pts=int(bonus_pts)
+        deduct_pts=int(deduct_pts)
+        print("bonus - ",bonus_pts)
+        print("deduct - ",deduct_pts)
         #1-not attempted, 2-pending_for_verification, 3-verified_closed, 4-unverified_closed
         if pr:
             print(pr.issue.mentor.username)
@@ -235,6 +233,10 @@ def response_pr(request):
                 pr.from_user.profile.points=pr.from_user.profile.points+pr.issue.points+bonus_pts-deduct_pts
                 pr.from_user.profile.bonus_points = pr.from_user.profile.bonus_points+bonus_pts
                 pr.from_user.profile.deducted_points = pr.from_user.profile.deducted_points+deduct_pts
+                
+                pr.bonus_points = pr.bonus_points+ bonus_pts
+                pr.deducted_points = pr.deducted_points + deduct_pts
+                
                 subject = pr.issue.mentor.username + ' has verified your PR'
                 var_msg = 'Congratulations. Your pull request has been verified by mentor, '
                 # print('Changing the status to', 3 ,'and points to',pr.from_user.profile.points)
