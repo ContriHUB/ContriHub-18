@@ -254,11 +254,11 @@ def response_pr(request):
                     'Project - <a href="'+pr.issue.link_project+'">'+pr.issue.title_project+'</a><br>'+\
                     'Check the PR here - <a href="'+pr.pr_link+'">PR</a><br>'+\
                     'You can also visit your <a href="https://contrihubs.herokuapp.com/'+ pr.from_user.username +'"> profile </a> to see all pending/rejected requests.<br><br>Cheers!!!'
-            # try:
-            #     send_mail(subject, message, from_email, to_email, fail_silently=False, html_message=message)
-            #     # print()
-            # except Exception:
-            #     pass
+            try:
+                send_mail(subject, message, from_email, to_email, fail_silently=False, html_message=message)
+                # print()
+            except Exception:
+                pass
         else: print('PR doesn\'t exist')
     return HttpResponse("success")
 
