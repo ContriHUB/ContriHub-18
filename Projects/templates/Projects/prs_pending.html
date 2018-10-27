@@ -18,15 +18,17 @@
                         </div>
                         
                         <div class="card-text">
+                            {% if request.user == pr.from_user or request.user.is_staff %}
+                                <a href="#"><i class="fa fa-trash-o delete" style="float:right;"></i></a>     
+                            {% endif %} 
+                            
                             {% if pr.pr_link %}
                                 Pr Link - <a href="{{pr.pr_link}}"> see pr </a> <br>
                             {% endif %}
 
                             From User - <a href="https://github.com/{{pr.from_user.username}}"> {{pr.from_user.username}} </a> <br>
 
-                            {% if request.user == pr.from_user %}
-                            <a href="#"><i class="fa fa-trash-o delete" style="float:right;"></i></a>     
-                            {% endif %}                
+
                             Project - 
                             <a href="{{pr.issue.link_project}}"> {{pr.issue.title_project}}</a> <br>
                             
