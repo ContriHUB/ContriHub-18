@@ -28,6 +28,7 @@
 {% block body_content %} 
 
 {% include 'Projects/navbar.html' %}
+
 <section class="container issues-container">
   <article class="card single-issue" csrf="{{ csrf_token }}">
     <div class="card-body">
@@ -68,9 +69,9 @@
                 {{issue.title_issue}}
               </a>
               {% if issue.label == 1 %}
-                <small class="open pull-right change-label" title="Click to change the label status">OPEN</small>
+                <span class="open pull-right change-label" title="Click to change the label status">OPEN</span>
               {% elif issue.label == 0 %}
-                 <small class="closed pull-right change-label" title="Click to change the label status">CLOSED</small>
+                 <span class="closed pull-right change-label" title="Click to change the label status">CLOSED</span>
               {% endif %}
             <h4>
     
@@ -105,7 +106,7 @@
             <!-- <i class="fa fa-spinner fa-spin fa-1x process"></i></button> -->
           {% endif %}
           
-          
+
           <div class="card-footer" style="margin-top:5px; ">
                 <button class="upVote  btn btn-sm btn-info" voting_type="up" issue_id="{{issue.id}}">
                   <i class="fa fa-2x fa-thumbs-up"></i>
@@ -151,172 +152,183 @@
 
 
 {% block js_extra %}
-<script type="text/javascript">
-    $(document).ready(function(){
-        $(".process").hide();
-        $(".request").click(function(e){
-            e.preventDefault();
-            {% if not request.user.is_authenticated %}
-                alert("You need to login first before requesting verification.");
-                window.location.href = 'signin';
-            {% else %}
-                var issue = $(this).closest(".single-issue");
-                var pr_link = $("input[name='pr_link']", issue).val();
-                console.log(pr_link);
-                var issue_id = $(".issue-info", issue).attr('issue-id');
-                var csrf = $(".single-issue").attr('csrf');
-                // $(".process",this).show();
-                if(pr_link != ""){
+    <script>
+        $(document).ready(function () {
+                $(".process").hide();
+                $(".request").click(function (e) {
+                    e.preventDefault();
+                    {% if not request.user.is_authenticated %}
+                    alert("You need to login first before requesting verification.");
+                    window.location.href = 'signin';
+                    {% else %}
+                    var issue = $(this).closest(".single-issue");
+                    var pr_link = $("input[name='pr_link']", issue).val();
+                    console.log(pr_link);
+                    var issue_id = $(".issue-info", issue).attr('issue-id');
+                    var csrf = $(".single-issue").attr('csrf');
+                    // $(".process",this).show();
+                    if (pr_link != "") {
+                        $.ajax({
+                            url: 'request_pr',
+                            data: {
+                                'pr_link': pr_link,
+                                'issue_id': issue_id,
+                                'csrfmiddlewaretoken': csrf,
+                            },
+                            type: 'post',
+                            cache: false,
+                            beforeSend: function () {
+                                // $(".request").html('<i class="fa fa-spinner fa-spin fa-1x"></i>');
+                                $(".process", this).show();
+                            },
+                            success: function (data) {
+                                if (data) {
+                                    alert(data);
+                                    // document.location.reload();
+                                }
+                            },
+                            afterSend: function () {
+                                // $(".request").html(' request for verification ');
+                                $(".process", this).hide();
+                            },
+                        });
+                    } else {
+                        alert("First put your PR link with the corresponding issue.");
+                    }
+                    {% endif %}
+                });
+
+                $('.delete').click(function (e) {
+                    e.preventDefault();
+                    var issue = $(this).closest('.single-issue');
+                    var issue_id = $(".issue-info", issue).attr('issue-id');
+                    var csrf = $(".single-issue").attr('csrf');
                     $.ajax({
-                        url:'request_pr',
-                        data:{
-                            'pr_link':pr_link,
+                        url: 'remove_issue',
+                        data: {
                             'issue_id': issue_id,
-                            'csrfmiddlewaretoken':csrf,
+                            'csrfmiddlewaretoken': csrf,
                         },
-                        type:'post',
-                        cache:false,
-                        beforeSend: function(){
-                            // $(".request").html('<i class="fa fa-spinner fa-spin fa-1x"></i>');
-                            $(".process",this).show();
+                        type: 'post',
+                        cache: false,
+                        beforeSend: function () {
+                            // alert("Requesting server ...")
                         },
-                        success: function(data){
-                            if(data){
+                        success: function (data) {
+                            if (data) {
                                 alert(data);
                                 // document.location.reload();
                             }
-                        },
-                        afterSend: function(){
-                            // $(".request").html(' request for verification ');
-                            $(".process",this).hide();
-                        },
+                        }
                     });
-                }else{
-                    alert("First put your PR link with the corresponding issue.");
-                }
-            {% endif %}
-        });
+                });
 
-        $('.delete').click(function(e){
-            e.preventDefault();
-            var issue = $(this).closest('.single-issue');
-            var issue_id = $(".issue-info", issue).attr('issue-id');
-            var csrf = $(".single-issue").attr('csrf');
-            $.ajax({
-                url:'remove_issue',
-                data:{
-                    'issue_id': issue_id,
-                    'csrfmiddlewaretoken': csrf,
-                },
-                type:'post',
-                cache:false,
-                beforeSend:function(){
-                   // alert("Requesting server ...")
-                },
-                success:function(data){
-                    if(data){
-                        alert(data);
-                        // document.location.reload();
+                $('.change-label').click(function (e) {
+                    e.preventDefault();
+                    var issue = $(this).closest('.single-issue');
+                    var issue_id = $(".issue-info", issue).attr('issue-id');
+                    var csrf = $(".single-issue").attr('csrf');
+                    $.ajax({
+                        url: 'change_label',
+                        data: {
+                            'issue_id': issue_id,
+                            'csrfmiddlewaretoken': csrf,
+                        },
+                        type: 'post',
+                        cache: false,
+                        beforeSend: function () {
+                            // alert("Requesting server ...")
+                        },
+                        success: function (data) {
+                            if (data) {
+                                //alert(data);
+                                //console.log(issue)
+                                var status = $(".pull-right",issue).html();
+                                console.log(status);
+                                if(status=="OPEN")
+                                {
+                                    $(".change-label", issue).html("CLOSED");
+                                    $(".change-label", issue).attr("class","closed change-label pull-right");
+                                }
+                                else
+                                {
+                                    $(".change-label", issue).html("OPEN");
+                                    $(".change-label", issue).attr("class", "open change-label pull-right");
+                                }
+                            }
+
+                        }
+                    });
+                });
+
+                var infiniteScroll = new Waypoint.Infinite({
+                    element: $('.issues-container')[0],
+                    items: '.issue-list-item',
+                    //loadingClass: 'more-issues-loading',
+                    more: '.more-issues-link',
+                    onBeforePageLoad: function () {
+                        $('.more-issues-loading').show();
+                    },
+                    onAfterPageLoad: function () {
+                        $('.more-issues-loading').hide();
                     }
-                }
+                });
+
+                $('.upVote').click(function (e) {
+                    e.preventDefault();
+                    var that = this
+                    var next = $(this).next('.btn')//Since The downvote button is after upvote
+                    var type = $(this).attr('voting_type');
+                    var issue = $(this).closest('.single-issue');
+                    var issue_id = $(".issue-info", issue).attr('issue-id');
+                    console.log(type);
+
+                    $.ajax({
+                        url: 'vote',
+                        data: {
+                            'issue_id': issue_id,
+                            'type': type,
+                        },
+                        dataType: 'json',
+                        type: 'get',
+                        cache: false,
+                        success: function (data) {
+                            // $('.upV').html(data.upvotes_count);
+                            $(that).html('<i class="fa fa-2x fa-thumbs-up"></i> &nbsp;' + data.upvotes_count);
+                            $(next).html('<i class="fa fa-2x fa-thumbs-down"></i> &nbsp;' + data.downvotes_count);
+                        }
+                    });
+                });
+
+                $('.downVote').click(function (e) {
+                    e.preventDefault();
+                    var that = this;
+                    var prev = $(this).prev('.btn')//Since The upvote button is before downvote
+                    var type = $(this).attr('voting_type');
+                    var issue = $(this).closest('.single-issue');
+                    var issue_id = $(".issue-info", issue).attr('issue-id');
+                    console.log(type);
+
+                    $.ajax({
+                        url: 'vote',
+                        data: {
+                            'issue_id': issue_id,
+                            'type': type,
+                        },
+                        dataType: 'json',
+                        type: 'get',
+                        cache: false,
+                        success: function (data) {
+
+                            $(that).html('<i class="fa fa-2x fa-thumbs-down"></i> &nbsp;' + data.downvotes_count);
+                            $(prev).html('<i class="fa fa-2x fa-thumbs-up"></i> &nbsp;' + data.upvotes_count);
+
+                        }
+                    });
+
+
+                });
+
             });
-        });
-
-        $('.change-label').click(function (e) {
-            e.preventDefault();
-            var issue = $(this).closest('.single-issue');
-            var issue_id = $(".issue-info", issue).attr('issue-id');
-            var csrf = $(".single-issue").attr('csrf');
-            $.ajax({
-                url: 'change_label',
-                data: {
-                    'issue_id': issue_id,
-                    'csrfmiddlewaretoken': csrf,
-                },
-                type: 'post',
-                cache: false,
-                beforeSend: function () {
-                    // alert("Requesting server ...")
-                },
-                success: function (data) {
-                    if (data) {
-                        alert(data);
-                        document.location.reload();
-                    }
-
-                }
-            });
-        });        
-
-        var infiniteScroll = new Waypoint.Infinite({
-          element: $('.issues-container')[0],
-          items: '.issue-list-item',
-          //loadingClass: 'more-issues-loading',
-          more: '.more-issues-link',
-          onBeforePageLoad: function(){
-              $('.more-issues-loading').show();
-          },
-          onAfterPageLoad: function(){
-              $('.more-issues-loading').hide();
-          }
-        });
-
-        $('.upVote').click(function(e){
-          e.preventDefault();
-            var that =this
-            var next = $(this).next('.btn')//Since The downvote button is after upvote
-            var type = $(this).attr('voting_type');
-            var issue = $(this).closest('.single-issue');
-            var issue_id = $(".issue-info", issue).attr('issue-id');
-            console.log(type);
-
-            $.ajax({
-                url:'vote',
-                data:{
-                    'issue_id': issue_id,
-                     'type': type,
-                },
-                dataType:'json',
-                type:'get',
-                cache:false,
-                success:function(data){
-                    // $('.upV').html(data.upvotes_count);
-                    $(that).html('<i class="fa fa-2x fa-thumbs-up"></i> &nbsp;'+data.upvotes_count);
-                    $(next).html('<i class="fa fa-2x fa-thumbs-down"></i> &nbsp;'+data.downvotes_count);
-                }
-            });
-        });
-
-        $('.downVote').click(function(e){
-          e.preventDefault();
-            var that = this;
-            var prev = $(this).prev('.btn')//Since The upvote button is before downvote
-            var type = $(this).attr('voting_type');
-            var issue = $(this).closest('.single-issue');
-            var issue_id = $(".issue-info", issue).attr('issue-id');
-            console.log(type);
-
-            $.ajax({
-                url:'vote',
-                data:{
-                    'issue_id': issue_id,
-                     'type': type,
-                },
-                dataType:'json',
-                type:'get',
-                cache:false,
-                success:function(data){
-
-                    $(that).html('<i class="fa fa-2x fa-thumbs-down"></i> &nbsp;'+data.downvotes_count);
-                    $(prev).html('<i class="fa fa-2x fa-thumbs-up"></i> &nbsp;'+data.upvotes_count);
-
-                }
-            });
-
-
-        });
-
-    });
-</script>
-
+    </script>
 {% endblock js_extra %}

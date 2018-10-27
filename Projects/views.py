@@ -11,6 +11,7 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 import json
 from .models import Issues, Prs
 import time
+from django.db.models import Q
 
 
 def vote(request):
@@ -83,7 +84,6 @@ def home(request):
                 issues = Issues.objects.all().order_by('points')
             else:
                 issues = Issues.objects.all().order_by('-pk')
-
         paginator = Paginator(issues, 15)  # Show 15 issues per page
         page = request.GET.get('page', 1)
         
@@ -95,7 +95,7 @@ def home(request):
         except EmptyPage:
             issues = paginator.get_page(paginator.num_pages)
             issues = Issues.objects.none()
-        return render(request, 'Projects/home.html', {'issues': issues, 'val':val}) #this dic will have value of
+        return render(request, 'Projects/home.html', {'issues': issues}) #this dic will have value of
 																					#all filter attributes or you can also send a list of all such attrs
 
 def leaderboard(request):
