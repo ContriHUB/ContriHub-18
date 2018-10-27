@@ -278,7 +278,7 @@ def remove_pr(request):
         print('Searching if such PR exists with id',pr_id)
         pr = get_object_or_404(Prs, id=pr_id)
         print("PR ID is",pr_id,user.username,pr.from_user.username)
-        if pr.from_user == user:
+        if pr.from_user == user or user.is_staff :
             pr.delete()
             response="Successfully deleted this PR."
         else:
