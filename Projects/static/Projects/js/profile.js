@@ -35,7 +35,8 @@ $(document).ready(function() {
         if (data == "success") {
           alert("Successfully updated the status of this Pull Request");
           //alert(data);
-          document.location.reload();
+          // document.location.reload();
+          $(pr).hide();
         }
       },  
       afterSend: function() {
@@ -66,9 +67,7 @@ $(document).ready(function() {
       success: function(data) {
         if (data) {
           alert(data);
-          // document.location.reload();
-            $(pr).hide();
-
+          $(pr).hide();
         }
       }
     });

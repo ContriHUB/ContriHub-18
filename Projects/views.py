@@ -230,10 +230,15 @@ def response_pr(request):
             print('pr_status',pr.status)
             if pr.status==2:
                 pr.status=3
+                print(deducted_points)
+                print(pr.from_user.profile.deducted_points)
                 pr.from_user.profile.points=pr.from_user.profile.points+pr.issue.points+bonus_pts-deduct_pts
+                pr.from_user.profile.bonus_points = pr.from_user.profile.bonus_points+bonus_pts
+                pr.from_user.profile.deducted_points = pr.from_user.profile.deducted_points+deduct_pts
                 subject = pr.issue.mentor.username + ' has verified your PR'
                 var_msg = 'Congratulations. Your pull request has been verified by mentor, '
                 # print('Changing the status to', 3 ,'and points to',pr.from_user.profile.points)
+                print(pr.from_user.profile.deducted_points)
             elif pr.status==3:
                 pr.status=2
                 pr.from_user.profile.points=pr.from_user.profile.points-pr.issue.points
