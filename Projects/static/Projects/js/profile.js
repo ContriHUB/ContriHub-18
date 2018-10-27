@@ -65,7 +65,6 @@ $(document).ready(function() {
       success: function(data) {
         if (data) {
           alert(data);
-          document.location.reload();
         }
       }
     });
