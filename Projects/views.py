@@ -12,6 +12,7 @@ import json
 from .models import Issues, Prs
 import time
 
+
 def vote(request):
     if request.user.is_authenticated:
         issue_id= int(request.GET['issue_id'])
@@ -315,7 +316,7 @@ def remove_pr(request):
 #         return redirect('home')
 
 def change_label(request):
-    if request.method == 'POST' and request.user.profile.role == 'mentor':
+    if request.user.is_authenticated and request.method == 'POST' and request.user.profile.role == 'mentor':
         res=""
         print('closing issue')
         issue_id = request.POST.get('issue_id')
@@ -331,3 +332,4 @@ def change_label(request):
             res="opened the issue "+issue.title_issue
         issue.save()
         return HttpResponse(res)
+    else: return HttpResponseBadRequest()
