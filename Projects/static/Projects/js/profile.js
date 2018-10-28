@@ -2,7 +2,7 @@ $(document).ready(function() {
   $(".prs_pending").hide();
   $(".prs_vclosed").hide();
 
-  $(".vclose,.unvclose").click(function(e) {
+  $(document).on('click',".vclose,.unvclose",function(e) {
     e.preventDefault();
     var pr = $(this).closest(".ppr");
     var pr_id = $(".pr_info",pr).attr("pr-id");
@@ -47,7 +47,7 @@ $(document).ready(function() {
     });
   });
 
-  $(".delete").click(function(e) {
+  $(document).on("click",".delete",function(e) {
     e.preventDefault();
     var pr = $(this).closest(".ppr");
     var that=$(this).prev('.ppr');
