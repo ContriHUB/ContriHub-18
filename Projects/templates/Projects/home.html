@@ -5,24 +5,6 @@
 
 {% block head_extra %} 
 <link type="text/css" href="{% static 'Projects/css/home.css' %}" rel="stylesheet">
-<style>
-    .dropdown-item{
-        cursor: pointer;
-    }
-    #more-issues {
-        color: azure;
-        font-weight: bold;
-    }
-    .open,.closed {
-        font-size: 14px;
-    } 
-    .delete {
-        font-size: 14px;
-    }
-    .upV, .downV {
-        margin-left: 3px; 
-    }
-</style>
 {% endblock head_extra %} 
 
 {% block body_content %} 
@@ -93,6 +75,7 @@
 
 
 <section class="container issues-container">
+    <div id="snackbar"></div>
   <article class="card single-issue" csrf="{{ csrf_token }}">
     <div class="card-body">
       <div class="card-title">
@@ -246,7 +229,9 @@
                             },
                             success: function (data) {
                                 if (data) {
-                                    alert(data);
+                                    // alert(data);
+                                    $("#snackbar").html(data);
+                                    showMessage();
                                     // document.location.reload();
                                 }
                             },
@@ -280,7 +265,9 @@
                         },
                         success: function (data) {
                             if (data) {
-                                alert(data);
+                                // alert(data);
+                                $("#snackbar").html(data);
+                                showMessage();
                                 $(issue).hide();
                             }
                         }
@@ -396,5 +383,11 @@
                 });
 
             });
+
+        function showMessage() {
+                var x = document.getElementById("snackbar");
+                x.className = "show";
+                setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+            }
     </script>
 {% endblock js_extra %}
