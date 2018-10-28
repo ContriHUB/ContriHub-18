@@ -29,6 +29,69 @@
 
 {% include 'Projects/navbar.html' %}
 
+<!-- model form for adding issues -->
+
+<div class="modal fade" id="modalContactForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title w-100 font-weight-bold">Add Issue</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        <form action="{% url 'new_issue' %}" method="POST">
+            {% csrf_token %}
+            <div class="modal-body mx-3">
+                <div class="md-form mb-5">
+                    <i class="fa fa-tag prefix grey-text"></i>
+                    <input type="text" id="titlei" class="form-control validate" name="title_issue" >
+                    <label data-error="wrong" data-success="right" for="form34">Title of the Issue</label>
+                </div>
+
+                <div class="md-form mb-5">
+                    <i class="fa fa-link prefix grey-text"></i>
+                    <input type="url" id="linki" class="form-control validate" name="link_issue">
+                    <label data-error="wrong" data-success="right" for="form29">Issue link</label>
+                </div>
+
+                <div class="md-form mb-5">
+                    <i class="fa fa-tag prefix grey-text"></i>
+                    <input type="text" id="titlep" class="form-control validate" name="title_project">
+                    <label data-error="wrong" data-success="right" for="form34">Title of the Project</label>
+                </div>
+                
+                <div class="md-form mb-5">
+                    <i class="fa fa-link prefix grey-text"></i>
+                    <input type="url" id="linkp" class="form-control validate" name="link_project">
+                    <label data-error="wrong" data-success="right" for="form29">Project link</label>
+                </div>
+
+                <div class="row">
+                    <div class="md-form mb-6">
+                        <i class="fa fa-tag prefix grey-text"></i>
+                        <input type="number" min="1" max="3" id="level" class="form-control validate" name="level">
+                        <label data-error="wrong" data-success="right" for="form32">Level</label>
+                    </div>
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                    <div class="md-form mb-6">
+                        <i class="fa fa-gift prefix grey-text"></i>
+                        <input type="number" id="pts" class="form-control validate" name="points">
+                        <label data-error="wrong" data-success="right" for="form32">Points</label>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer d-flex justify-content-center">
+                <button type="submit" class="btn btn-unique">Send <i class="fa fa-paper-plane-o ml-1"></i></button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+
+
+
 <section class="container issues-container">
   <article class="card single-issue" csrf="{{ csrf_token }}">
     <div class="card-body">
