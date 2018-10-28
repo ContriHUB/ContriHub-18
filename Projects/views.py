@@ -238,7 +238,7 @@ def response_pr(request):
                 # print('Changing the status to', 3 ,'and points to',pr.from_user.profile.points)
             elif pr.status==3:
                 pr.status=2
-                pr.from_user.profile.points=pr.from_user.profile.points-pr.issue.points
+                pr.from_user.profile.points=pr.from_user.profile.points-pr.issue.points - pr.from_user.profile.bonus_points + pr.from_user.profile.deducted_points
                 subject = pr.issue.mentor.username + ' has rejected your PR'
                 var_msg = 'Your pull request has been rejected by mentor, '
             pr.save()
