@@ -71,8 +71,8 @@ def home(request):
                 print("in the except block")
                 # status_filter = 
                 if val[0]=='_':
-                    val=int(val[1])
-                    issues = Issues.objects.filter(label=val)
+                    temp_val=int(val[1]) #don't change this val as it's being passed to template
+                    issues = Issues.objects.filter(label=temp_val)
                 else:
                     project_filter = Issues.objects.filter(title_project=str(val))
                     mentor_filter  = Issues.objects.filter(mentor__username=str(val))
@@ -95,7 +95,7 @@ def home(request):
         except EmptyPage:
             issues = paginator.get_page(paginator.num_pages)
             issues = Issues.objects.none()
-        return render(request, 'Projects/home.html', {'issues': issues}) #this dic will have value of
+        return render(request, 'Projects/home.html', {'issues': issues, 'val':val }) #this dic will have value of
 																					#all filter attributes or you can also send a list of all such attrs
 
 def leaderboard(request):
@@ -216,11 +216,11 @@ def response_pr(request):
         pr_id = request.POST.get('pr_id')
         pr = get_object_or_404(Prs, id=pr_id)
         bonus_pts=request.POST.get('bonus_pts','0')
-        deduct_pts=request.POST.get('deduct_pts','0')
+        deducted_points=request.POST.get('deduct_pts','0')
         bonus_pts=int(bonus_pts)
-        deduct_pts=int(deduct_pts)
+        deducted_points=int(deducted_points)
         print("bonus - ",bonus_pts)
-        print("deduct - ",deduct_pts)
+        print("deduct - ",deducted_points)
         #1-not attempted, 2-pending_for_verification, 3-verified_closed, 4-unverified_closed
         if pr:
             print(pr.issue.mentor.username)
@@ -228,21 +228,36 @@ def response_pr(request):
             print('pr_status',pr.status)
             if pr.status==2:
                 pr.status=3
-                pr.from_user.profile.points=pr.from_user.profile.points+pr.issue.points+bonus_pts-deduct_pts
+                print(deducted_points)
+                print(pr.from_user.profile.deducted_points)
+                #total points of pr making user
+                pr.from_user.profile.points=pr.from_user.profile.points+pr.issue.points+bonus_pts-deducted_points
+                
+                #modifying bonus and deducted points for pr making user
                 pr.from_user.profile.bonus_points = pr.from_user.profile.bonus_points+bonus_pts
-                pr.from_user.profile.deducted_points = pr.from_user.profile.deducted_points+deduct_pts
+                pr.from_user.profile.deducted_points = pr.from_user.profile.deducted_points+deducted_points
+                
+                #modifying pr bonus and deducted points
                 pr.bonus_points = pr.bonus_points+ bonus_pts
-                pr.deducted_points = pr.deducted_points + deduct_pts
+                pr.deducted_points = pr.deducted_points + deducted_points
+                
                 subject = pr.issue.mentor.username + ' has verified your PR'
                 var_msg = 'Congratulations. Your pull request has been verified by mentor, '
                 # print('Changing the status to', 3 ,'and points to',pr.from_user.profile.points)
+                print(pr.from_user.profile.deducted_points)
             elif pr.status==3:
                 pr.status=2
+                #total points of pr making user
                 pr.from_user.profile.points=pr.from_user.profile.points-(pr.issue.points+pr.bonus_points-pr.deducted_points)
+                
+                #modifying bonus and deducted points for pr making user
                 pr.from_user.profile.bonus_points = pr.from_user.profile.bonus_points-pr.bonus_points
                 pr.from_user.profile.deducted_points = pr.from_user.profile.deducted_points-pr.deducted_points
+                
+                #modifying pr bonus and deducted points
                 pr.bonus_points=0
                 pr.deducted_points=0
+                
                 subject = pr.issue.mentor.username + ' has rejected your PR'
                 var_msg = 'Your pull request has been rejected by mentor, '
             pr.save()

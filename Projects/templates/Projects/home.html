@@ -69,14 +69,14 @@
                 {{issue.title_issue}}
               </a>
               {% if issue.label == 1 %}
-                <span class="open pull-right change-label badge badge-success" title="Click to change the label status">OPEN</span>
+                <span class="open pull-right change-label" title="Click to change the label status">OPEN</span>
               {% elif issue.label == 0 %}
-                 <span class="closed pull-right change-label badge badge-danger" title="Click to change the label status">CLOSED</span>
+                 <span class="closed pull-right change-label" title="Click to change the label status">CLOSED</span>
               {% endif %}
             <h4>
     
             {% if request.user == issue.mentor %}
-             <a href="#"><i class="fa fa-trash-o delete"></i></a>
+             <a href="#"><i class="fa fa-trash-o delete" id="del"></i></a>
             {% endif %}
           </div>
           <div class="card-text">
@@ -106,7 +106,7 @@
             <!-- <i class="fa fa-spinner fa-spin fa-1x process"></i></button> -->
           {% endif %}
           
-          
+
           <div class="card-footer" style="margin-top:5px; ">
                 <button class="upVote  btn btn-sm btn-info" voting_type="up" issue_id="{{issue.id}}">
                   <i class="fa fa-2x fa-thumbs-up"></i>
@@ -153,7 +153,7 @@
 
 {% block js_extra %}
     <script>
-        $(document).ready(function () {
+        $(document).on("ready",function () {
                 $(".process").hide();
                 $(".request").click(function (e) {
                     e.preventDefault();
@@ -198,8 +198,9 @@
                     {% endif %}
                 });
 
-                $('.delete').click(function (e) {
+                $(document).on('click',".delete",function (e) {
                     e.preventDefault();
+
                     var issue = $(this).closest('.single-issue');
                     var issue_id = $(".issue-info", issue).attr('issue-id');
                     var csrf = $(".single-issue").attr('csrf');
@@ -217,13 +218,15 @@
                         success: function (data) {
                             if (data) {
                                 alert(data);
+                                $(issue).hide();
                                 // document.location.reload();
                             }
                         }
                     });
                 });
 
-                $('.change-label').click(function (e) {
+                
+                $(document).on('click',".change-label", function(e) {
                     e.preventDefault();
                     var issue = $(this).closest('.single-issue');
                     var issue_id = $(".issue-info", issue).attr('issue-id');
@@ -241,19 +244,19 @@
                         },
                         success: function (data) {
                             if (data) {
-                                alert(data);
+                                //alert(data);
                                 //console.log(issue)
                                 var status = $(".pull-right",issue).html();
-                                console.log(status)
+                                console.log(status);
                                 if(status=="OPEN")
                                 {
-                                    $(".pull-right", issue).html("CLOSED");
-                                    $(".pull-right", issue).attr("class","closed pull-right change-label badge badge-danger");
+                                    $(".change-label", issue).html("CLOSED");
+                                    $(".change-label", issue).attr("class","closed change-label pull-right");
                                 }
                                 else
                                 {
-                                    $(".pull-right", issue).html("OPEN");
-                                    $(".pull-right", issue).attr("class", "open pull-right change-label badge badge-success");
+                                    $(".change-label", issue).html("OPEN");
+                                    $(".change-label", issue).attr("class", "open change-label pull-right");
                                 }
                             }
 
@@ -268,13 +271,14 @@
                     more: '.more-issues-link',
                     onBeforePageLoad: function () {
                         $('.more-issues-loading').show();
+
                     },
                     onAfterPageLoad: function () {
                         $('.more-issues-loading').hide();
                     }
                 });
 
-                $('.upVote').click(function (e) {
+                $(document).on('click','.upVote',function (e) {
                     e.preventDefault();
                     var that = this
                     var next = $(this).next('.btn')//Since The downvote button is after upvote
@@ -300,7 +304,7 @@
                     });
                 });
 
-                $('.downVote').click(function (e) {
+                $(document).on('click','.downVote',function (e) {
                     e.preventDefault();
                     var that = this;
                     var prev = $(this).prev('.btn')//Since The upvote button is before downvote

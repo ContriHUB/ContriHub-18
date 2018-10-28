@@ -2,7 +2,7 @@ $(document).ready(function() {
   $(".prs_pending").hide();
   $(".prs_vclosed").hide();
 
-  $(".vclose,.unvclose").click(function(e) {
+  $(document).on('click',".vclose,.unvclose",function(e) {
     e.preventDefault();
     var pr = $(this).closest(".ppr");
     var pr_id = $(".pr_info",pr).attr("pr-id");
@@ -37,7 +37,8 @@ $(document).ready(function() {
         if (data == "success") {
           alert("Successfully updated the status of this Pull Request");
           //alert(data);
-          document.location.reload();
+          // document.location.reload();
+          $(pr).hide();
         }
       },  
       afterSend: function() {
@@ -47,9 +48,10 @@ $(document).ready(function() {
     });
   });
 
-  $(".delete").click(function(e) {
+  $(document).on("click",".delete",function(e) {
     e.preventDefault();
     var pr = $(this).closest(".ppr");
+    var that=$(this).prev('.ppr');
     var pr_id = $(".pr_info", pr).attr("pr-id");
     var csrf = $(".ppr").attr("csrf");
     console.log("pr_id " + pr_id);
@@ -67,7 +69,7 @@ $(document).ready(function() {
       success: function(data) {
         if (data) {
           alert(data);
-          pr.hide();
+          $(pr).hide();
         }
       }
     });
