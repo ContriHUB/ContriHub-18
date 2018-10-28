@@ -158,7 +158,6 @@
                 $(".request").click(function (e) {
                     e.preventDefault();
                     {% if not request.user.is_authenticated %}
-                    alert("You need to login first before requesting verification.");
                     window.location.href = 'signin';
                     {% else %}
                     var issue = $(this).closest(".single-issue");
@@ -183,7 +182,7 @@
                             },
                             success: function (data) {
                                 if (data) {
-                                    alert(data);
+                               
                                     // document.location.reload();
                                 }
                             },
@@ -193,7 +192,7 @@
                             },
                         });
                     } else {
-                        alert("First put your PR link with the corresponding issue.");
+                       
                     }
                     {% endif %}
                 });
@@ -213,11 +212,11 @@
                         type: 'post',
                         cache: false,
                         beforeSend: function () {
-                            // alert("Requesting server ...")
+                            
                         },
                         success: function (data) {
                             if (data) {
-                                alert(data);
+                                
                                 $(issue).hide();
                                 // document.location.reload();
                             }
@@ -240,11 +239,11 @@
                         type: 'post',
                         cache: false,
                         beforeSend: function () {
-                            // alert("Requesting server ...")
+                          
                         },
                         success: function (data) {
                             if (data) {
-                                //alert(data);
+                               
                                 //console.log(issue)
                                 var status = $(".pull-right",issue).html();
                                 console.log(status);
