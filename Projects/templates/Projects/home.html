@@ -76,7 +76,7 @@
             <h4>
     
             {% if request.user == issue.mentor %}
-             <a href="#"><i class="fa fa-trash-o delete"></i></a>
+             <a href="#"><i class="fa fa-trash-o delete" id="del"></i></a>
             {% endif %}
           </div>
           <div class="card-text">
@@ -153,7 +153,7 @@
 
 {% block js_extra %}
     <script>
-        $(document).ready(function () {
+        $(document).on("ready",function () {
                 $(".process").hide();
                 $(".request").click(function (e) {
                     e.preventDefault();
@@ -198,8 +198,9 @@
                     {% endif %}
                 });
 
-                $('.delete').click(function (e) {
+                $(document).on('click',".delete",function (e) {
                     e.preventDefault();
+
                     var issue = $(this).closest('.single-issue');
                     var issue_id = $(".issue-info", issue).attr('issue-id');
                     var csrf = $(".single-issue").attr('csrf');
@@ -269,6 +270,7 @@
                     more: '.more-issues-link',
                     onBeforePageLoad: function () {
                         $('.more-issues-loading').show();
+
                     },
                     onAfterPageLoad: function () {
                         $('.more-issues-loading').hide();
