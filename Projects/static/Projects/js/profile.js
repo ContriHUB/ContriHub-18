@@ -7,10 +7,11 @@ $(document).ready(function() {
     var pr = $(this).closest(".ppr");
     var pr_id = $(".pr_info",pr).attr("pr-id");
     var csrf = $(".ppr").attr("csrf");
+    console.log(pr);
     // $(".process",this).show();
     //alert($("#bonus").val())
-    var bonus_pts = $("#bonus").val();
-    var deduct_pts = $("#deduct").val();
+    var bonus_pts = $("#bonus",pr).val();
+    var deduct_pts = $("#deduct",pr).val();
     console.log(pr_id)
     console.log('bonus_pts - '+bonus_pts)
     console.log('deduct_pts - '+deduct_pts)
@@ -35,7 +36,8 @@ $(document).ready(function() {
         if (data == "success") {
           alert("Successfully updated the status of this Pull Request");
           //alert(data);
-          document.location.reload();
+          // document.location.reload();
+          $(pr).hide();
         }
       },  
       afterSend: function() {
@@ -66,9 +68,7 @@ $(document).ready(function() {
       success: function(data) {
         if (data) {
           alert(data);
-          // document.location.reload();
-            $(pr).hide();
-
+          $(pr).hide();
         }
       }
     });
