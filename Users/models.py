@@ -17,7 +17,8 @@ class Profile(models.Model):
     college         = models.CharField(_('college_name'), max_length=100, blank=True, null=True)
     issues_solved   = models.IntegerField(_('issues_solved'), default=0)
     country         = models.CharField(_('country'), max_length=20, blank=True, null=True)
-
+    bonus_points    = models.IntegerField(_('bonus_points'),default=0)
+    deducted_points = models.IntegerField(_('deducted_points'),default=0)
     class Meta:
         db_table = 'user_profile'
         managed = True

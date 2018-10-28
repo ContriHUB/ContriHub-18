@@ -42,7 +42,9 @@
                     Hard
                     {% endif %}
                     <br>
-                    Expected Points - {{pr.issue.points}}
+                    <p>Expected Points - {{pr.issue.points}}</p>
+                    <p style="color:green">Bonus Points - {{pr.bonus_points}}</p>
+                    <p style="color:red">Deducted Points - {{pr.deducted_points}}</p>
 
                 </div>
             </div>
