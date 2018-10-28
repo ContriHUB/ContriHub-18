@@ -30,6 +30,7 @@
 {% include 'Projects/navbar.html' %}
 
 <section class="container issues-container">
+    <div class="container" id="message"></div>
   <article class="card single-issue" csrf="{{ csrf_token }}">
     <div class="card-body">
       <div class="card-title">
@@ -183,7 +184,9 @@
                             },
                             success: function (data) {
                                 if (data) {
-                                    alert(data);
+                                     // alert(data);
+                                    $("#message").prepend("<div class=\"alert alert-success alert-dismissable\"><strong>"+data+"</strong><button type=\"button\" class=\"close\" data-dismiss=\"alert\" >&times;</button></div>");
+                                    document.documentElement.scrollTop = 0;
                                     // document.location.reload();
                                 }
                             },
@@ -217,8 +220,9 @@
                         },
                         success: function (data) {
                             if (data) {
-                                alert(data);
-                                $(issue).hide();
+                                    $("#message").prepend("<div class=\"alert alert-success alert-dismissable\"><strong>"+data+"</strong><button type=\"button\" class=\"close\" data-dismiss=\"alert\" >&times;</button></div>");
+                                    document.documentElement.scrollTop = 0;
+                                    $(issue).hide();
                                 // document.location.reload();
                             }
                         }

@@ -65,9 +65,13 @@ $(document).ready(function() {
       },
       success: function(data) {
         if (data) {
-          alert(data);
+          $("#message").prepend("<div id=\"mes\"class=\"alert alert-success alert-dismissable\"><strong>"+data+"</strong><button type=\"button\" class=\"close\" data-dismiss=\"alert\" >&times;</button></div>");
+          document.documentElement.scrollTop = 0;
           // document.location.reload();
             $(pr).hide();
+            setTimeout(function(){
+            $('#mes').remove();
+           }, 5000);
 
         }
       }
