@@ -34,7 +34,12 @@ $(document).ready(function() {
       },
       success: function(data) {
         if (data == "success") {
-          alert("Successfully updated the status of this Pull Request");
+          // alert("Successfully updated the status of this Pull Request");
+          if($('body').find('#alert-modal').length <= 0) {
+            $('body').append('<div id="alert-modal"></div>');
+          }
+          $('#alert-modal').html("<p>Successfully updated the status of this Pull Request</p>");
+          $('#alert-modal').modal();
           //alert(data);
           // document.location.reload();
           $(pr).hide();
@@ -67,7 +72,12 @@ $(document).ready(function() {
       },
       success: function(data) {
         if (data) {
-          alert(data);
+          // alert(data);
+          if ($('body').find('#alert-modal').length <= 0) {
+            $('body').append('<div id="alert-modal"></div>');
+          }
+          $('#alert-modal').html(`<p>${data}</p>`);
+          $('#alert-modal').modal();
           $(pr).hide();
         }
       }

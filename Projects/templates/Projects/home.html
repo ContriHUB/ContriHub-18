@@ -183,7 +183,12 @@
                             },
                             success: function (data) {
                                 if (data) {
-                                    alert(data);
+                                    // alert(data);
+                                    if ($('body').find('#alert-modal').length <= 0) {
+                                        $('body').append('<div id="alert-modal"></div>');
+                                    }
+                                    $('#alert-modal').html(`<p>${data}</p>`);
+                                    $('#alert-modal').modal();
                                     // document.location.reload();
                                 }
                             },
@@ -193,7 +198,13 @@
                             },
                         });
                     } else {
-                        alert("First put your PR link with the corresponding issue.");
+                        // alert("First put your PR link with the corresponding issue.");
+                        var data = "First put your PR link with the corresponding issue.";
+                        if ($('body').find('#alert-modal').length <= 0) {
+                            $('body').append('<div id="alert-modal"></div>');
+                        }
+                        $('#alert-modal').html(`<p>${data}</p>`);
+                        $('#alert-modal').modal();
                     }
                     {% endif %}
                 });
@@ -217,7 +228,12 @@
                         },
                         success: function (data) {
                             if (data) {
-                                alert(data);
+                                // alert(data);
+                                if ($('body').find('#alert-modal').length <= 0) {
+                                    $('body').append('<div id="alert-modal"></div>');
+                                }
+                                $('#alert-modal').html(`<p>${data}</p>`);
+                                $('#alert-modal').modal();
                                 $(issue).hide();
                                 // document.location.reload();
                             }
