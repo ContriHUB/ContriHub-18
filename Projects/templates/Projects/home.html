@@ -225,7 +225,8 @@
                     });
                 });
 
-                $('.change-label').click(function (e) {
+                
+                $(document).on('click',".change-label", function(e) {
                     e.preventDefault();
                     var issue = $(this).closest('.single-issue');
                     var issue_id = $(".issue-info", issue).attr('issue-id');
@@ -277,7 +278,7 @@
                     }
                 });
 
-                $('.upVote').click(function (e) {
+                $(document).on('click','.upVote',function (e) {
                     e.preventDefault();
                     var that = this
                     var next = $(this).next('.btn')//Since The downvote button is after upvote
@@ -303,7 +304,7 @@
                     });
                 });
 
-                $('.downVote').click(function (e) {
+                $(document).on('click','.downVote',function (e) {
                     e.preventDefault();
                     var that = this;
                     var prev = $(this).prev('.btn')//Since The upvote button is before downvote
