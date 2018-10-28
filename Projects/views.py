@@ -340,6 +340,7 @@ def new_issue(request):
     if request.method == 'POST':
         if request.user.is_staff:
             print('in add issue method')
+            mode=request.POST.get('mode')
             mentor = request.user
             title_issue = request.POST.get('title_issue')
             link_issue = request.POST.get('link_issue')
@@ -348,15 +349,26 @@ def new_issue(request):
             level = int(request.POST.get('level'))
             points = int(request.POST.get('points'))
 
-            new_issue = Issues()
-            new_issue.mentor = mentor
-            new_issue.title_issue = title_issue
-            new_issue.link_issue = link_issue
-            new_issue.title_project = title_project
-            new_issue.link_project = link_project
-            new_issue.level = level
-            new_issue.points = points
-            new_issue.save()
+            if mode=='0':        #new issue mode
+                new_issue = Issues()
+                new_issue.mentor = mentor
+                new_issue.title_issue = title_issue
+                new_issue.link_issue = link_issue
+                new_issue.title_project = title_project
+                new_issue.link_project = link_project
+                new_issue.level = level
+                new_issue.points = points
+                new_issue.save()
+            else:         #edit mode
+                issue = Issues.objects.get(title_issue=title_issue)
+                issue.mentor = mentor
+                issue.title_issue = title_issue
+                issue.link_issue = link_issue
+                issue.title_project = title_project
+                issue.link_project = link_project
+                issue.level = level
+                issue.points = points
+                issue.save()
 
             issues=Issues.objects.all().order_by('-id')
             paginator = Paginator(issues, 15)  # Show 15 issues per page

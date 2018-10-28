@@ -23,6 +23,7 @@
                 </button>
             </div>
         <form action="{% url 'new_issue' %}" method="POST">
+            <input type="hidden" value="0" name="mode" id="mode">
             {% csrf_token %}
             <div class="modal-body mx-3">
                 <div class="md-form mb-5">
@@ -139,8 +140,11 @@
                   {% endif %}<br>
              Expected Points - {{issue.points}}<br />             
             </p>
-
+            
           </div> 
+          {% if request.user.is_staff %}
+                <a href="" class="badge badge-secondary edit_issue" data-toggle="modal" data-target="#modalContactForm">Edit Issue</a>
+          {% endif %}
           {% if request.user.profile.role != 'mentor'  %}
             <div class="md-form">
                 <input type="text" name="pr_link" id="form3" class="form-control" required="true" placeholder="PR link here">
@@ -277,7 +281,33 @@
                 });
 
 
+                $(document).on('click', ".edit_issue", function (e) {
+                e.preventDefault();
+
+                var issue = $(this).closest('.single-issue');
                 
+                var title_issue = $(".issue-info", issue).text();
+                var link_issue = $(".issue-info", issue).attr("href");
+                var title_project = $(".project-info", issue).text();
+                var link_project = $(".project-info", issue).attr("href");
+
+                title_issue = title_issue.trim();
+                link_issue = link_issue.trim();
+                title_issue = title_issue.trim();
+                link_project = link_project.trim();
+                
+                $(".modal-title").html("Edit Issue")
+                $("#mode").attr("value","1"); //changing to edit mode
+                $("#titlei").val(title_issue);
+
+                $("#linki").val(link_issue);
+
+                $("#titlep").val(title_project);
+
+                $("#linkp").val(link_project);
+
+            });
+
 
                 
                 $(document).on('click',".change-label", function(e) {
