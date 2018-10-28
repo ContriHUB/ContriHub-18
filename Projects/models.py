@@ -35,6 +35,8 @@ class Prs(models.Model):
     all_such_prs   = models.IntegerField(_('all_such_prs'), default=1)
     status    = models.IntegerField(_('status_issue'), default=1) 
     pr_link   = models.CharField(_('pr_issue'), max_length=200, blank=True, null=True)
+    bonus_pts = models.IntegerField(_('bonus_pts'), default = 0)
+    deducted_pts = models.IntegerField(_('bonus_pts'), default = 0)
     #1-not attempted, 2-pending_for_verification, 3-verified_closed, 4-unverified_closed 
 
     class Meta:

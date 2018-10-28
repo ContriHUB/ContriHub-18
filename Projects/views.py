@@ -233,12 +233,19 @@ def response_pr(request):
                 pr.from_user.profile.points=pr.from_user.profile.points+pr.issue.points+bonus_pts-deduct_pts
                 pr.from_user.profile.bonus_points += bonus_pts
                 pr.from_user.profile.deducted_points += deduct_pts
+                pr.bonus_pts += bonus_pts
+                pr.deducted_pts  += deduct_pts
                 subject = pr.issue.mentor.username + ' has verified your PR'
                 var_msg = 'Congratulations. Your pull request has been verified by mentor, '
                 # print('Changing the status to', 3 ,'and points to',pr.from_user.profile.points)
             elif pr.status==3:
                 pr.status=2
                 pr.from_user.profile.points=pr.from_user.profile.points-pr.issue.points - pr.from_user.profile.bonus_points + pr.from_user.profile.deducted_points
+                pr.from_user.profile.bonus_points -= pr.bonus_pts
+                pr.from_user.profile.deducted_points -= pr.deducted_pts
+                #once the pr is rejected, there is no meaning for bonus and deduceted points for the pr, so their value should be updated to 0
+                pr.bonus_pts = 0
+                pr.deducted_pts = 0
                 subject = pr.issue.mentor.username + ' has rejected your PR'
                 var_msg = 'Your pull request has been rejected by mentor, '
             pr.save()
