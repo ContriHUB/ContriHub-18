@@ -276,6 +276,7 @@ def response_pr(request):
                     'Check the PR here - <a href="'+pr.pr_link+'">PR</a><br>'+\
                     'You can also visit your <a href="https://contrihubs.herokuapp.com/'+ pr.from_user.username +'"> profile </a> to see all pending/rejected requests.<br><br>Cheers!!!'
             try:
+                # print('d')
                 send_mail(subject, message, from_email, to_email, fail_silently=False, html_message=message)
                 # print()
             except Exception:
@@ -315,26 +316,6 @@ def remove_pr(request):
   
         return HttpResponse(response)
 
-# def add_issue(request):
-#     if request.method=='POST':
-#         title_issue=request.POST.get('title_issue')
-#         link_issue=request.POST.get('issue_link')
-#         title_project=request.POST.get('title_project')
-#         link_issue=request.POST.get('link_project')
-
-#         level_issue=request.POST.get('level')
-
-#         issue = Issues()
-#         issue.title_issue=title__issue
-#         issue.link_issue=link_issue
-#         issue.title_project=title_project
-#         issue.link_project=link_project
-#         issue.level_issue=level_issue
-#         issue.mentor=request.user.username
-
-#         issue.save()
-#     else:
-#         return redirect('home')
 
 def change_label(request):
     if request.user.is_authenticated and request.method == 'POST' and request.user.profile.role == 'mentor':
@@ -354,3 +335,52 @@ def change_label(request):
         issue.save()
         return HttpResponse(res)
     else: return HttpResponseBadRequest()
+
+def new_issue(request):
+    print('adding issue')
+    if request.method == 'POST':
+        if request.user.is_staff:
+            print('in add issue method')
+            mentor_name = request.POST.get('mentor_name')
+            title_issue = request.POST.get('title_issue')
+            link_issue = request.POST.get('link_issue')
+            title_project = request.POST.get('title_project')
+            link_project = request.POST.get('link_project')
+
+            try:
+                level = int(request.POST.get('level'))
+                points = int(request.POST.get('points'))                
+            except Exception:
+                return HttpResponseBadRequest('level/points not an integer')
+            try:
+                mentor = get_object_or_404(User, username=mentor_name)
+            except Exception:
+                return HttpResponseBadRequest('Mentor not found')
+
+            new_issue = Issues()
+            new_issue.mentor = mentor
+            new_issue.title_issue = title_issue
+            new_issue.link_issue = link_issue
+            new_issue.title_project = title_project
+            new_issue.link_project = link_project
+            new_issue.level = level
+            new_issue.points = points
+            new_issue.save()
+
+            # issues=Issues.objects.all().order_by('-id')
+            # paginator = Paginator(issues, 15)  # Show 15 issues per page
+            # page = request.GET.get('page', 1)
+
+            # try:
+            #     issues = paginator.get_page(page)
+            # except PageNotAnInteger:
+            #     issues = paginator.get_page(1)
+            #     # issues = paginator.get_page(1)
+            # except EmptyPage:
+            #     issues = paginator.get_page(paginator.num_pages)
+            #     issues = Issues.objects.none()
+            # return render(request,'Projects/home.html',{'issues':issues})
+            return redirect('home')
+        else:
+            return HttpResponseBadRequest('GET request, please use post method')
+

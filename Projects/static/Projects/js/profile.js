@@ -33,6 +33,7 @@ $(document).ready(function() {
         //$(".process",this).show();
       },
       success: function(data) {
+        console.log("success");
         if (data == "success") {
           alert("Successfully updated the status of this Pull Request");
           //alert(data);
