@@ -38,15 +38,20 @@ $(document).on("ready",function () {
         var title_project = $(".project-info", issue).text();
         var link_project = $(".project-info", issue).attr("href");
         var issue_id = $(".issue-info", issue).attr("issue-id");
+        var mentor_name = $(".issue_mentor",issue).text();
         console.log(issue_id)
         title_issue = title_issue.trim();
         link_issue = link_issue.trim();
         title_issue = title_issue.trim();
         link_project = link_project.trim();
+        mentor_name=mentor_name.trim();
 
         $(".modal-title").html("Edit Issue")
         $("#mode").attr("value", "1"); //changing to edit mode
         $("#issue_id").attr("value", issue_id);
+
+        $("#mentori").val(mentor_name);
+
         $("#titlei").val(title_issue);
 
         $("#linki").val(link_issue);
