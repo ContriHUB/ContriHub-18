@@ -24,6 +24,7 @@
             </div>
         <form action="{% url 'new_issue' %}" method="POST">
             <input type="hidden" value="0" name="mode" id="mode">
+            <input type="hidden" value="" name="issue_id" id="issue_id">
             {% csrf_token %}
             <div class="modal-body mx-3">
                 <div class="md-form mb-5">
@@ -142,7 +143,7 @@
             </p>
             
           </div> 
-          {% if request.user.is_staff %}
+          {% if request.user.is_staff and request.user == issue.mentor %}
                 <a href="" class="badge badge-secondary edit_issue" data-toggle="modal" data-target="#modalContactForm">Edit Issue</a>
           {% endif %}
           {% if request.user.profile.role != 'mentor'  %}
@@ -290,7 +291,8 @@
                 var link_issue = $(".issue-info", issue).attr("href");
                 var title_project = $(".project-info", issue).text();
                 var link_project = $(".project-info", issue).attr("href");
-
+                var issue_id = $(".issue-info",issue).attr("issue-id");
+                console.log(issue_id)
                 title_issue = title_issue.trim();
                 link_issue = link_issue.trim();
                 title_issue = title_issue.trim();
@@ -298,6 +300,7 @@
                 
                 $(".modal-title").html("Edit Issue")
                 $("#mode").attr("value","1"); //changing to edit mode
+                $("#issue_id").attr("value",issue_id);
                 $("#titlei").val(title_issue);
 
                 $("#linki").val(link_issue);

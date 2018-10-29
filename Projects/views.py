@@ -341,6 +341,7 @@ def new_issue(request):
         if request.user.is_staff:
             print('in add issue method')
             mode=request.POST.get('mode')
+            issue_id=request.POST.get('issue_id')
             mentor = request.user
             title_issue = request.POST.get('title_issue')
             link_issue = request.POST.get('link_issue')
@@ -348,6 +349,11 @@ def new_issue(request):
             link_project = request.POST.get('link_project')
             level = int(request.POST.get('level'))
             points = int(request.POST.get('points'))
+
+            if issue_id=='':
+                issue_id=-1
+            else:
+                issue_id=int(issue_id)
 
             if mode=='0':        #new issue mode
                 new_issue = Issues()
@@ -360,7 +366,7 @@ def new_issue(request):
                 new_issue.points = points
                 new_issue.save()
             else:         #edit mode
-                issue = Issues.objects.get(title_issue=title_issue)
+                issue = Issues.objects.get(id=issue_id)
                 issue.mentor = mentor
                 issue.title_issue = title_issue
                 issue.link_issue = link_issue
