@@ -234,7 +234,7 @@ def response_pr(request):
                 pr.from_user.profile.points=pr.from_user.profile.points+pr.issue.points+bonus_pts-deducted_points
                 
                 #modifying bonus and deducted points for pr making user
-                pr.from_user.profile.bonus_points = pr.from_user.profile.bonus_points+bonus_pts
+                pr.from_user.profile.bonus_points += (pr.from_user.profile.bonus_points+bonus_pts)
                 pr.from_user.profile.deducted_points = pr.from_user.profile.deducted_points+deducted_points
                 
                 #modifying pr bonus and deducted points
