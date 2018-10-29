@@ -234,7 +234,7 @@ def response_pr(request):
                 pr.from_user.profile.points=pr.from_user.profile.points+pr.issue.points+bonus_pts-deducted_points
                 
                 #modifying bonus and deducted points for pr making user
-                pr.from_user.profile.bonus_points = pr.from_user.profile.bonus_points+bonus_pts
+                pr.from_user.profile.bonus_points += (pr.from_user.profile.bonus_points+bonus_pts)
                 pr.from_user.profile.deducted_points = pr.from_user.profile.deducted_points+deducted_points
                 
                 #modifying pr bonus and deducted points
@@ -276,6 +276,7 @@ def response_pr(request):
                     'Check the PR here - <a href="'+pr.pr_link+'">PR</a><br>'+\
                     'You can also visit your <a href="https://contrihubs.herokuapp.com/'+ pr.from_user.username +'"> profile </a> to see all pending/rejected requests.<br><br>Cheers!!!'
             try:
+                # print('d')
                 send_mail(subject, message, from_email, to_email, fail_silently=False, html_message=message)
                 # print()
             except Exception:
@@ -343,12 +344,21 @@ def new_issue(request):
             mode=request.POST.get('mode')
             issue_id=request.POST.get('issue_id')
             mentor = request.user
+            mentor_name = request.POST.get('mentor_name')
             title_issue = request.POST.get('title_issue')
             link_issue = request.POST.get('link_issue')
             title_project = request.POST.get('title_project')
             link_project = request.POST.get('link_project')
-            level = int(request.POST.get('level'))
-            points = int(request.POST.get('points'))
+
+            try:
+                level = int(request.POST.get('level'))
+                points = int(request.POST.get('points'))                
+            except Exception:
+                return HttpResponseBadRequest('level/points not an integer')
+            try:
+                mentor = get_object_or_404(User, username=mentor_name)
+            except Exception:
+                return HttpResponseBadRequest('Mentor not found')
 
             if issue_id=='':
                 issue_id=-1
@@ -376,19 +386,20 @@ def new_issue(request):
                 issue.points = points
                 issue.save()
 
-            issues=Issues.objects.all().order_by('-id')
-            paginator = Paginator(issues, 15)  # Show 15 issues per page
-            page = request.GET.get('page', 1)
+            # issues=Issues.objects.all().order_by('-id')
+            # paginator = Paginator(issues, 15)  # Show 15 issues per page
+            # page = request.GET.get('page', 1)
 
-            try:
-                issues = paginator.get_page(page)
-            except PageNotAnInteger:
-                issues = paginator.get_page(1)
-                # issues = paginator.get_page(1)
-            except EmptyPage:
-                issues = paginator.get_page(paginator.num_pages)
-                issues = Issues.objects.none()
-            return render(request,'Projects/home.html',{'issues':issues})
+            # try:
+            #     issues = paginator.get_page(page)
+            # except PageNotAnInteger:
+            #     issues = paginator.get_page(1)
+            #     # issues = paginator.get_page(1)
+            # except EmptyPage:
+            #     issues = paginator.get_page(paginator.num_pages)
+            #     issues = Issues.objects.none()
+            # return render(request,'Projects/home.html',{'issues':issues})
+            return redirect('home')
         else:
-            print('not staff')
+            return HttpResponseBadRequest('GET request, please use post method')
 
