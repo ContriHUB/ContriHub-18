@@ -62,17 +62,19 @@ $(document).on("ready",function () {
         $(".modal-title").html("Edit Issue")
         $("#mode").attr("value", "1"); //changing to edit mode
         $("#issue_id").attr("value", issue_id);
-
+        $("#issue_mentor_label").addClass("active");
         $("#issue_mentor").val(mentor_name);
-
+        $("#issue_title_label").addClass("active");
         $("#issue_title").val(title_issue);
-
+        $("#issue_link_label").addClass("active");
         $("#issue_link").val(link_issue);
-
+        $("#project_title_label").addClass("active");
         $("#project_title").val(title_project);
-
+        $("#project_link_label").addClass("active");
         $("#project_link").val(link_project);
+        $("#level_label").addClass("active");
         $("#level").val(level);
+        $("#points_label").addClass("active");
         $("#points").val(points);
     });
 
