@@ -13,7 +13,7 @@
 
 <!-- model form for adding issues -->
 
-<div class="modal fade" id="modalContactForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="issue_add_edit_form" tabindex="-1" role="dialog" aria-labelledby="issue_add_edit_form_label" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header text-center">
@@ -30,32 +30,32 @@
 
                 <div class="md-form mb-5">
                     <i class="fa fa-tag prefix grey-text"></i>
-                    <input type="text" id="mentori" class="form-control validate" name="mentor_name" required>
+                    <input type="text" id="issue_mentor" class="form-control validate" name="mentor_name" required>
                     <label data-error="wrong" data-success="right" for="form34">Mentor name</label>
                 </div>
 
 
                 <div class="md-form mb-5">
                     <i class="fa fa-tag prefix grey-text"></i>
-                    <input type="text" id="titlei" class="form-control validate" name="title_issue" required>
+                    <input type="text" id="issue_title" class="form-control validate" name="title_issue" required>
                     <label data-error="wrong" data-success="right" for="form34">Title of the Issue</label>
                 </div>
 
                 <div class="md-form mb-5">
                     <i class="fa fa-link prefix grey-text"></i>
-                    <input type="url" id="linki" class="form-control validate" name="link_issue" required>
+                    <input type="url" id="issue_link" class="form-control validate" name="link_issue" required>
                     <label data-error="wrong" data-success="right" for="form29">Issue link</label>
                 </div>
 
                 <div class="md-form mb-5">
                     <i class="fa fa-tag prefix grey-text"></i>
-                    <input type="text" id="titlep" class="form-control validate" name="title_project" required>
+                    <input type="text" id="project_title" class="form-control validate" name="title_project" required>
                     <label data-error="wrong" data-success="right" for="form34">Title of the Project</label>
                 </div>
                 
                 <div class="md-form mb-5">
                     <i class="fa fa-link prefix grey-text"></i>
-                    <input type="url" id="linkp" class="form-control validate" name="link_project" required>
+                    <input type="url" id="project_link" class="form-control validate" name="link_project" required>
                     <label data-error="wrong" data-success="right" for="form29">Project link</label>
                 </div>
 
@@ -68,7 +68,7 @@
                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                     <div class="md-form mb-6">
                         <i class="fa fa-gift prefix grey-text"></i>
-                        <input type="number" id="pts" class="form-control validate" name="points" required>
+                        <input type="number" id="points" class="form-control validate" name="points" required>
                         <label data-error="wrong" data-success="right" for="form32">Points</label>
                     </div>
                 </div>
@@ -139,20 +139,19 @@
             <p>
               Project - <a href="{{issue.link_project}}" class="project-info"> {{issue.title_project}}</a><br />
               Mentor - <a href="https://github.cpm/{{issue.mentor}}" class="issue_mentor" > {{issue.mentor}}</a><br />
-              Label -
-                  {% if issue.level == 1 %}
-                      Easy
-                  {% elif issue.level == 2 %}
-                      Medium
-                  {% elif issue.level == 3 %}
-                      Hard
-                  {% endif %}<br>
-             Expected Points - {{issue.points}}<br />             
+                {% if issue.level == 1 %}
+                <p class="issue_level">Label - Easy</p>
+                {% elif issue.level == 2 %}
+                <p class="issue_level">Label - Medium</p>
+                {% elif issue.level == 3 %}
+                <p class="issue_level">Label - Hard</p>
+                {% endif %}
+             <p class="issue_points">Expected Points - {{issue.points}}</p> 
             </p>
             
           </div> 
           {% if request.user.is_staff and request.user == issue.mentor %}
-                <a href="" class="badge badge-secondary edit_issue" data-toggle="modal" data-target="#modalContactForm">Edit Issue</a>
+                <a href="" class="badge badge-secondary edit_issue" data-toggle="modal" data-target="#issue_add_edit_form">Edit Issue</a>
           {% endif %}
           {% if request.user.profile.role != 'mentor'  %}
             <div class="md-form">

@@ -39,27 +39,41 @@ $(document).on("ready",function () {
         var link_project = $(".project-info", issue).attr("href");
         var issue_id = $(".issue-info", issue).attr("issue-id");
         var mentor_name = $(".issue_mentor",issue).text();
+        var points=$(".issue_points",issue).text();
+        var level=$(".issue_level",issue).text();
+
         console.log(issue_id)
         title_issue = title_issue.trim();
         link_issue = link_issue.trim();
         title_issue = title_issue.trim();
         link_project = link_project.trim();
         mentor_name=mentor_name.trim();
+        points=points.trim();
+        level=level.trim();
+
+        points=points.slice(18);
+        if(level[8]=='E')
+        level='1';
+        else if(level[8]=='M')
+        level='2';
+        else
+        level='3';
 
         $(".modal-title").html("Edit Issue")
         $("#mode").attr("value", "1"); //changing to edit mode
         $("#issue_id").attr("value", issue_id);
 
-        $("#mentori").val(mentor_name);
+        $("#issue_mentor").val(mentor_name);
 
-        $("#titlei").val(title_issue);
+        $("#issue_title").val(title_issue);
 
-        $("#linki").val(link_issue);
+        $("#issue_link").val(link_issue);
 
-        $("#titlep").val(title_project);
+        $("#project_title").val(title_project);
 
-        $("#linkp").val(link_project);
-
+        $("#project_link").val(link_project);
+        $("#level").val(level);
+        $("#points").val(points);
     });
 
 
