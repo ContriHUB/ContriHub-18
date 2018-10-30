@@ -35,15 +35,14 @@ $(document).ready(function() {
       success: function(data) {
         console.log("success");
         if (data == "success") {
-          alert("Successfully updated the status of this Pull Request");
-          //alert(data);
-          // document.location.reload();
+          $("#snackbar").html("Successfully updated the status of this Pull Request");
+          showMessage();
+          //alert("Successfully updated the status of this Pull Request");
           $(pr).hide();
         }
       },  
       afterSend: function() {
-        // $(".request").html(' request for verification ');
-        // $(".process",this).hide();
+        
       }
     });
   });
@@ -68,7 +67,8 @@ $(document).ready(function() {
       },
       success: function(data) {
         if (data) {
-          alert(data);
+          $("#snackbar").html(data);
+          showMessage();
           $(pr).hide();
         }
       }
@@ -106,3 +106,9 @@ $(document).ready(function() {
   }); 
 
 });
+
+function showMessage() {
+  var x = document.getElementById("snackbar");
+  x.className = "show";
+  setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+}
