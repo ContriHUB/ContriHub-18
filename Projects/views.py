@@ -234,7 +234,7 @@ def response_pr(request):
                 pr.from_user.profile.points=pr.from_user.profile.points+pr.issue.points+bonus_pts-deducted_points
                 
                 #modifying bonus and deducted points for pr making user
-                pr.from_user.profile.bonus_points = pr.from_user.profile.bonus_points+bonus_pts
+                pr.from_user.profile.bonus_points += (pr.from_user.profile.bonus_points+bonus_pts)
                 pr.from_user.profile.deducted_points = pr.from_user.profile.deducted_points+deducted_points
                 
                 #modifying pr bonus and deducted points
@@ -276,6 +276,7 @@ def response_pr(request):
                     'Check the PR here - <a href="'+pr.pr_link+'">PR</a><br>'+\
                     'You can also visit your <a href="https://contrihubs.herokuapp.com/'+ pr.from_user.username +'"> profile </a> to see all pending/rejected requests.<br><br>Cheers!!!'
             try:
+                # print('d')
                 send_mail(subject, message, from_email, to_email, fail_silently=False, html_message=message)
                 # print()
             except Exception:
@@ -337,40 +338,68 @@ def change_label(request):
 
 def new_issue(request):
     print('adding issue')
-    if request.method == 'POST' and request.user.is_staff:
-        print('in add issue method')
-        mentor_name_issue   = request.POST.get('mentor_name_issue')
-        title_issue         = request.POST.get('title_issue')
-        link_issue         = request.POST.get('link_issue')
-        title_project       = request.POST.get('title_project')
-        link_project        = request.POST.get('link_project')
-        try:
-            level  = int(request.POST.get('level'))
-            points = int(request.POST.get('points'))
-        except Exception:
-            error_add_issue = 'level or points not an integer'
-        try:
-            mentor = get_object_or_404(User, username=mentor_name_issue)
-        except Exception:
-            error_add_issue = "Mentor doesn't exist"
-        
-        if not error_add_issue:
-            new_issue = Issues()
-            new_issue.mentor = mentor
-            new_issue.title_issue = title_issue
-            new_issue.link_issue = link_issue
-            new_issue.title_project = title_project
-            new_issue.link_project = link_project
-            new_issue.level = level
-            new_issue.points = points
-            new_issue.save()
+    if request.method == 'POST':
+        if request.user.is_staff:
+            print('in add issue method')
+            mode=request.POST.get('mode')
+            issue_id=request.POST.get('issue_id')
+            mentor = request.user
+            mentor_name = request.POST.get('mentor_name')
+            title_issue = request.POST.get('title_issue')
+            link_issue = request.POST.get('link_issue')
+            title_project = request.POST.get('title_project')
+            link_project = request.POST.get('link_project')
+
+            try:
+                level = int(request.POST.get('level'))
+                points = int(request.POST.get('points'))                
+            except Exception:
+                return HttpResponseBadRequest('level/points not an integer')
+            try:
+                mentor = get_object_or_404(User, username=mentor_name)
+            except Exception:
+                return HttpResponseBadRequest('Mentor not found')
+
+            if issue_id=='':
+                issue_id=-1
+            else:
+                issue_id=int(issue_id)
+
+            if mode=='0':        #new issue mode
+                new_issue = Issues()
+                new_issue.mentor = mentor
+                new_issue.title_issue = title_issue
+                new_issue.link_issue = link_issue
+                new_issue.title_project = title_project
+                new_issue.link_project = link_project
+                new_issue.level = level
+                new_issue.points = points
+                new_issue.save()
+            else:         #edit mode
+                issue = Issues.objects.get(id=issue_id)
+                issue.mentor = mentor
+                issue.title_issue = title_issue
+                issue.link_issue = link_issue
+                issue.title_project = title_project
+                issue.link_project = link_project
+                issue.level = level
+                issue.points = points
+                issue.save()
+
+            # issues=Issues.objects.all().order_by('-id')
+            # paginator = Paginator(issues, 15)  # Show 15 issues per page
+            # page = request.GET.get('page', 1)
+
+            # try:
+            #     issues = paginator.get_page(page)
+            # except PageNotAnInteger:
+            #     issues = paginator.get_page(1)
+            #     # issues = paginator.get_page(1)
+            # except EmptyPage:
+            #     issues = paginator.get_page(paginator.num_pages)
+            #     issues = Issues.objects.none()
+            # return render(request,'Projects/home.html',{'issues':issues})
             return redirect('home')
         else:
-            issues=Issues.objects.all().order_by('-id')
-            paginator = Paginator(issues, 15)  # Show 15 issues per page
-            page = request.GET.get('page', 1)
-            return redirect('home', error_add_issue=error_add_issue)            
-    else:
-        error_add_issue = "Not a staff"
-        return redirect('home', error_add_issue=error_add_issue)
+            return HttpResponseBadRequest('GET request, please use post method')
 

@@ -5,24 +5,6 @@
 
 {% block head_extra %} 
 <link type="text/css" href="{% static 'Projects/css/home.css' %}" rel="stylesheet">
-<style>
-    .dropdown-item{
-        cursor: pointer;
-    }
-    #more-issues {
-        color: azure;
-        font-weight: bold;
-    }
-    .open,.closed {
-        font-size: 14px;
-    } 
-    .delete {
-        font-size: 14px;
-    }
-    .upV, .downV {
-        margin-left: 3px; 
-    }
-</style>
 {% endblock head_extra %} 
 
 {% block body_content %} 
@@ -31,7 +13,7 @@
 
 <!-- model form for adding issues -->
 
-<div class="modal fade" id="modalContactForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="issue_add_edit_form" tabindex="-1" role="dialog" aria-labelledby="issue_add_edit_form_label" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header text-center">
@@ -46,48 +28,52 @@
                 </button>
             </div>
         <form action="{% url 'new_issue' %}" method="POST">
+            <input type="hidden" value="0" name="mode" id="mode">
+            <input type="hidden" value="" name="issue_id" id="issue_id">
             {% csrf_token %}
             <div class="modal-body mx-3">
+
                 <div class="md-form mb-5">
                     <i class="fa fa-tag prefix grey-text"></i>
-                    <input type="text" id="mentor_name_issue" class="form-control validate" name="mentor_name_issue">
-                    <label data-error="wrong" data-success="right" for="form34">Mentor of the Issue</label>
+                    <input type="text" id="issue_mentor" class="form-control validate" name="mentor_name" required>
+                    <label data-error="wrong" data-success="right" for="form34">Mentor name</label>
                 </div>
-        
+
+
                 <div class="md-form mb-5">
                     <i class="fa fa-tag prefix grey-text"></i>
-                    <input type="text" id="titlei" class="form-control validate" name="title_issue" >
+                    <input type="text" id="issue_title" class="form-control validate" name="title_issue" required>
                     <label data-error="wrong" data-success="right" for="form34">Title of the Issue</label>
                 </div>
 
                 <div class="md-form mb-5">
                     <i class="fa fa-link prefix grey-text"></i>
-                    <input type="url" id="linki" class="form-control validate" name="link_issue">
+                    <input type="url" id="issue_link" class="form-control validate" name="link_issue" required>
                     <label data-error="wrong" data-success="right" for="form29">Issue link</label>
                 </div>
 
                 <div class="md-form mb-5">
                     <i class="fa fa-tag prefix grey-text"></i>
-                    <input type="text" id="titlep" class="form-control validate" name="title_project">
+                    <input type="text" id="project_title" class="form-control validate" name="title_project" required>
                     <label data-error="wrong" data-success="right" for="form34">Title of the Project</label>
                 </div>
                 
                 <div class="md-form mb-5">
                     <i class="fa fa-link prefix grey-text"></i>
-                    <input type="url" id="linkp" class="form-control validate" name="link_project">
+                    <input type="url" id="project_link" class="form-control validate" name="link_project" required>
                     <label data-error="wrong" data-success="right" for="form29">Project link</label>
                 </div>
 
                 <div class="row">
                     <div class="md-form mb-6">
                         <i class="fa fa-tag prefix grey-text"></i>
-                        <input type="number" min="1" max="3" id="level" class="form-control validate" name="level">
+                        <input type="number" min="1" max="3" id="level" class="form-control validate" name="level" required>
                         <label data-error="wrong" data-success="right" for="form32">Level</label>
                     </div>
                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                     <div class="md-form mb-6">
                         <i class="fa fa-gift prefix grey-text"></i>
-                        <input type="number" id="pts" class="form-control validate" name="points">
+                        <input type="number" id="points" class="form-control validate" name="points" required>
                         <label data-error="wrong" data-success="right" for="form32">Points</label>
                     </div>
                 </div>
@@ -104,6 +90,7 @@
 
 
 <section class="container issues-container">
+    <div id="snackbar"></div>
   <article class="card single-issue" csrf="{{ csrf_token }}">
     <div class="card-body">
       <div class="card-title">
@@ -155,20 +142,22 @@
           </div>
           <div class="card-text">
             <p>
-              Project - <a href="{{issue.link_project}}"> {{issue.title_project}}</a><br />
-              Mentor - <a href="https://github.cpm/{{issue.mentor}}"> {{issue.mentor}}</a><br />
-              Label -
-                  {% if issue.level == 1 %}
-                      Easy
-                  {% elif issue.level == 2 %}
-                      Medium
-                  {% elif issue.level == 3 %}
-                      Hard
-                  {% endif %}<br>
-             Expected Points - {{issue.points}}<br />             
+              Project - <a href="{{issue.link_project}}" class="project-info"> {{issue.title_project}}</a><br />
+              Mentor - <a href="https://github.cpm/{{issue.mentor}}" class="issue_mentor" > {{issue.mentor}}</a><br />
+                {% if issue.level == 1 %}
+                <p class="issue_level">Label - Easy</p>
+                {% elif issue.level == 2 %}
+                <p class="issue_level">Label - Medium</p>
+                {% elif issue.level == 3 %}
+                <p class="issue_level">Label - Hard</p>
+                {% endif %}
+             <p class="issue_points">Expected Points - {{issue.points}}</p> 
             </p>
-
+            
           </div> 
+          {% if request.user.is_staff and request.user == issue.mentor %}
+                <a href="" class="badge badge-secondary edit_issue" data-toggle="modal" data-target="#issue_add_edit_form">Edit Issue</a>
+          {% endif %}
           {% if request.user.profile.role != 'mentor'  %}
             <div class="md-form">
                 <input type="text" name="pr_link" id="form3" class="form-control" required="true" placeholder="PR link here">
@@ -180,6 +169,8 @@
             <!-- <i class="fa fa-spinner fa-spin fa-1x process"></i></button> -->
           {% endif %}
           
+<br>
+<br>
 
           <div class="card-footer" style="margin-top:5px; ">
                 <button class="upVote  btn btn-sm btn-info" voting_type="up" issue_id="{{issue.id}}">
@@ -226,61 +217,62 @@
 
 
 {% block js_extra %}
-
-<script>
+    <script>
 $(document).on("ready",function () {
-    $(".process").hide();
-    $(".request").click(function (e) {
-        e.preventDefault();
-        {% if not request.user.is_authenticated %}
-        alert("You need to login first before requesting verification.");
-        window.location.href = 'signin';
-        {% else %}
-        var issue = $(this).closest(".single-issue");
-        var pr_link = $("input[name='pr_link']", issue).val();
-        console.log(pr_link);
-        var issue_id = $(".issue-info", issue).attr('issue-id');
-        var csrf = $(".single-issue").attr('csrf');
-        // $(".process",this).show();
-        if (pr_link != "") {
-            $.ajax({
-                url: 'request_pr',
-                data: {
-                    'pr_link': pr_link,
-                    'issue_id': issue_id,
-                    'csrfmiddlewaretoken': csrf,
-                },
-                type: 'post',
-                cache: false,
-                beforeSend: function () {
-                    // $(".request").html('<i class="fa fa-spinner fa-spin fa-1x"></i>');
-                    $(".process", this).show();
-                },
-                success: function (data) {
-                    if (data) {
-                        alert(data);
-                        // document.location.reload();
-                    }
-                },
-                afterSend: function () {
-                    // $(".request").html(' request for verification ');
-                    $(".process", this).hide();
-                },
-            });
-        } else {
-            alert("First put your PR link with the corresponding issue.");
-        }
-        {% endif %}
+        //$(".process").hide();
+        $(".request").click(function (e) {
+            e.preventDefault();
+            {% if not request.user.is_authenticated %}
+            alert("You need to login first before requesting verification.");
+            window.location.href = 'signin';
+            {% else %}
+            var issue = $(this).closest(".single-issue");
+            var pr_link = $("input[name='pr_link']", issue).val();
+            console.log(pr_link);
+            var issue_id = $(".issue-info", issue).attr('issue-id');
+            var csrf = $(".single-issue").attr('csrf');
+            // $(".process",this).show();
+            if (pr_link != "") {
+                $.ajax({
+                    url: 'request_pr',
+                    data: {
+                        'pr_link': pr_link,
+                        'issue_id': issue_id,
+                        'csrfmiddlewaretoken': csrf,
+                    },
+                    type: 'post',
+                    cache: false,
+                    beforeSend: function () {
+                        // $(".request").html('<i class="fa fa-spinner fa-spin fa-1x"></i>');
+                        $(".process", this).show();
+                    },
+                    success: function (data) {
+                        if (data) {
+                            // alert(data);
+                            $("#snackbar").html(data);
+                            showMessage();
+                            // document.location.reload();
+                        }
+                    },
+                    afterSend: function () {
+                        // $(".request").html(' request for verification ');
+                        $(".process", this).hide();
+                    },
+                });
+            } else {
+                alert("First put your PR link with the corresponding issue.");
+            }
+            {% endif %}
+        });
+
     });
 
-    {% if error_add_issue %}
-        var add_issue = document.getElementById('#add_issue_link');
-        add_issue.click();
-    {% endif %}
-});
 </script>
 
 <script type="text/javascript" src="{% static 'Projects/js/home.js' %}"></script>
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> fee2108716e1ba312ac7566ec45c30bb1b090cd5
 {% endblock js_extra %}

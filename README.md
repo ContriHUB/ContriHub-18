@@ -6,7 +6,7 @@
 
 ## Linux
 
-  #### Installing Python.
+  #### Installing Python
     - `$ sudo apt-get install python-pip python-dev build-essential`
     - `$ apt install Python3.6`
     - `use easy_install for older versions of ubuntu e.g -$ easy_install python3-pip`
