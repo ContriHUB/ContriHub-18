@@ -267,20 +267,20 @@ def response_pr(request):
             from_email = django_settings.EMAIL_HOST_USER
             to_email = [pr.from_user.email] #I'm not sure what the request object looks like so this may not be the correct notation
 
-            print(pr.from_user.username)
-            message = 'Hi '+ pr.from_user.username + '!' + '<br>' +\
-                     var_msg +\
-                     pr.issue.mentor.username + '.<br>'+\
-                    'Issue - <a href="'+pr.issue.link_issue+'">'+pr.issue.title_issue+'</a><br>'+\
-                    'Project - <a href="'+pr.issue.link_project+'">'+pr.issue.title_project+'</a><br>'+\
-                    'Check the PR here - <a href="'+pr.pr_link+'">PR</a><br>'+\
-                    'You can also visit your <a href="https://contrihubs.herokuapp.com/'+ pr.from_user.username +'"> profile </a> to see all pending/rejected requests.<br><br>Cheers!!!'
-            try:
-                # print('d')
-                send_mail(subject, message, from_email, to_email, fail_silently=False, html_message=message)
-                # print()
-            except Exception:
-                pass
+            # print(pr.from_user.username)
+            # message = 'Hi '+ pr.from_user.username + '!' + '<br>' +\
+            #          var_msg +\
+            #          pr.issue.mentor.username + '.<br>'+\
+            #         'Issue - <a href="'+pr.issue.link_issue+'">'+pr.issue.title_issue+'</a><br>'+\
+            #         'Project - <a href="'+pr.issue.link_project+'">'+pr.issue.title_project+'</a><br>'+\
+            #         'Check the PR here - <a href="'+pr.pr_link+'">PR</a><br>'+\
+            #         'You can also visit your <a href="https://contrihubs.herokuapp.com/'+ pr.from_user.username +'"> profile </a> to see all pending/rejected requests.<br><br>Cheers!!!'
+            # try:
+            #     # print('d')
+            #     send_mail(subject, message, from_email, to_email, fail_silently=False, html_message=message)
+            #     # print()
+            # except Exception:
+            #     pass
         else: print('PR doesn\'t exist')
     return HttpResponse("success")
 
