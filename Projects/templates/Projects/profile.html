@@ -5,13 +5,14 @@
 
 
 {% block head_extra %}
-<link href="{% static 'Projects/css/profile.css' %}" rel="stylesheet">
+<link href="{% static 'Projects/css/profile.css?123new' %}" rel="stylesheet">
 {% endblock head_extra %}
 
 
 {% block body_content %}
 {% include 'Projects/navbar.html' %}
 <div class="container">
+    <div id="snackbar"></div>
     <div class="row" style="margin-top: 100px"><br><br>
         <div class="col col-md-3 col-md-offset-1 pr_types">
             <br>
@@ -96,6 +97,6 @@
 
 {% block js_extra %}
 <script>var username='{{page_user.username}}'</script>
-<script type="text/javascript" src="{% static 'Projects/js/profile.js?newversion' %}"></script>
+<script type="text/javascript" src="{% static 'Projects/js/profile.js?123new' %}"></script>
 {% endblock js_extra %}
     
