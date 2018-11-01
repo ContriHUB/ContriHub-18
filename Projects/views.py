@@ -57,6 +57,7 @@ def vote(request):
 
 def home(request):
     if request.method == 'GET':
+        ended = True
         print('home GET')
 		# Getting value of the clicked option
         val = request.GET.get('value','')
@@ -95,7 +96,7 @@ def home(request):
         except EmptyPage:
             issues = paginator.get_page(paginator.num_pages)
             issues = Issues.objects.none()
-        return render(request, 'Projects/home.html', {'issues': issues, 'val':val }) #this dic will have value of
+        return render(request, 'Projects/home.html', {'issues': issues, 'val':val, 'ended':ended }) #this dic will have value of
 																					#all filter attributes or you can also send a list of all such attrs
 
 def leaderboard(request):

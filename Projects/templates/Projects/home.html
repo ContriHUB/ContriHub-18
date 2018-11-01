@@ -227,6 +227,8 @@ $(document).on("ready",function () {
             {% if not request.user.is_authenticated %}
             alert("You need to login first before requesting verification.");
             window.location.href = 'signin';
+            {% elif ended %}
+            alert("Contest is ended, results will be declared soon.");
             {% else %}
             var issue = $(this).closest(".single-issue");
             var pr_link = $("input[name='pr_link']", issue).val();
