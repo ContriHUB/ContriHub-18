@@ -32,15 +32,15 @@
               <td><a href="https://github.com/{{user.username}}">{{user.username}}</a>
               {% if user == users.0 and not users.has_previous %}
                 <small style="color:red"> 
-                  (expectd winner <i class="fa fa-trophy" aria-hidden="true"></i>) 
+                  (expected winner <i class="fa fa-trophy" aria-hidden="true"></i>) 
                 </small>
               {% elif user == users.1 and not users.has_previous %}
                 <small style="color:rgb(76, 77, 170)"> 
-                  (expectd 2nd winner <i class="fa fa-trophy" aria-hidden="true"></i>) 
+                  (expected 2nd winner <i class="fa fa-trophy" aria-hidden="true"></i>) 
                 </small>
               {% elif user == users.2 and not users.has_previous %}
               <small style="color:rgb(26, 160, 33)"> 
-                (expectd 3rd winner <i class="fa fa-trophy" aria-hidden="true"></i>) 
+                (expected 3rd winner <i class="fa fa-trophy" aria-hidden="true"></i>) 
               </small>
               {% endif %}
               </td>
