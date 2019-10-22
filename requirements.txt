@@ -14,7 +14,7 @@ netifaces==0.10.6
 nltk==3.3
 numpy==1.15.1
 pandas==0.23.4
-Pillow==5.2.0
+Pillow==6.2.0
 pipenv==2018.7.1
 psycopg2==2.7.5
 psycopg2-binary==2.7.5
